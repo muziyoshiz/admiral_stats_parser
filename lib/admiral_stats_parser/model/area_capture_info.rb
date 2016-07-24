@@ -22,6 +22,7 @@ class AreaCaptureInfo
   attr_accessor :pursuit_map
 
   # 追撃戦が出現しているかどうか（true なら出現している）
+  # 追撃戦の場合は常に false
   attr_accessor :pursuit_map_open
 
   # 出撃条件の有無（true ならある） (From API version 2)
