@@ -1,8 +1,6 @@
-# AdmiralStatsParser
+# admiral_stats_parser
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/admiral_stats_parser`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Parser for admiral stats JSON data exported from kancolle-arcade.net
 
 ## Installation
 
@@ -22,7 +20,36 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+AdmiralStatsParser.parse_personal_basic(json, api_version)
+AdmiralStatsParser.parse_area_capture(json, api_version)
+AdmiralStatsParser.parse_tc_book(json, api_version)
+AdmiralStatsParser.parse_equip_book(json, api_version)
+AdmiralStatsParser.parse_character_list(json, api_version)
+AdmiralStatsParser.parse_equip_list(json, api_version)
+```
+
+## Specification
+
+提督情報ページから返される JSON メッセージの形式は、過去に一度変更されており、今後も変更される可能性があります。このツールでは、kancolle-arcade.net が返す JSON メッセージの形式のことを API version と呼びます。
+
+AdmiralStatsParser は、以下の API version をサポートしています。
+
+| API version | 期間 |
+|------------:|:-----|
+| 1           | 2016-04-26 〜 2016-06-29 |
+| 2           | 2016-06-30（REVISION 2 のリリース日）〜 |
+
+各 API version でパースできる JSON の種類は以下の通りです。また、同じ情報でも、API version によって、含まれる情報量が異なる場合があります。その場合は Supported (1), Supported (2) のように記載して区別しています。
+
+| 提督情報での表示 | URL | API version 1 | API version 2 |
+|:----------------|:----|:--------------|:--------------|
+| 基本情報 | Personal/basicInfo | Supported (1) | Supported (2) |
+| 海域情報 | Area/captureInfo   | Supported (1) | Supported (2) |
+| 艦娘図鑑 | TcBook/info        | Supported (1) | Supported (2) |
+| 装備図鑑 | EquipBook/info     | Supported (1) | Supported (2) |
+| 艦娘一覧 | CharacterList/info | -             | Supported (2) |
+| 装備一覧 | EquipList/info     | -             | Supported (2) |
 
 ## Development
 
