@@ -40,7 +40,7 @@ class TcBookInfo
   # 未取得の場合は、0
   attr_accessor :lv
 
-  # 横長の艦娘画像のファイル名 (From API version 2)
+  # 艦娘のステータス画像（横長の画像）のファイル名 (From API version 2)
   # Array
   # 未取得の場合は、空の Array
   attr_accessor :status_img

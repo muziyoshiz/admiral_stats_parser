@@ -267,4 +267,41 @@ describe AdmiralStatsParser do
       expect(result.equip_img).to eq("e/equip_4_8tzid3z8li7.png")
     end
   end
+
+  describe '.parse_character_list_info(json, 2)' do
+    it 'returns CharacterListInfo[]' do
+      json = '[{"bookNo":11,"lv":20,"shipType":"駆逐艦","shipSortNo":1800,"remodelLv":0,"shipName":"吹雪","statusImg":"i/i_u6jw00e3ey3p_n.png"},{"bookNo":85,"lv":36,"shipType":"駆逐艦","shipSortNo":1800,"remodelLv":0,"shipName":"朝潮","statusImg":"i/i_69ex6r4uutp3_n.png"},{"bookNo":85,"lv":36,"shipType":"駆逐艦","shipSortNo":1800,"remodelLv":1,"shipName":"朝潮改","statusImg":"i/i_umacfn9qcwp1_n.png"}]'
+
+      results = AdmiralStatsParser.parse_character_list_info(json, 2)
+
+      expect(results.size).to eq(3)
+
+      result = results[0]
+      expect(result.book_no).to eq(11)
+      expect(result.lv).to eq(20)
+      expect(result.ship_type).to eq("駆逐艦")
+      expect(result.ship_sort_no).to eq(1800)
+      expect(result.remodel_lv).to eq(0)
+      expect(result.ship_name).to eq("吹雪")
+      expect(result.status_img).to eq("i/i_u6jw00e3ey3p_n.png")
+
+      result = results[1]
+      expect(result.book_no).to eq(85)
+      expect(result.lv).to eq(36)
+      expect(result.ship_type).to eq("駆逐艦")
+      expect(result.ship_sort_no).to eq(1800)
+      expect(result.remodel_lv).to eq(0)
+      expect(result.ship_name).to eq("朝潮")
+      expect(result.status_img).to eq("i/i_69ex6r4uutp3_n.png")
+
+      result = results[2]
+      expect(result.book_no).to eq(85)
+      expect(result.lv).to eq(36)
+      expect(result.ship_type).to eq("駆逐艦")
+      expect(result.ship_sort_no).to eq(1800)
+      expect(result.remodel_lv).to eq(1)
+      expect(result.ship_name).to eq("朝潮改")
+      expect(result.status_img).to eq("i/i_umacfn9qcwp1_n.png")
+    end
+  end
 end

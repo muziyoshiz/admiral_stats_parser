@@ -4,6 +4,7 @@ require "admiral_stats_parser/parser/personal_basic_info_parser"
 require "admiral_stats_parser/parser/area_capture_info_parser"
 require "admiral_stats_parser/parser/tc_book_info_parser"
 require "admiral_stats_parser/parser/equip_book_info_parser"
+require "admiral_stats_parser/parser/character_list_info_parser"
 
 module AdmiralStatsParser
 
@@ -53,6 +54,7 @@ module AdmiralStatsParser
     when 1
       raise "API version 1 does not support character list info"
     when 2
+      CharacterListInfoParser.parse(json)
     else
       raise "unsupported API version"
     end
