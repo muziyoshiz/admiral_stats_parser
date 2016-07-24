@@ -199,4 +199,72 @@ describe AdmiralStatsParser do
       expect(result.status_img).to eq([])
     end
   end
+
+  describe '.parse_equip_book_info(json, 1)' do
+    it 'returns EquipBookInfo[]' do
+      json = '[{"bookNo":1,"equipKind":"小口径主砲","equipName":"12cm単装砲","equipImg":"e/equip_1_3315nm5166d.png"},{"bookNo":2,"equipKind":"小口径主砲","equipName":"12.7cm連装砲","equipImg":"e/equip_2_fon8wsqc5sn.png"},{"bookNo":3,"equipKind":"","equipName":"","equipImg":""},{"bookNo":4,"equipKind":"中口径主砲","equipName":"14cm単装砲","equipImg":"e/equip_4_8tzid3z8li7.png"}]'
+
+      results = AdmiralStatsParser.parse_equip_book_info(json, 1)
+
+      expect(results.size).to eq(4)
+
+      result = results[0]
+      expect(result.book_no).to eq(1)
+      expect(result.equip_kind).to eq("小口径主砲")
+      expect(result.equip_name).to eq("12cm単装砲")
+      expect(result.equip_img).to eq("e/equip_1_3315nm5166d.png")
+
+      result = results[1]
+      expect(result.book_no).to eq(2)
+      expect(result.equip_kind).to eq("小口径主砲")
+      expect(result.equip_name).to eq("12.7cm連装砲")
+      expect(result.equip_img).to eq("e/equip_2_fon8wsqc5sn.png")
+
+      result = results[2]
+      expect(result.book_no).to eq(3)
+      expect(result.equip_kind).to eq("")
+      expect(result.equip_name).to eq("")
+      expect(result.equip_img).to eq("")
+
+      result = results[3]
+      expect(result.book_no).to eq(4)
+      expect(result.equip_kind).to eq("中口径主砲")
+      expect(result.equip_name).to eq("14cm単装砲")
+      expect(result.equip_img).to eq("e/equip_4_8tzid3z8li7.png")
+    end
+  end
+
+  describe '.parse_equip_book_info(json, 2)' do
+    it 'returns EquipBookInfo[]' do
+      json = '[{"bookNo":1,"equipKind":"小口径主砲","equipName":"12cm単装砲","equipImg":"e/equip_1_3315nm5166d.png"},{"bookNo":2,"equipKind":"小口径主砲","equipName":"12.7cm連装砲","equipImg":"e/equip_2_fon8wsqc5sn.png"},{"bookNo":3,"equipKind":"","equipName":"","equipImg":""},{"bookNo":4,"equipKind":"中口径主砲","equipName":"14cm単装砲","equipImg":"e/equip_4_8tzid3z8li7.png"}]'
+
+      results = AdmiralStatsParser.parse_equip_book_info(json, 2)
+
+      expect(results.size).to eq(4)
+
+      result = results[0]
+      expect(result.book_no).to eq(1)
+      expect(result.equip_kind).to eq("小口径主砲")
+      expect(result.equip_name).to eq("12cm単装砲")
+      expect(result.equip_img).to eq("e/equip_1_3315nm5166d.png")
+
+      result = results[1]
+      expect(result.book_no).to eq(2)
+      expect(result.equip_kind).to eq("小口径主砲")
+      expect(result.equip_name).to eq("12.7cm連装砲")
+      expect(result.equip_img).to eq("e/equip_2_fon8wsqc5sn.png")
+
+      result = results[2]
+      expect(result.book_no).to eq(3)
+      expect(result.equip_kind).to eq("")
+      expect(result.equip_name).to eq("")
+      expect(result.equip_img).to eq("")
+
+      result = results[3]
+      expect(result.book_no).to eq(4)
+      expect(result.equip_kind).to eq("中口径主砲")
+      expect(result.equip_name).to eq("14cm単装砲")
+      expect(result.equip_img).to eq("e/equip_4_8tzid3z8li7.png")
+    end
+  end
 end

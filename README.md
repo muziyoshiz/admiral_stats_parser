@@ -47,9 +47,9 @@ AdmiralStatsParser は、以下の API version をサポートしています。
 | 基本情報 | Personal/basicInfo | Supported (1) | Supported (2) |
 | 海域情報 | Area/captureInfo   | Supported (1) | Supported (2) |
 | 艦娘図鑑 | TcBook/info        | Supported (1) | Supported (2) |
-| 装備図鑑 | EquipBook/info     | Supported (1) | Supported (2) |
-| 艦娘一覧 | CharacterList/info | -             | Supported (2) |
-| 装備一覧 | EquipList/info     | -             | Supported (2) |
+| 装備図鑑 | EquipBook/info     | Supported     | Supported     |
+| 艦娘一覧 | CharacterList/info | -             | Supported     |
+| 装備一覧 | EquipList/info     | -             | Supported     |
 
 ## Development
 
