@@ -1,22 +1,63 @@
+# -*- coding: utf-8 -*-
 require "admiral_stats_parser/version"
+require "admiral_stats_parser/parser/personal_basic_info_parser"
 
 module AdmiralStatsParser
-  def self.parse_personal_basic(json, api_version)
-    'Test String'
+  # 基本情報をパースします。
+  def self.parse_personal_basic_info(json, api_version)
+    case api_version
+      when 1, 2
+      PersonalBasicInfoParser.parse(json, api_version)
+    else
+      # Unsupported API version
+    end
   end
 
-  def self.parse_area_capture(json, api_version)
+  # 海域情報をパースします。
+  def self.parse_area_capture_info(json, api_version)
+    case api_version
+      when 1
+      when 2
+    else
+      # Unsupported API version
+    end
   end
 
-  def self.parse_tc_book(json, api_version)
+  # 艦娘図鑑をパースします。
+  def self.parse_tc_book_info(json, api_version)
+    case api_version
+      when 1
+      when 2
+    else
+      # Unsupported API version
+    end
   end
 
-  def self.parse_equip_book(json, api_version)
+  # 装備図鑑をパースします。
+  def self.parse_equip_book_info(json, api_version)
+    case api_version
+      when 1
+      when 2
+    else
+      # Unsupported API version
+    end
   end
 
-  def self.parse_character_list(json, api_version)
+  # 艦娘一覧をパースします。
+  def self.parse_character_list_info(json, api_version)
+    case api_version
+    when 2
+    else
+      # Unsupported API version
+    end
   end
 
-  def self.parse_equip_list(json, api_version)
+  # 装備一覧をパースします。
+  def self.parse_equip_list_info(json, api_version)
+    case api_version
+    when 2
+    else
+      # Unsupported API version
+    end
   end
 end
