@@ -304,4 +304,35 @@ describe AdmiralStatsParser do
       expect(result.status_img).to eq("i/i_umacfn9qcwp1_n.png")
     end
   end
+
+  describe '.parse_equip_list_info(json, 2)' do
+    it 'returns EquipListInfo[]' do
+      json = '[{"type":1,"equipmentId":1,"name":"12cm単装砲","num":8,"img":"equip_icon_1_1984kzwm2f7s.png"},{"type":1,"equipmentId":2,"name":"12.7cm連装砲","num":31,"img":"equip_icon_1_1984kzwm2f7s.png"},{"type":1,"equipmentId":3,"name":"10cm連装高角砲","num":6,"img":"equip_icon_26_rv74l134q7an.png"}]'
+
+      results = AdmiralStatsParser.parse_equip_list_info(json, 2)
+
+      expect(results.size).to eq(3)
+
+      result = results[0]
+      expect(result.type).to eq(1)
+      expect(result.equipment_id).to eq(1)
+      expect(result.name).to eq("12cm単装砲")
+      expect(result.num).to eq(8)
+      expect(result.img).to eq("equip_icon_1_1984kzwm2f7s.png")
+
+      result = results[1]
+      expect(result.type).to eq(1)
+      expect(result.equipment_id).to eq(2)
+      expect(result.name).to eq("12.7cm連装砲")
+      expect(result.num).to eq(31)
+      expect(result.img).to eq("equip_icon_1_1984kzwm2f7s.png")
+
+      result = results[2]
+      expect(result.type).to eq(1)
+      expect(result.equipment_id).to eq(3)
+      expect(result.name).to eq("10cm連装高角砲")
+      expect(result.num).to eq(6)
+      expect(result.img).to eq("equip_icon_26_rv74l134q7an.png")
+    end
+  end
 end
