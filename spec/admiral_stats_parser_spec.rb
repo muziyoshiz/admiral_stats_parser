@@ -64,12 +64,12 @@ describe AdmiralStatsParser do
       expect(result.pursuit_map).to eq(false)
       expect(result.pursuit_map_open).to eq(false)
       expect(result.sortie_limit).to be_nil
-      expect(result.stage_image_name).to eq("area_0c6tpjoayu.png")
-      expect(result.stage_mission_name).to eq("南１号作戦")
-      expect(result.stage_mission_info).to eq("南西諸島の防衛ライン上の敵侵攻艦隊を捕捉、全力出撃でこれを撃滅せよ！")
-      expect(result.stage_clear_item_info).to eq("MEISTER")
-      expect(result.stage_drop_item_info).to eq(["BUCKET", "SMALLBOX", "SMALLREC", "NONE"])
-      expect(result.area_clear_state).to eq("NOTCLEAR")
+      expect(result.stage_image_name).to eq('area_0c6tpjoayu.png')
+      expect(result.stage_mission_name).to eq('南１号作戦')
+      expect(result.stage_mission_info).to eq('南西諸島の防衛ライン上の敵侵攻艦隊を捕捉、全力出撃でこれを撃滅せよ！')
+      expect(result.stage_clear_item_info).to eq('MEISTER')
+      expect(result.stage_drop_item_info).to eq(['BUCKET', 'SMALLBOX', 'SMALLREC', 'NONE'])
+      expect(result.area_clear_state).to eq('NOTCLEAR')
 
       result = results[1]
       expect(result.area_id).to eq(2)
@@ -79,12 +79,12 @@ describe AdmiralStatsParser do
       expect(result.pursuit_map).to eq(false)
       expect(result.pursuit_map_open).to eq(false)
       expect(result.sortie_limit).to be_nil
-      expect(result.stage_image_name).to eq("area_8nzeirxrui.png")
-      expect(result.stage_mission_name).to eq("？")
-      expect(result.stage_mission_info).to eq("？")
-      expect(result.stage_clear_item_info).to eq("UNKNOWN")
-      expect(result.stage_drop_item_info).to eq(["UNKNOWN", "NONE", "NONE", "NONE"])
-      expect(result.area_clear_state).to eq("NOOPEN")
+      expect(result.stage_image_name).to eq('area_8nzeirxrui.png')
+      expect(result.stage_mission_name).to eq('？')
+      expect(result.stage_mission_info).to eq('？')
+      expect(result.stage_clear_item_info).to eq('UNKNOWN')
+      expect(result.stage_drop_item_info).to eq(['UNKNOWN', 'NONE', 'NONE', 'NONE'])
+      expect(result.area_clear_state).to eq('NOOPEN')
     end
   end
 
@@ -104,12 +104,12 @@ describe AdmiralStatsParser do
       expect(result.pursuit_map).to eq(false)
       expect(result.pursuit_map_open).to eq(true)
       expect(result.sortie_limit).to eq(false)
-      expect(result.stage_image_name).to eq("area_rprx04hjnl.png")
-      expect(result.stage_mission_name).to eq("近海警備")
-      expect(result.stage_mission_info).to eq("鎮守府正面近海の警備に出動せよ！")
-      expect(result.stage_clear_item_info).to eq("MEISTER")
-      expect(result.stage_drop_item_info).to eq(["BUCKET", "NONE", "NONE", "NONE"])
-      expect(result.area_clear_state).to eq("CLEAR")
+      expect(result.stage_image_name).to eq('area_rprx04hjnl.png')
+      expect(result.stage_mission_name).to eq('近海警備')
+      expect(result.stage_mission_info).to eq('鎮守府正面近海の警備に出動せよ！')
+      expect(result.stage_clear_item_info).to eq('MEISTER')
+      expect(result.stage_drop_item_info).to eq(['BUCKET', 'NONE', 'NONE', 'NONE'])
+      expect(result.area_clear_state).to eq('CLEAR')
 
       result = results[1]
       expect(result.area_id).to eq(1)
@@ -119,12 +119,12 @@ describe AdmiralStatsParser do
       expect(result.pursuit_map).to eq(true)
       expect(result.pursuit_map_open).to eq(false)
       expect(result.sortie_limit).to eq(false)
-      expect(result.stage_image_name).to eq("area_rprx04hjnl.png")
-      expect(result.stage_mission_name).to eq("近海警備")
-      expect(result.stage_mission_info).to eq("鎮守府正面近海の敵艦隊を追撃せよ！")
-      expect(result.stage_clear_item_info).to eq("NONE")
-      expect(result.stage_drop_item_info).to eq(["NONE", "NONE", "NONE", "NONE"])
-      expect(result.area_clear_state).to eq("CLEAR")
+      expect(result.stage_image_name).to eq('area_rprx04hjnl.png')
+      expect(result.stage_mission_name).to eq('近海警備')
+      expect(result.stage_mission_info).to eq('鎮守府正面近海の敵艦隊を追撃せよ！')
+      expect(result.stage_clear_item_info).to eq('NONE')
+      expect(result.stage_drop_item_info).to eq(['NONE', 'NONE', 'NONE', 'NONE'])
+      expect(result.area_clear_state).to eq('CLEAR')
     end
   end
 
@@ -138,11 +138,11 @@ describe AdmiralStatsParser do
 
       result = results[0]
       expect(result.book_no).to eq(1)
-      expect(result.ship_class).to eq("")
+      expect(result.ship_class).to eq('')
       expect(result.ship_class_index).to eq(-1)
-      expect(result.ship_type).to eq("")
-      expect(result.ship_name).to eq("未取得")
-      expect(result.card_index_img).to eq("")
+      expect(result.ship_type).to eq('')
+      expect(result.ship_name).to eq('未取得')
+      expect(result.card_index_img).to eq('')
       expect(result.card_img_list).to eq([])
       expect(result.variation_num).to eq(0)
       expect(result.acquire_num).to eq(0)
@@ -151,12 +151,12 @@ describe AdmiralStatsParser do
 
       result = results[1]
       expect(result.book_no).to eq(2)
-      expect(result.ship_class).to eq("長門型")
+      expect(result.ship_class).to eq('長門型')
       expect(result.ship_class_index).to eq(2)
-      expect(result.ship_type).to eq("戦艦")
-      expect(result.ship_name).to eq("陸奥")
-      expect(result.card_index_img).to eq("s/tc_2_tjpm66z1epc6.jpg")
-      expect(result.card_img_list).to eq(["s/tc_2_tjpm66z1epc6.jpg","","","","",""])
+      expect(result.ship_type).to eq('戦艦')
+      expect(result.ship_name).to eq('陸奥')
+      expect(result.card_index_img).to eq('s/tc_2_tjpm66z1epc6.jpg')
+      expect(result.card_img_list).to eq(['s/tc_2_tjpm66z1epc6.jpg','','','','',''])
       expect(result.variation_num).to eq(6)
       expect(result.acquire_num).to eq(1)
       expect(result.lv).to be_nil
@@ -174,24 +174,24 @@ describe AdmiralStatsParser do
 
       result = results[0]
       expect(result.book_no).to eq(1)
-      expect(result.ship_class).to eq("長門型")
+      expect(result.ship_class).to eq('長門型')
       expect(result.ship_class_index).to eq(1)
-      expect(result.ship_type).to eq("戦艦")
-      expect(result.ship_name).to eq("長門")
-      expect(result.card_index_img).to eq("s/tc_1_d7ju63kolamj.jpg")
-      expect(result.card_img_list).to eq(["","","s/tc_1_gk42czm42s3p.jpg","","",""])
+      expect(result.ship_type).to eq('戦艦')
+      expect(result.ship_name).to eq('長門')
+      expect(result.card_index_img).to eq('s/tc_1_d7ju63kolamj.jpg')
+      expect(result.card_img_list).to eq(['','','s/tc_1_gk42czm42s3p.jpg','','',''])
       expect(result.variation_num).to eq(6)
       expect(result.acquire_num).to eq(1)
       expect(result.lv).to eq(23)
-      expect(result.status_img).to eq(["i/i_d7ju63kolamj_n.png"])
+      expect(result.status_img).to eq(['i/i_d7ju63kolamj_n.png'])
 
       result = results[1]
       expect(result.book_no).to eq(5)
-      expect(result.ship_class).to eq("")
+      expect(result.ship_class).to eq('')
       expect(result.ship_class_index).to eq(-1)
-      expect(result.ship_type).to eq("")
-      expect(result.ship_name).to eq("未取得")
-      expect(result.card_index_img).to eq("")
+      expect(result.ship_type).to eq('')
+      expect(result.ship_name).to eq('未取得')
+      expect(result.card_index_img).to eq('')
       expect(result.card_img_list).to eq([])
       expect(result.variation_num).to eq(0)
       expect(result.acquire_num).to eq(0)
@@ -210,27 +210,27 @@ describe AdmiralStatsParser do
 
       result = results[0]
       expect(result.book_no).to eq(1)
-      expect(result.equip_kind).to eq("小口径主砲")
-      expect(result.equip_name).to eq("12cm単装砲")
-      expect(result.equip_img).to eq("e/equip_1_3315nm5166d.png")
+      expect(result.equip_kind).to eq('小口径主砲')
+      expect(result.equip_name).to eq('12cm単装砲')
+      expect(result.equip_img).to eq('e/equip_1_3315nm5166d.png')
 
       result = results[1]
       expect(result.book_no).to eq(2)
-      expect(result.equip_kind).to eq("小口径主砲")
-      expect(result.equip_name).to eq("12.7cm連装砲")
-      expect(result.equip_img).to eq("e/equip_2_fon8wsqc5sn.png")
+      expect(result.equip_kind).to eq('小口径主砲')
+      expect(result.equip_name).to eq('12.7cm連装砲')
+      expect(result.equip_img).to eq('e/equip_2_fon8wsqc5sn.png')
 
       result = results[2]
       expect(result.book_no).to eq(3)
-      expect(result.equip_kind).to eq("")
-      expect(result.equip_name).to eq("")
-      expect(result.equip_img).to eq("")
+      expect(result.equip_kind).to eq('')
+      expect(result.equip_name).to eq('')
+      expect(result.equip_img).to eq('')
 
       result = results[3]
       expect(result.book_no).to eq(4)
-      expect(result.equip_kind).to eq("中口径主砲")
-      expect(result.equip_name).to eq("14cm単装砲")
-      expect(result.equip_img).to eq("e/equip_4_8tzid3z8li7.png")
+      expect(result.equip_kind).to eq('中口径主砲')
+      expect(result.equip_name).to eq('14cm単装砲')
+      expect(result.equip_img).to eq('e/equip_4_8tzid3z8li7.png')
     end
   end
 
@@ -244,27 +244,35 @@ describe AdmiralStatsParser do
 
       result = results[0]
       expect(result.book_no).to eq(1)
-      expect(result.equip_kind).to eq("小口径主砲")
-      expect(result.equip_name).to eq("12cm単装砲")
-      expect(result.equip_img).to eq("e/equip_1_3315nm5166d.png")
+      expect(result.equip_kind).to eq('小口径主砲')
+      expect(result.equip_name).to eq('12cm単装砲')
+      expect(result.equip_img).to eq('e/equip_1_3315nm5166d.png')
 
       result = results[1]
       expect(result.book_no).to eq(2)
-      expect(result.equip_kind).to eq("小口径主砲")
-      expect(result.equip_name).to eq("12.7cm連装砲")
-      expect(result.equip_img).to eq("e/equip_2_fon8wsqc5sn.png")
+      expect(result.equip_kind).to eq('小口径主砲')
+      expect(result.equip_name).to eq('12.7cm連装砲')
+      expect(result.equip_img).to eq('e/equip_2_fon8wsqc5sn.png')
 
       result = results[2]
       expect(result.book_no).to eq(3)
-      expect(result.equip_kind).to eq("")
-      expect(result.equip_name).to eq("")
-      expect(result.equip_img).to eq("")
+      expect(result.equip_kind).to eq('')
+      expect(result.equip_name).to eq('')
+      expect(result.equip_img).to eq('')
 
       result = results[3]
       expect(result.book_no).to eq(4)
-      expect(result.equip_kind).to eq("中口径主砲")
-      expect(result.equip_name).to eq("14cm単装砲")
-      expect(result.equip_img).to eq("e/equip_4_8tzid3z8li7.png")
+      expect(result.equip_kind).to eq('中口径主砲')
+      expect(result.equip_name).to eq('14cm単装砲')
+      expect(result.equip_img).to eq('e/equip_4_8tzid3z8li7.png')
+    end
+  end
+
+  describe '.parse_character_list_info(json, 1)' do
+    it 'raises' do
+      json = '[{"bookNo":11,"lv":20,"shipType":"駆逐艦","shipSortNo":1800,"remodelLv":0,"shipName":"吹雪","statusImg":"i/i_u6jw00e3ey3p_n.png"},{"bookNo":85,"lv":36,"shipType":"駆逐艦","shipSortNo":1800,"remodelLv":0,"shipName":"朝潮","statusImg":"i/i_69ex6r4uutp3_n.png"},{"bookNo":85,"lv":36,"shipType":"駆逐艦","shipSortNo":1800,"remodelLv":1,"shipName":"朝潮改","statusImg":"i/i_umacfn9qcwp1_n.png"}]'
+
+      expect { AdmiralStatsParser.parse_character_list_info(json, 1) }.to raise_error('API version 1 does not support character list info')
     end
   end
 
@@ -279,29 +287,37 @@ describe AdmiralStatsParser do
       result = results[0]
       expect(result.book_no).to eq(11)
       expect(result.lv).to eq(20)
-      expect(result.ship_type).to eq("駆逐艦")
+      expect(result.ship_type).to eq('駆逐艦')
       expect(result.ship_sort_no).to eq(1800)
       expect(result.remodel_lv).to eq(0)
-      expect(result.ship_name).to eq("吹雪")
-      expect(result.status_img).to eq("i/i_u6jw00e3ey3p_n.png")
+      expect(result.ship_name).to eq('吹雪')
+      expect(result.status_img).to eq('i/i_u6jw00e3ey3p_n.png')
 
       result = results[1]
       expect(result.book_no).to eq(85)
       expect(result.lv).to eq(36)
-      expect(result.ship_type).to eq("駆逐艦")
+      expect(result.ship_type).to eq('駆逐艦')
       expect(result.ship_sort_no).to eq(1800)
       expect(result.remodel_lv).to eq(0)
-      expect(result.ship_name).to eq("朝潮")
-      expect(result.status_img).to eq("i/i_69ex6r4uutp3_n.png")
+      expect(result.ship_name).to eq('朝潮')
+      expect(result.status_img).to eq('i/i_69ex6r4uutp3_n.png')
 
       result = results[2]
       expect(result.book_no).to eq(85)
       expect(result.lv).to eq(36)
-      expect(result.ship_type).to eq("駆逐艦")
+      expect(result.ship_type).to eq('駆逐艦')
       expect(result.ship_sort_no).to eq(1800)
       expect(result.remodel_lv).to eq(1)
-      expect(result.ship_name).to eq("朝潮改")
-      expect(result.status_img).to eq("i/i_umacfn9qcwp1_n.png")
+      expect(result.ship_name).to eq('朝潮改')
+      expect(result.status_img).to eq('i/i_umacfn9qcwp1_n.png')
+    end
+  end
+
+  describe '.parse_equip_list_info(json, 1)' do
+    it 'raises' do
+      json = '[{"type":1,"equipmentId":1,"name":"12cm単装砲","num":8,"img":"equip_icon_1_1984kzwm2f7s.png"},{"type":1,"equipmentId":2,"name":"12.7cm連装砲","num":31,"img":"equip_icon_1_1984kzwm2f7s.png"},{"type":1,"equipmentId":3,"name":"10cm連装高角砲","num":6,"img":"equip_icon_26_rv74l134q7an.png"}]'
+
+      expect { AdmiralStatsParser.parse_equip_list_info(json, 1) }.to raise_error('API version 1 does not support equip list info')
     end
   end
 
@@ -316,23 +332,23 @@ describe AdmiralStatsParser do
       result = results[0]
       expect(result.type).to eq(1)
       expect(result.equipment_id).to eq(1)
-      expect(result.name).to eq("12cm単装砲")
+      expect(result.name).to eq('12cm単装砲')
       expect(result.num).to eq(8)
-      expect(result.img).to eq("equip_icon_1_1984kzwm2f7s.png")
+      expect(result.img).to eq('equip_icon_1_1984kzwm2f7s.png')
 
       result = results[1]
       expect(result.type).to eq(1)
       expect(result.equipment_id).to eq(2)
-      expect(result.name).to eq("12.7cm連装砲")
+      expect(result.name).to eq('12.7cm連装砲')
       expect(result.num).to eq(31)
-      expect(result.img).to eq("equip_icon_1_1984kzwm2f7s.png")
+      expect(result.img).to eq('equip_icon_1_1984kzwm2f7s.png')
 
       result = results[2]
       expect(result.type).to eq(1)
       expect(result.equipment_id).to eq(3)
-      expect(result.name).to eq("10cm連装高角砲")
+      expect(result.name).to eq('10cm連装高角砲')
       expect(result.num).to eq(6)
-      expect(result.img).to eq("equip_icon_26_rv74l134q7an.png")
+      expect(result.img).to eq('equip_icon_26_rv74l134q7an.png')
     end
   end
 end
