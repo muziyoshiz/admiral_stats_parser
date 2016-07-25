@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-require "json"
-require "admiral_stats_parser/model/area_capture_info"
+require 'json'
+require 'admiral_stats_parser/model/area_capture_info'
 
 module AreaCaptureInfoParser
   MANDATORY_KEYS = {
@@ -40,7 +40,7 @@ module AreaCaptureInfoParser
     items_array = JSON.parse(json)
 
     unless items_array.is_a?(Array)
-      raise "json is not an Array"
+      raise 'json is not an Array'
     end
 
     results = []

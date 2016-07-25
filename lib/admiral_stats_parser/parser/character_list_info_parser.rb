@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-require "json"
-require "admiral_stats_parser/model/character_list_info"
+require 'json'
+require 'admiral_stats_parser/model/character_list_info'
 
 module CharacterListInfoParser
   MANDATORY_KEYS = {
@@ -17,7 +17,7 @@ module CharacterListInfoParser
     items_array = JSON.parse(json)
 
     unless items_array.is_a?(Array)
-      raise "json is not an Array"
+      raise 'json is not an Array'
     end
 
     results = []

@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-require "admiral_stats_parser/version"
-require "admiral_stats_parser/parser/personal_basic_info_parser"
-require "admiral_stats_parser/parser/area_capture_info_parser"
-require "admiral_stats_parser/parser/tc_book_info_parser"
-require "admiral_stats_parser/parser/equip_book_info_parser"
-require "admiral_stats_parser/parser/character_list_info_parser"
-require "admiral_stats_parser/parser/equip_list_info_parser"
+require 'admiral_stats_parser/version'
+require 'admiral_stats_parser/parser/personal_basic_info_parser'
+require 'admiral_stats_parser/parser/area_capture_info_parser'
+require 'admiral_stats_parser/parser/tc_book_info_parser'
+require 'admiral_stats_parser/parser/equip_book_info_parser'
+require 'admiral_stats_parser/parser/character_list_info_parser'
+require 'admiral_stats_parser/parser/equip_list_info_parser'
 
 module AdmiralStatsParser
 
@@ -15,7 +15,7 @@ module AdmiralStatsParser
       when 1, 2
       PersonalBasicInfoParser.parse(json, api_version)
     else
-      raise "unsupported API version"
+      raise 'unsupported API version'
     end
   end
 
@@ -25,7 +25,7 @@ module AdmiralStatsParser
       when 1, 2
       AreaCaptureInfoParser.parse(json, api_version)
     else
-      raise "unsupported API version"
+      raise 'unsupported API version'
     end
   end
 
@@ -35,7 +35,7 @@ module AdmiralStatsParser
       when 1, 2
       TcBookInfoParser.parse(json, api_version)
     else
-      raise "unsupported API version"
+      raise 'unsupported API version'
     end
   end
 
@@ -45,7 +45,7 @@ module AdmiralStatsParser
       when 1, 2
       EquipBookInfoParser.parse(json)
     else
-      raise "unsupported API version"
+      raise 'unsupported API version'
     end
   end
 
@@ -53,11 +53,11 @@ module AdmiralStatsParser
   def self.parse_character_list_info(json, api_version)
     case api_version
     when 1
-      raise "API version 1 does not support character list info"
+      raise 'API version 1 does not support character list info'
     when 2
       CharacterListInfoParser.parse(json)
     else
-      raise "unsupported API version"
+      raise 'unsupported API version'
     end
   end
 
@@ -65,11 +65,11 @@ module AdmiralStatsParser
   def self.parse_equip_list_info(json, api_version)
     case api_version
     when 1
-      raise "API version 1 does not support equip list info"
+      raise 'API version 1 does not support equip list info'
     when 2
       EquipListInfoParser.parse(json)
     else
-      raise "unsupported API version"
+      raise 'unsupported API version'
     end
   end
 end

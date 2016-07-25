@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-require "json"
-require "admiral_stats_parser/model/personal_basic_info"
+require 'json'
+require 'admiral_stats_parser/model/personal_basic_info'
 
 module PersonalBasicInfoParser
   MANDATORY_KEYS = {

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-require "json"
-require "admiral_stats_parser/model/equip_list_info"
+require 'json'
+require 'admiral_stats_parser/model/equip_list_info'
 
 module EquipListInfoParser
   MANDATORY_KEYS = {
@@ -15,7 +15,7 @@ module EquipListInfoParser
     items_array = JSON.parse(json)
 
     unless items_array.is_a?(Array)
-      raise "json is not an Array"
+      raise 'json is not an Array'
     end
 
     results = []
