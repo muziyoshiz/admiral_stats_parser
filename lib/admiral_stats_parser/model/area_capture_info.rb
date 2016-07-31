@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# 海域情報
 class AreaCaptureInfo
   # 海域番号
   # 1: 鎮守府海域

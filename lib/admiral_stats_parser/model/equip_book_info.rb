@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# 装備図鑑
 class EquipBookInfo
   # 図鑑No.
   attr_accessor :book_no

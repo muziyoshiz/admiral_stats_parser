@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# 艦娘一覧
 class CharacterListInfo
   # 図鑑No.
   attr_accessor :book_no

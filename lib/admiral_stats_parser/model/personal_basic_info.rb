@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# 基本情報
 class PersonalBasicInfo
   # 提督名
   attr_accessor :admiral_name
@@ -33,7 +34,17 @@ class PersonalBasicInfo
   attr_accessor :rank
 
   # 階級を表す数値 (From API version 2)
+  # 新米少佐
+  # 中堅少佐
+  # 少佐
+  # 新米中佐
+  # 中佐
+  # 大佐
+  # 少将
   # 7: 中将
+  # 大将
+  # 元帥
+  # 集計中
   attr_accessor :title_id
 
   # 最大備蓄可能各資源量 (From API version 2)
@@ -41,6 +52,4 @@ class PersonalBasicInfo
 
   # 戦略ポイント (From API version 2)
   attr_accessor :strategy_point
-
-  # {"admiralName":"ムジ","fuel":6750,"ammo":6183,"steel":7126,"bauxite":6513,"bucket":46,"level":32,"roomItemCoin":82,"resultPoint":"3571","rank":"圏外","titleId":7,"materialMax":7200,"strategyPoint":915}
 end
