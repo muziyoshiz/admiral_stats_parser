@@ -21,12 +21,23 @@ Or install it yourself as:
 ## Usage
 
 ```
-AdmiralStatsParser.parse_personal_basic(json, api_version)
-AdmiralStatsParser.parse_area_capture(json, api_version)
-AdmiralStatsParser.parse_tc_book(json, api_version)
-AdmiralStatsParser.parse_equip_book(json, api_version)
-AdmiralStatsParser.parse_character_list(json, api_version)
-AdmiralStatsParser.parse_equip_list(json, api_version)
+# 基本情報
+AdmiralStatsParser.parse_personal_basic_info(json, api_version)
+
+# 海域情報
+AdmiralStatsParser.parse_area_capture_info(json, api_version)
+
+# 艦娘図鑑
+AdmiralStatsParser.parse_tc_book_info(json, api_version)
+
+# 装備図鑑
+AdmiralStatsParser.parse_equip_book_info(json, api_version)
+
+# 艦娘一覧
+AdmiralStatsParser.parse_character_list_info(json, api_version)
+
+# 装備一覧
+AdmiralStatsParser.parse_equip_list_info(json, api_version)
 ```
 
 ## Specification

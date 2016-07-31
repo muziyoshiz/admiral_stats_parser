@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# 艦娘図鑑
 class TcBookInfo
   # 図鑑No.
   attr_accessor :book_no
