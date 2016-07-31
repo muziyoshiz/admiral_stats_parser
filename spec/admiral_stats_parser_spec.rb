@@ -27,6 +27,48 @@ describe AdmiralStatsParser do
     end
   end
 
+  describe '.parse_personal_basic_info(json_without_admiral_name, 1)' do
+    it 'returns PersonalBasicInfo' do
+      json = '{"fuel":838,"ammo":974,"steel":482,"bauxite":129,"bucket":7,"level":5,"roomItemCoin":0}'
+      result = AdmiralStatsParser.parse_personal_basic_info(json, 1)
+
+      expect(result.admiral_name).to be_nil
+      expect(result.fuel).to eq(838)
+      expect(result.ammo).to eq(974)
+      expect(result.steel).to eq(482)
+      expect(result.bauxite).to eq(129)
+      expect(result.bucket).to eq(7)
+      expect(result.level).to eq(5)
+      expect(result.room_item_coin).to eq(0)
+      expect(result.result_point).to be_nil
+      expect(result.rank).to be_nil
+      expect(result.title_id).to be_nil
+      expect(result.material_max).to be_nil
+      expect(result.strategy_point).to be_nil
+    end
+  end
+
+  describe '.parse_personal_basic_info(json_without_admiral_name, 2)' do
+    it 'returns PersonalBasicInfo' do
+      json = '{"fuel":6750,"ammo":6183,"steel":7126,"bauxite":6513,"bucket":46,"level":32,"roomItemCoin":82,"resultPoint":"3571","rank":"圏外","titleId":7,"materialMax":7200,"strategyPoint":915}'
+      result = AdmiralStatsParser.parse_personal_basic_info(json, 2)
+
+      expect(result.admiral_name).to be_nil
+      expect(result.fuel).to eq(6750)
+      expect(result.ammo).to eq(6183)
+      expect(result.steel).to eq(7126)
+      expect(result.bauxite).to eq(6513)
+      expect(result.bucket).to eq(46)
+      expect(result.level).to eq(32)
+      expect(result.room_item_coin).to eq(82)
+      expect(result.result_point).to eq('3571')
+      expect(result.rank).to eq('圏外')
+      expect(result.title_id).to eq(7)
+      expect(result.material_max).to eq(7200)
+      expect(result.strategy_point).to eq(915)
+    end
+  end
+
   describe '.parse_personal_basic_info(json, 2)' do
     it 'returns PersonalBasicInfo' do
       json = '{"admiralName":"ABCDEFGH","fuel":6750,"ammo":6183,"steel":7126,"bauxite":6513,"bucket":46,"level":32,"roomItemCoin":82,"resultPoint":"3571","rank":"圏外","titleId":7,"materialMax":7200,"strategyPoint":915}'
