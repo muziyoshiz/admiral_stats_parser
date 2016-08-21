@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # 基本情報
 class PersonalBasicInfo
   # 階級を表す数値と、階級名の対応関係

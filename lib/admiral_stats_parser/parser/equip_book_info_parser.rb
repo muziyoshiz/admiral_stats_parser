@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 require 'json'
 require 'admiral_stats_parser/model/equip_book_info'
 

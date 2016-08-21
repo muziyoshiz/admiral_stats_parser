@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 require 'json'
 require 'admiral_stats_parser/model/character_list_info'
 

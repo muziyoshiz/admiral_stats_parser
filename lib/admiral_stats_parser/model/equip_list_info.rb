@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # 装備一覧
 class EquipListInfo
   # 種別の文字列表記

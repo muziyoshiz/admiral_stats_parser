@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 require 'admiral_stats_parser/version'
 require 'admiral_stats_parser/parser/personal_basic_info_parser'
 require 'admiral_stats_parser/parser/area_capture_info_parser'

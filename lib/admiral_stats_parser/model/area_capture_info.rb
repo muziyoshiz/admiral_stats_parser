@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # 海域情報
 class AreaCaptureInfo
   # 海域番号と海域名の対応関係
