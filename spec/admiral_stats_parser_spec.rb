@@ -5,6 +5,29 @@ describe AdmiralStatsParser do
     expect(AdmiralStatsParser::VERSION).not_to be nil
   end
 
+  describe '.get_latest_api_version' do
+    it 'returns 2' do
+      expect(AdmiralStatsParser.get_latest_api_version).to eq(2)
+    end
+  end
+
+  describe '.guess_api_version(exported_at)' do
+    # 2016-04-26 〜 2016-06-29
+    it 'returns 1' do
+      expect(AdmiralStatsParser.guess_api_version(Time.parse('2016-04-26T00:00:00+0900'))).to eq(1)
+      expect(AdmiralStatsParser.guess_api_version(Time.parse('2016-06-29T00:00:00+0900'))).to eq(1)
+      expect(AdmiralStatsParser.guess_api_version(Time.parse('2016-06-29T23:59:59+0900'))).to eq(1)
+    end
+
+    # 2016-06-30（REVISION 2 のリリース日）〜
+    it 'returns 2' do
+      expect(AdmiralStatsParser.guess_api_version(Time.parse('2016-06-30T00:00:00+0900'))).to eq(2)
+
+      # 遠い未来の場合は、最新バージョンを返す
+      expect(AdmiralStatsParser.guess_api_version(Time.parse('2200-01-01T00:00:00+0900'))).to eq(2)
+    end
+  end
+
   describe '.parse_personal_basic_info(json, 1)' do
     it 'returns PersonalBasicInfo' do
       json = '{"admiralName":"ABCDEFGH","fuel":838,"ammo":974,"steel":482,"bauxite":129,"bucket":7,"level":5,"roomItemCoin":0}'
