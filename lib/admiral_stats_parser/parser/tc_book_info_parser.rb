@@ -1,7 +1,7 @@
 require 'json'
 require 'admiral_stats_parser/model/tc_book_info'
 
-module TcBookInfoParser
+class TcBookInfoParser
   MANDATORY_KEYS = {
     1 => {
       :book_no => Integer,

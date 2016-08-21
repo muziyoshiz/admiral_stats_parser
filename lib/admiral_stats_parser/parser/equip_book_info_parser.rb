@@ -1,7 +1,7 @@
 require 'json'
 require 'admiral_stats_parser/model/equip_book_info'
 
-module EquipBookInfoParser
+class EquipBookInfoParser
   MANDATORY_KEYS = {
     :book_no => Integer,
     :equip_kind => String,

@@ -1,7 +1,7 @@
 require 'json'
 require 'admiral_stats_parser/model/personal_basic_info'
 
-module PersonalBasicInfoParser
+class PersonalBasicInfoParser
   MANDATORY_KEYS = {
     1 => {
       :fuel => Integer,

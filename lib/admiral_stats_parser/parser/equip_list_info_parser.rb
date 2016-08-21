@@ -1,7 +1,7 @@
 require 'json'
 require 'admiral_stats_parser/model/equip_list_info'
 
-module EquipListInfoParser
+class EquipListInfoParser
   MANDATORY_KEYS = {
     :type => Integer,
     :equipment_id => Integer,

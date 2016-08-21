@@ -1,7 +1,7 @@
 require 'json'
 require 'admiral_stats_parser/model/character_list_info'
 
-module CharacterListInfoParser
+class CharacterListInfoParser
   MANDATORY_KEYS = {
     :book_no => Integer,
     :lv => Integer,

@@ -1,7 +1,7 @@
 require 'json'
 require 'admiral_stats_parser/model/area_capture_info'
 
-module AreaCaptureInfoParser
+class AreaCaptureInfoParser
   MANDATORY_KEYS = {
     1 => {
       :area_id => Integer,
