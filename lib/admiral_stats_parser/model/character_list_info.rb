@@ -24,6 +24,9 @@ class CharacterListInfo
   # 艦娘のステータス画像（横長の画像）のファイル名
   attr_accessor :status_img
 
+  # 星の数（1〜5）
+  attr_accessor :star_num
+
   # 累計経験値表
   EXP_TABLE = {
     92 => 584500,

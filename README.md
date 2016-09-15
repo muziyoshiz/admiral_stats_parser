@@ -42,25 +42,27 @@ AdmiralStatsParser.parse_equip_list_info(json, api_version)
 
 ## Specification
 
-提督情報ページから返される JSON メッセージの形式は、過去に一度変更されており、今後も変更される可能性があります。このツールでは、kancolle-arcade.net が返す JSON メッセージの形式のことを API version と呼びます。
+提督情報ページから返される JSON メッセージの形式は、過去に何度か変更されており、今後も変更される可能性があります。このツールでは、kancolle-arcade.net が返す JSON メッセージの形式のことを API version と呼びます。
 
 AdmiralStatsParser は、以下の API version をサポートしています。
 
 | API version | 期間 |
 |------------:|:-----|
 | 1           | 2016-04-26 〜 2016-06-29 |
-| 2           | 2016-06-30（REVISION 2 のリリース日）〜 |
+| 2           | 2016-06-30（REVISION 2 のリリース日）〜 2016-09-14 |
+| 3           | 2016-09-15 〜 |
 
 各 API version でパースできる JSON の種類は以下の通りです。また、同じ情報でも、API version によって、含まれる情報量が異なる場合があります。その場合は Supported (1), Supported (2) のように記載して区別しています。
 
-| 提督情報での表示 | URL | API version 1 | API version 2 |
-|:----------------|:----|:--------------|:--------------|
-| 基本情報 | Personal/basicInfo | Supported (1) | Supported (2) |
-| 海域情報 | Area/captureInfo   | Supported (1) | Supported (2) |
-| 艦娘図鑑 | TcBook/info        | Supported (1) | Supported (2) |
-| 装備図鑑 | EquipBook/info     | Supported     | Supported     |
-| 艦娘一覧 | CharacterList/info | -             | Supported     |
-| 装備一覧 | EquipList/info     | -             | Supported     |
+| 提督情報での表示 | URL | API version 1 | API version 2 | API version 3 |
+|:----------------|:----|:--------------|:--------------|:-------------|
+| 基本情報 | Personal/basicInfo | Supported (1) | Supported (2) | Supported (2) |
+| 海域情報 | Area/captureInfo   | Supported (1) | Supported (2) | Supported (2) |
+| 艦娘図鑑 | TcBook/info        | Supported (1) | Supported (2) | Supported (2) |
+| 装備図鑑 | EquipBook/info     | Supported     | Supported     | Supported     |
+| 艦娘一覧 | CharacterList/info | -             | Supported (1) | Supported (2) |
+| 装備一覧 | EquipList/info     | -             | Supported     | Supported     |
+| 任務一覧 | Quest/info         | -             | Unsupported   | Unsupported   |
 
 ## Development
 
