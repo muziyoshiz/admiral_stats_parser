@@ -1,5 +1,10 @@
 # 限定海域情報
 class EventInfo
+  # イベント回数
+  EVENT_NUMBERS = {
+      1000 => 1,
+  }
+
   # 海域番号と海域名の対応関係
   EVENT_AREA_NAMES = {
       1000 => '敵艦隊前線泊地殴り込み',
@@ -10,14 +15,14 @@ class EventInfo
       1000 => {
           1 => '前哨戦',
           2 => '警戒線突破',
-          3 => '',
-          4 => '',
-          5 => '',
-          6 => '',
-          7 => '',
-          8 => '',
-          9 => '',
-          10 => '',
+          3 => '湾内突入！',
+          4 => '敵泊地強襲！',
+          5 => '掃討戦',
+          6 => '前哨戦',
+          7 => '警戒線突破',
+          8 => '湾内突入！',
+          9 => '敵泊地強襲！',
+          10 => '掃討戦',
       },
   }
 
@@ -75,27 +80,34 @@ class EventInfo
   # NOOPEN: 出撃不可
   attr_accessor :area_clear_state
 
-  # 海域ゲージの状態？
-  # "NORMAL": 初回攻略前
+  # 海域ゲージの状態
+  # "NORMAL": 攻略中
   # "BREAK": 攻略後
   attr_accessor :military_gauge_status
 
-  # 海域ゲージの最大値？
+  # 海域ゲージの最大値
   # E-1 攻略開始前は 1000、攻略後も 1000
   attr_accessor :ene_military_gauge_val
 
-  # 海域ゲージの現在値？
+  # 海域ゲージの現在値
   # E-1 攻略開始前は 1000、攻略後は 0
   attr_accessor :military_gauge_left
 
-  # ボスのランク？
-  # E-4 のみ "ONI"
+  # ボスのランク
+  # 泊地棲鬼は "ONI"
+  # ゲージ半減して泊地棲姫になると "HIME"
   # それ以外は "NONE"
   attr_accessor :boss_status
 
-  # 周回数？
+  # 周回数
   # E-1 攻略開始前は 1、攻略後も 1
   attr_accessor :loop_count
+
+  # イベント回数を返します。
+  # 第壱回期間限定海域「敵艦隊前線泊地殴り込み」は 1
+  def event_no
+    EVENT_NUMBERS[@area_id]
+  end
 
   # 海域を表す数値を、海域名に変換して返します。
   def area_id_to_s
@@ -126,9 +138,10 @@ class EventInfo
     # ボーナスの種類
     # "NONE": 未公開状態
     # "RESULT_POINT": 戦果
-    # "ROOM_ITEM_ICON": 家具コイン
-    # "EQUIP": 装備
     # "STRATEGY_POINT": 戦略ポイント
+    # "ROOM_ITEM_ICON": 家具コイン
+    # "ROOM_ITEM_MEISTER": 特注家具職人
+    # "EQUIP": 装備
     attr_accessor :kind
 
     # 数値（戦果の場合はポイント数、家具コインの場合はコイン枚数）

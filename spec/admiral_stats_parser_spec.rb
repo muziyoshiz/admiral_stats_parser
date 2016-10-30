@@ -6,8 +6,8 @@ describe AdmiralStatsParser do
   end
 
   describe '.get_latest_api_version' do
-    it 'returns 3' do
-      expect(AdmiralStatsParser.get_latest_api_version).to eq(3)
+    it 'returns 4' do
+      expect(AdmiralStatsParser.get_latest_api_version).to eq(4)
     end
   end
 
@@ -18,17 +18,24 @@ describe AdmiralStatsParser do
       expect(AdmiralStatsParser.guess_api_version(Time.parse('2016-06-30T06:59:59+0900'))).to eq(1)
     end
 
-    # 2016-06-30（REVISION 2 のリリース日）〜
+    # 2016-06-30（REVISION 2 のリリース日）〜 2016-09-14
     it 'returns 2' do
       expect(AdmiralStatsParser.guess_api_version(Time.parse('2016-06-30T07:00:00+0900'))).to eq(2)
       expect(AdmiralStatsParser.guess_api_version(Time.parse('2016-09-15T06:59:59+0900'))).to eq(2)
     end
 
+    # 2016-09-15 〜 2016-10-26
     it 'returns 3' do
       expect(AdmiralStatsParser.guess_api_version(Time.parse('2016-09-15T07:00:00+0900'))).to eq(3)
+      expect(AdmiralStatsParser.guess_api_version(Time.parse('2016-10-27T06:59:59+0900'))).to eq(3)
+    end
+
+    # 2016-10-27 〜
+    it 'returns 4' do
+      expect(AdmiralStatsParser.guess_api_version(Time.parse('2016-10-27T07:00:00+0900'))).to eq(4)
 
       # 遠い未来の場合は、最新バージョンを返す
-      expect(AdmiralStatsParser.guess_api_version(Time.parse('2200-01-01T00:00:00+0900'))).to eq(3)
+      expect(AdmiralStatsParser.guess_api_version(Time.parse('2200-01-01T00:00:00+0900'))).to eq(4)
     end
   end
 
@@ -74,8 +81,8 @@ describe AdmiralStatsParser do
     end
   end
 
-  # 基本情報は version 2 〜 3 で仕様が同じ
-  [2, 3].each do |version|
+  # 基本情報は version 2 〜 4 で仕様が同じ
+  (2..4).each do |version|
     describe ".parse_personal_basic_info(json_without_admiral_name, #{version})" do
         it 'returns PersonalBasicInfo' do
         json = '{"fuel":6750,"ammo":6183,"steel":7126,"bauxite":6513,"bucket":46,"level":32,"roomItemCoin":82,"resultPoint":"3571","rank":"圏外","titleId":7,"materialMax":7200,"strategyPoint":915}'
@@ -159,8 +166,8 @@ describe AdmiralStatsParser do
     end
   end
 
-  # 海域情報は version 2 〜 3 で仕様が同じ
-  [2, 3].each do |version|
+  # 海域情報は version 2 〜 4 で仕様が同じ
+  (2..4).each do |version|
     describe ".parse_area_capture_info(json, #{version})" do
       it 'returns AreaCaptureInfo[]' do
         json = '[{"areaId":1,"areaSubId":1,"limitSec":150,"requireGp":150,"pursuitMap":false,"pursuitMapOpen":true,"sortieLimit":false,"stageImageName":"area_rprx04hjnl.png","stageMissionName":"近海警備","stageMissionInfo":"鎮守府正面近海の警備に出動せよ！","stageClearItemInfo":"MEISTER","stageDropItemInfo":["BUCKET","NONE","NONE","NONE"],"areaClearState":"CLEAR"},{"areaId":1,"areaSubId":1,"limitSec":90,"requireGp":100,"pursuitMap":true,"pursuitMapOpen":false,"sortieLimit":false,"stageImageName":"area_rprx04hjnl.png","stageMissionName":"近海警備","stageMissionInfo":"鎮守府正面近海の敵艦隊を追撃せよ！","stageClearItemInfo":"NONE","stageDropItemInfo":["NONE","NONE","NONE","NONE"],"areaClearState":"CLEAR"}]'
@@ -238,8 +245,8 @@ describe AdmiralStatsParser do
     end
   end
 
-  # 艦娘図鑑は version 2 〜 3 で仕様が同じ
-  [2, 3].each do |version|
+  # 艦娘図鑑は version 2 〜 4 で仕様が同じ
+  (2..4).each do |version|
     describe ".parse_tc_book_info(json, #{version})" do
       it 'returns TcBookInfo[]' do
         json = '[{"bookNo":1,"shipClass":"長門型","shipClassIndex":1,"shipType":"戦艦","shipName":"長門","cardIndexImg":"s/tc_1_d7ju63kolamj.jpg","cardImgList":["","","s/tc_1_gk42czm42s3p.jpg","","",""],"variationNum":6,"acquireNum":1,"lv":23,"statusImg":["i/i_d7ju63kolamj_n.png"]},{"bookNo":5,"shipClass":"","shipClassIndex":-1,"shipType":"","shipName":"未取得","cardIndexImg":"","cardImgList":[],"variationNum":0,"acquireNum":0,"lv":0,"statusImg":[]}]'
@@ -277,8 +284,8 @@ describe AdmiralStatsParser do
     end
   end
 
-  # 装備図鑑は version 1 〜 3 で仕様が同じ
-  (1..3).each do |version|
+  # 装備図鑑は version 1 〜 4 で仕様が同じ
+  (1..4).each do |version|
     describe ".parse_equip_book_info(json, #{version})" do
       it 'returns EquipBookInfo[]' do
         json = '[{"bookNo":1,"equipKind":"小口径主砲","equipName":"12cm単装砲","equipImg":"e/equip_1_3315nm5166d.png"},{"bookNo":2,"equipKind":"小口径主砲","equipName":"12.7cm連装砲","equipImg":"e/equip_2_fon8wsqc5sn.png"},{"bookNo":3,"equipKind":"","equipName":"","equipImg":""},{"bookNo":4,"equipKind":"中口径主砲","equipName":"14cm単装砲","equipImg":"e/equip_4_8tzid3z8li7.png"}]'
@@ -359,43 +366,46 @@ describe AdmiralStatsParser do
     end
   end
 
-  describe '.parse_character_list_info(json, 3)' do
-    it 'returns CharacterListInfo[]' do
-      json = '[{"bookNo":11,"lv":20,"shipType":"駆逐艦","shipSortNo":1800,"remodelLv":0,"shipName":"吹雪","statusImg":"i/i_u6jw00e3ey3p_n.png","starNum":1},{"bookNo":85,"lv":36,"shipType":"駆逐艦","shipSortNo":1800,"remodelLv":0,"shipName":"朝潮","statusImg":"i/i_69ex6r4uutp3_n.png","starNum":5},{"bookNo":85,"lv":36,"shipType":"駆逐艦","shipSortNo":1800,"remodelLv":1,"shipName":"朝潮改","statusImg":"i/i_umacfn9qcwp1_n.png","starNum":3}]'
+  # 艦娘一覧は version 3 〜 4 で仕様が同じ
+  (3..4).each do |version|
+    describe ".parse_character_list_info(json, #{version})" do
+      it 'returns CharacterListInfo[]' do
+        json = '[{"bookNo":11,"lv":20,"shipType":"駆逐艦","shipSortNo":1800,"remodelLv":0,"shipName":"吹雪","statusImg":"i/i_u6jw00e3ey3p_n.png","starNum":1},{"bookNo":85,"lv":36,"shipType":"駆逐艦","shipSortNo":1800,"remodelLv":0,"shipName":"朝潮","statusImg":"i/i_69ex6r4uutp3_n.png","starNum":5},{"bookNo":85,"lv":36,"shipType":"駆逐艦","shipSortNo":1800,"remodelLv":1,"shipName":"朝潮改","statusImg":"i/i_umacfn9qcwp1_n.png","starNum":3}]'
 
-      results = AdmiralStatsParser.parse_character_list_info(json, 3)
+        results = AdmiralStatsParser.parse_character_list_info(json, version)
 
-      expect(results.size).to eq(3)
+        expect(results.size).to eq(3)
 
-      result = results[0]
-      expect(result.book_no).to eq(11)
-      expect(result.lv).to eq(20)
-      expect(result.ship_type).to eq('駆逐艦')
-      expect(result.ship_sort_no).to eq(1800)
-      expect(result.remodel_lv).to eq(0)
-      expect(result.ship_name).to eq('吹雪')
-      expect(result.status_img).to eq('i/i_u6jw00e3ey3p_n.png')
-      expect(result.star_num).to eq(1)
+        result = results[0]
+        expect(result.book_no).to eq(11)
+        expect(result.lv).to eq(20)
+        expect(result.ship_type).to eq('駆逐艦')
+        expect(result.ship_sort_no).to eq(1800)
+        expect(result.remodel_lv).to eq(0)
+        expect(result.ship_name).to eq('吹雪')
+        expect(result.status_img).to eq('i/i_u6jw00e3ey3p_n.png')
+        expect(result.star_num).to eq(1)
 
-      result = results[1]
-      expect(result.book_no).to eq(85)
-      expect(result.lv).to eq(36)
-      expect(result.ship_type).to eq('駆逐艦')
-      expect(result.ship_sort_no).to eq(1800)
-      expect(result.remodel_lv).to eq(0)
-      expect(result.ship_name).to eq('朝潮')
-      expect(result.status_img).to eq('i/i_69ex6r4uutp3_n.png')
-      expect(result.star_num).to eq(5)
+        result = results[1]
+        expect(result.book_no).to eq(85)
+        expect(result.lv).to eq(36)
+        expect(result.ship_type).to eq('駆逐艦')
+        expect(result.ship_sort_no).to eq(1800)
+        expect(result.remodel_lv).to eq(0)
+        expect(result.ship_name).to eq('朝潮')
+        expect(result.status_img).to eq('i/i_69ex6r4uutp3_n.png')
+        expect(result.star_num).to eq(5)
 
-      result = results[2]
-      expect(result.book_no).to eq(85)
-      expect(result.lv).to eq(36)
-      expect(result.ship_type).to eq('駆逐艦')
-      expect(result.ship_sort_no).to eq(1800)
-      expect(result.remodel_lv).to eq(1)
-      expect(result.ship_name).to eq('朝潮改')
-      expect(result.status_img).to eq('i/i_umacfn9qcwp1_n.png')
-      expect(result.star_num).to eq(3)
+        result = results[2]
+        expect(result.book_no).to eq(85)
+        expect(result.lv).to eq(36)
+        expect(result.ship_type).to eq('駆逐艦')
+        expect(result.ship_sort_no).to eq(1800)
+        expect(result.remodel_lv).to eq(1)
+        expect(result.ship_name).to eq('朝潮改')
+        expect(result.status_img).to eq('i/i_umacfn9qcwp1_n.png')
+        expect(result.star_num).to eq(3)
+      end
     end
   end
 
@@ -407,8 +417,8 @@ describe AdmiralStatsParser do
     end
   end
 
-  # 装備一覧は version 2 〜 3 で仕様が同じ
-  [2, 3].each do |version|
+  # 装備一覧は version 2 〜 4 で仕様が同じ
+  (2..4).each do |version|
     describe ".parse_equip_list_info(json, #{version})" do
       it 'returns EquipListInfo[]' do
         json = '[{"type":1,"equipmentId":1,"name":"12cm単装砲","num":8,"img":"equip_icon_1_1984kzwm2f7s.png"},{"type":1,"equipmentId":2,"name":"12.7cm連装砲","num":31,"img":"equip_icon_1_1984kzwm2f7s.png"},{"type":1,"equipmentId":3,"name":"10cm連装高角砲","num":6,"img":"equip_icon_26_rv74l134q7an.png"}]'
@@ -437,7 +447,7 @@ describe AdmiralStatsParser do
         expect(result.name).to eq('10cm連装高角砲')
         expect(result.num).to eq(6)
         expect(result.img).to eq('equip_icon_26_rv74l134q7an.png')
+      end
     end
-  end
   end
 end

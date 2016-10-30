@@ -3,7 +3,7 @@ require 'admiral_stats_parser/model/character_list_info'
 
 class CharacterListInfoParser
   MANDATORY_KEYS = {
-      2 => {
+      1 => {
           :book_no => Integer,
           :lv => Integer,
           :ship_type => String,
@@ -12,7 +12,7 @@ class CharacterListInfoParser
           :ship_name => String,
           :status_img => String,
       },
-      3 => {
+      2 => {
           :book_no => Integer,
           :lv => Integer,
           :ship_type => String,
