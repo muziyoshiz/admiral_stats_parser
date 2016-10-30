@@ -148,6 +148,18 @@ class EventInfo
     cleared ? loop_count : loop_count - 1
   end
 
+  # 与えられたリストから、突破済みのサブ海域番号の最大値を返します。
+  # まだ突破している海域がない場合は 0 を返します。
+  def self.cleared_area_sub_id(event_info_list, level)
+    list = event_info_list.select{|info| info.level == level and info.area_clear_state == 'CLEAR' }
+
+    if list.size == 0
+      0
+    else
+      list.map{|info| info.area_sub_id }.max
+    end
+  end
+
   # 海域撃破ボーナス
   class EventInfoReward
     # 初回攻略時か2回目以降かを表すフラグ
