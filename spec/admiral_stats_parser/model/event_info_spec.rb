@@ -87,6 +87,7 @@ describe EventInfo do
         info_list << info
       end
 
+      expect(EventInfo.current_loop_counts(info_list, 'HEI')).to eq(1)
       expect(EventInfo.cleared_loop_counts(info_list, 'HEI')).to eq(0)
     end
 
@@ -134,6 +135,7 @@ describe EventInfo do
         info_list << info
       end
 
+      expect(EventInfo.current_loop_counts(info_list, 'HEI')).to eq(1)
       expect(EventInfo.cleared_loop_counts(info_list, 'HEI')).to eq(1)
     end
 
@@ -181,6 +183,7 @@ describe EventInfo do
         info_list << info
       end
 
+      expect(EventInfo.current_loop_counts(info_list, 'HEI')).to eq(2)
       expect(EventInfo.cleared_loop_counts(info_list, 'HEI')).to eq(1)
     end
 
@@ -228,6 +231,7 @@ describe EventInfo do
         info_list << info
       end
 
+      expect(EventInfo.current_loop_counts(info_list, 'HEI')).to eq(2)
       expect(EventInfo.cleared_loop_counts(info_list, 'HEI')).to eq(2)
     end
 
@@ -275,6 +279,7 @@ describe EventInfo do
         info_list << info
       end
 
+      expect(EventInfo.current_loop_counts(info_list, 'OTU')).to eq(1)
       expect(EventInfo.cleared_loop_counts(info_list, 'OTU')).to eq(0)
     end
 
@@ -322,6 +327,7 @@ describe EventInfo do
         info_list << info
       end
 
+      expect(EventInfo.current_loop_counts(info_list, 'OTU')).to eq(1)
       expect(EventInfo.cleared_loop_counts(info_list, 'OTU')).to eq(1)
     end
 
@@ -369,6 +375,7 @@ describe EventInfo do
         info_list << info
       end
 
+      expect(EventInfo.current_loop_counts(info_list, 'OTU')).to eq(2)
       expect(EventInfo.cleared_loop_counts(info_list, 'OTU')).to eq(1)
     end
 
@@ -416,6 +423,7 @@ describe EventInfo do
         info_list << info
       end
 
+      expect(EventInfo.current_loop_counts(info_list, 'OTU')).to eq(2)
       expect(EventInfo.cleared_loop_counts(info_list, 'OTU')).to eq(2)
     end
   end
