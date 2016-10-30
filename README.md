@@ -40,6 +40,9 @@ AdmiralStatsParser.parse_character_list_info(json, api_version)
 
 # 装備一覧
 AdmiralStatsParser.parse_equip_list_info(json, api_version)
+
+# イベント海域情報
+AdmiralStatsParser.parse_event_info(json, api_version)
 ```
 
 ## Specification
