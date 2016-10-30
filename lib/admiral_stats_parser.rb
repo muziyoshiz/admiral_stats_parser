@@ -99,4 +99,16 @@ module AdmiralStatsParser
         raise 'unsupported API version'
     end
   end
+
+  # イベント海域情報をパースします。
+  def self.parse_event_info(json, api_version)
+    case api_version
+      when 1..3
+        raise "API version #{api_version} does not support event info"
+      when 4
+        EventInfoParser.parse(json, 1)
+      else
+        raise 'unsupported API version'
+    end
+  end
 end

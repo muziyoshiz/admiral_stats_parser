@@ -450,4 +450,91 @@ describe AdmiralStatsParser do
       end
     end
   end
+
+  # version 1 〜 3 にはイベント海域情報なし
+  (1..3).each do |version|
+    describe ".parse_equip_list_info(json, #{version})" do
+      it 'raises' do
+        json = '[{"areaId":1000,"areaSubId":1,"level":"HEI","areaKind":"NORMAL","stageImageName":"area_14yzzpb2ab.png","stageMissionName":"前哨戦","stageMissionInfo":"敵泊地へ強襲作戦が発令された！\n主作戦に先立ち、敵泊地海域付近の\n偵察を実施せよ！","requireGp":300,"limitSec":240,"rewardList":[{"rewardType":"FIRST","dataId":0,"kind":"ROOM_ITEM_COIN","value":50},{"rewardType":"FIRST","dataId":1,"kind":"RESULT_POINT","value":500},{"rewardType":"SECOND","dataId":0,"kind":"RESULT_POINT","value":200}],"stageDropItemInfo":["SMALLBOX","MEDIUMBOX","SMALLREC","NONE"],"sortieLimit":false,"areaClearState":"CLEAR","militaryGaugeStatus":"BREAK","eneMilitaryGaugeVal":1000,"militaryGaugeLeft":0,"bossStatus":"NONE","loopCount":1},' +
+            '{"areaId":1000,"areaSubId":5,"level":"HEI","areaKind":"SWEEP","stageImageName":"area_0555h7ae9d.png","stageMissionName":"？","stageMissionInfo":"？","requireGp":0,"limitSec":0,"rewardList":[{"dataId":0,"kind":"NONE","value":0}],"stageDropItemInfo":["UNKNOWN","NONE","NONE","NONE"],"sortieLimit":false,"areaClearState":"NOOPEN","militaryGaugeStatus":"NONE","eneMilitaryGaugeVal":0,"militaryGaugeLeft":0,"bossStatus":"NONE","loopCount":1}]'
+
+        expect { AdmiralStatsParser.parse_event_info(json, version) }.to raise_error("API version #{version} does not support event info")
+      end
+    end
+  end
+
+  describe ".parse_event_info(json, 4)" do
+    it 'returns EventInfo[]' do
+      # E-1 クリア、E-5 未クリア
+      json = '[{"areaId":1000,"areaSubId":1,"level":"HEI","areaKind":"NORMAL","stageImageName":"area_14yzzpb2ab.png","stageMissionName":"前哨戦","stageMissionInfo":"敵泊地へ強襲作戦が発令された！\n主作戦に先立ち、敵泊地海域付近の\n偵察を実施せよ！","requireGp":300,"limitSec":240,"rewardList":[{"rewardType":"FIRST","dataId":0,"kind":"ROOM_ITEM_COIN","value":50},{"rewardType":"FIRST","dataId":1,"kind":"RESULT_POINT","value":500},{"rewardType":"SECOND","dataId":0,"kind":"RESULT_POINT","value":200}],"stageDropItemInfo":["SMALLBOX","MEDIUMBOX","SMALLREC","NONE"],"sortieLimit":false,"areaClearState":"CLEAR","militaryGaugeStatus":"BREAK","eneMilitaryGaugeVal":1000,"militaryGaugeLeft":0,"bossStatus":"NONE","loopCount":1},' +
+          '{"areaId":1000,"areaSubId":5,"level":"HEI","areaKind":"SWEEP","stageImageName":"area_0555h7ae9d.png","stageMissionName":"？","stageMissionInfo":"？","requireGp":0,"limitSec":0,"rewardList":[{"dataId":0,"kind":"NONE","value":0}],"stageDropItemInfo":["UNKNOWN","NONE","NONE","NONE"],"sortieLimit":false,"areaClearState":"NOOPEN","militaryGaugeStatus":"NONE","eneMilitaryGaugeVal":0,"militaryGaugeLeft":0,"bossStatus":"NONE","loopCount":1}]'
+
+      results = AdmiralStatsParser.parse_event_info(json, 4)
+
+      expect(results.size).to eq(2)
+
+      result = results[0]
+      expect(result.area_id).to eq(1000)
+      expect(result.area_sub_id).to eq(1)
+      expect(result.level).to eq('HEI')
+      expect(result.area_kind).to eq('NORMAL')
+      expect(result.stage_image_name).to eq('area_14yzzpb2ab.png')
+      expect(result.stage_mission_name).to eq('前哨戦')
+      expect(result.stage_mission_info).to eq("敵泊地へ強襲作戦が発令された！\n主作戦に先立ち、敵泊地海域付近の\n偵察を実施せよ！")
+      expect(result.require_gp).to eq(300)
+      expect(result.limit_sec).to eq(240)
+      expect(result.reward_list.size).to eq(3)
+      expect(result.reward_list[0].reward_type).to eq('FIRST')
+      expect(result.reward_list[0].data_id).to eq(0)
+      expect(result.reward_list[0].kind).to eq('ROOM_ITEM_COIN')
+      expect(result.reward_list[0].value).to eq(50)
+      expect(result.reward_list[1].reward_type).to eq('FIRST')
+      expect(result.reward_list[1].data_id).to eq(1)
+      expect(result.reward_list[1].kind).to eq('RESULT_POINT')
+      expect(result.reward_list[1].value).to eq(500)
+      expect(result.reward_list[2].reward_type).to eq('SECOND')
+      expect(result.reward_list[2].data_id).to eq(0)
+      expect(result.reward_list[2].kind).to eq('RESULT_POINT')
+      expect(result.reward_list[2].value).to eq(200)
+      expect(result.stage_drop_item_info.size).to eq(4)
+      expect(result.stage_drop_item_info[0]).to eq('SMALLBOX')
+      expect(result.stage_drop_item_info[1]).to eq('MEDIUMBOX')
+      expect(result.stage_drop_item_info[2]).to eq('SMALLREC')
+      expect(result.stage_drop_item_info[3]).to eq('NONE')
+      expect(result.sortie_limit).to eq(false)
+      expect(result.area_clear_state).to eq('CLEAR')
+      expect(result.military_gauge_status).to eq('BREAK')
+      expect(result.ene_military_gauge_val).to eq(1000)
+      expect(result.military_gauge_left).to eq(0)
+      expect(result.boss_status).to eq('NONE')
+      expect(result.loop_count).to eq(1)
+
+      result = results[1]
+      expect(result.area_id).to eq(1000)
+      expect(result.area_sub_id).to eq(5)
+      expect(result.level).to eq('HEI')
+      expect(result.area_kind).to eq('SWEEP')
+      expect(result.stage_image_name).to eq('area_0555h7ae9d.png')
+      expect(result.stage_mission_name).to eq('？')
+      expect(result.stage_mission_info).to eq('？')
+      expect(result.require_gp).to eq(0)
+      expect(result.limit_sec).to eq(0)
+      expect(result.reward_list.size).to eq(1)
+      expect(result.reward_list[0].data_id).to eq(0)
+      expect(result.reward_list[0].kind).to eq('NONE')
+      expect(result.reward_list[0].value).to eq(0)
+      expect(result.stage_drop_item_info.size).to eq(4)
+      expect(result.stage_drop_item_info[0]).to eq('UNKNOWN')
+      expect(result.stage_drop_item_info[1]).to eq('NONE')
+      expect(result.stage_drop_item_info[2]).to eq('NONE')
+      expect(result.stage_drop_item_info[3]).to eq('NONE')
+      expect(result.sortie_limit).to eq(false)
+      expect(result.area_clear_state).to eq('NOOPEN')
+      expect(result.military_gauge_status).to eq('NONE')
+      expect(result.ene_military_gauge_val).to eq(0)
+      expect(result.military_gauge_left).to eq(0)
+      expect(result.boss_status).to eq('NONE')
+      expect(result.loop_count).to eq(1)
+    end
+  end
 end
