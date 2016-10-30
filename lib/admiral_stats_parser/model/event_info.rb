@@ -125,6 +125,20 @@ class EventInfo
     end
   end
 
+  # 与えられたリストから、クリア済みの周回数を返します。
+  def self.cleared_loop_counts(event_info_list, level)
+    # 指定されたレベルの情報のみ取り出し
+    list = event_info_list.select{|info| info.level == level }
+
+    # その周回をクリア済みかどうか
+    cleared = (list.size == list.select{|i| i.area_clear_state == 'CLEAR' }.size)
+
+    # 現在の周回数
+    loop_count = list.map{|i| i.loop_count }.max
+
+    cleared ? loop_count : loop_count - 1
+  end
+
   # 海域撃破ボーナス
   class EventInfoReward
     # 初回攻略時か2回目以降かを表すフラグ
