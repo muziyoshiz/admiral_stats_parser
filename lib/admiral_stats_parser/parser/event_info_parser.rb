@@ -120,4 +120,58 @@ class EventInfoParser
 
     results
   end
+
+  # 与えられたリストから、現在の周回数を返します。
+  def self.current_loop_counts(event_info_list, level)
+    # 指定されたレベルの情報のみ取り出し
+    list = event_info_list.select{|info| info.level == level }
+
+    # 現在の周回数
+    list.map{|i| i.loop_count }.max
+  end
+
+  # 与えられたリストから、クリア済みの周回数を返します。
+  def self.cleared_loop_counts(event_info_list, level)
+    # 指定されたレベルの情報のみ取り出し
+    list = event_info_list.select{|info| info.level == level }
+
+    # その周回をクリア済みかどうか
+    cleared = ( list.select{|i| i.area_clear_state == 'NOTCLEAR' }.size == 0 )
+
+    # 現在の周回数
+    loop_count = list.map{|i| i.loop_count }.max
+
+    cleared ? loop_count : loop_count - 1
+  end
+
+  # 与えられたリストから、現在の周回でクリア済みのステージ No. を返します。
+  # 丙 E-1 クリア済みの場合も、乙 E-1 クリア済みの場合も 1 を返します。
+  # E-1 未クリアの場合は 0 を返します。
+  def self.cleared_stage_no(event_info_list, level)
+    # 指定されたレベルの情報を、サブ海域番号の小さい順に取り出し
+    list = event_info_list.select{|info| info.level == level}.sort_by {|info| info.area_sub_id }
+
+    list.each_with_index do |info, prev_stage_no|
+      return prev_stage_no if info.area_clear_state == 'NOTCLEAR'
+    end
+
+    # NOTCLEAR のエリアがなければ、最終海域の番号を返す
+    list.size
+  end
+
+  # 与えられたリストから、攻略中のステージの海域ゲージの現在値を返します。
+  # 全ステージクリア後、および掃討戦の場合は 0 を返します。
+  def self.current_military_gauge_left(event_info_list, level)
+    # 指定されたレベルの情報を、サブ海域番号の小さい順に取り出し
+    list = event_info_list.select{|info| info.level == level}.sort_by {|info| info.area_sub_id }
+
+    list.each_with_index do |info, prev_stage_no|
+      if info.area_clear_state == 'NOTCLEAR'
+        return info.military_gauge_left
+      end
+    end
+
+    # NOTCLEAR のエリアがなければ 0 を返す
+    0
+  end
 end

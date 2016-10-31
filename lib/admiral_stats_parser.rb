@@ -119,10 +119,10 @@ module AdmiralStatsParser
         raise "API version #{api_version} does not support event info"
       when 4
         {
-            current_loop_counts: EventInfo.current_loop_counts(event_info_list, level),
-            cleared_loop_counts: EventInfo.cleared_loop_counts(event_info_list, level),
-            cleared_stage_no: EventInfo.cleared_stage_no(event_info_list, level),
-            current_military_gauge_left: EventInfo.current_military_gauge_left(event_info_list, level)
+            current_loop_counts: EventInfoParser.current_loop_counts(event_info_list, level),
+            cleared_loop_counts: EventInfoParser.cleared_loop_counts(event_info_list, level),
+            cleared_stage_no: EventInfoParser.cleared_stage_no(event_info_list, level),
+            current_military_gauge_left: EventInfoParser.current_military_gauge_left(event_info_list, level)
         }
       else
         raise 'unsupported API version'
