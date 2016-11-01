@@ -119,6 +119,8 @@ module AdmiralStatsParser
         raise "API version #{api_version} does not support event info"
       when 4
         {
+            opened: EventInfoParser.opened?(event_info_list, level),
+            all_cleared: EventInfoParser.all_cleared?(event_info_list, level),
             current_loop_counts: EventInfoParser.current_loop_counts(event_info_list, level),
             cleared_loop_counts: EventInfoParser.cleared_loop_counts(event_info_list, level),
             cleared_stage_no: EventInfoParser.cleared_stage_no(event_info_list, level),

@@ -547,6 +547,8 @@ describe AdmiralStatsParser do
       event_info_list = AdmiralStatsParser.parse_event_info(json, 4)
 
       hei_results = AdmiralStatsParser.summarize_event_info(event_info_list, "HEI", 4)
+      expect(hei_results[:opened]).to be true
+      expect(hei_results[:all_cleared]).to be false
       expect(hei_results[:current_loop_counts]).to eq(1)
       expect(hei_results[:cleared_loop_counts]).to eq(0)
       expect(hei_results[:cleared_stage_no]).to eq(1)
