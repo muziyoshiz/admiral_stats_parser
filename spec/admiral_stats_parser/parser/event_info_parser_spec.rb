@@ -53,6 +53,11 @@ describe EventInfoParser do
       expect(EventInfoParser.current_military_gauge_left(event_info_list, 'HEI')).to eq(1000)
       expect(EventInfoParser.current_military_gauge_left(event_info_list, 'OTU')).to eq(1500)
     end
+
+    it 'returns opened?' do
+      expect(EventInfoParser.opened?(event_info_list, 'HEI')).to be true
+      expect(EventInfoParser.opened?(event_info_list, 'OTU')).to be false
+    end
   end
 
   # 丙 E-1 突破後
@@ -98,6 +103,11 @@ describe EventInfoParser do
     it 'returns current_military_gauge_left' do
       expect(EventInfoParser.current_military_gauge_left(event_info_list, 'HEI')).to eq(1000)
       expect(EventInfoParser.current_military_gauge_left(event_info_list, 'OTU')).to eq(1500)
+    end
+
+    it 'returns opened?' do
+      expect(EventInfoParser.opened?(event_info_list, 'HEI')).to be true
+      expect(EventInfoParser.opened?(event_info_list, 'OTU')).to be false
     end
   end
 
@@ -147,6 +157,11 @@ describe EventInfoParser do
       expect(EventInfoParser.current_military_gauge_left(event_info_list, 'HEI')).to eq(468)
       expect(EventInfoParser.current_military_gauge_left(event_info_list, 'OTU')).to eq(1500)
     end
+
+    it 'returns opened?' do
+      expect(EventInfoParser.opened?(event_info_list, 'HEI')).to be true
+      expect(EventInfoParser.opened?(event_info_list, 'OTU')).to be false
+    end
   end
 
   # 丙 E-4 突破後
@@ -195,6 +210,11 @@ describe EventInfoParser do
     it 'returns current_military_gauge_left' do
       expect(EventInfoParser.current_military_gauge_left(event_info_list, 'HEI')).to eq(0)
       expect(EventInfoParser.current_military_gauge_left(event_info_list, 'OTU')).to eq(1500)
+    end
+
+    it 'returns opened?' do
+      expect(EventInfoParser.opened?(event_info_list, 'HEI')).to be true
+      expect(EventInfoParser.opened?(event_info_list, 'OTU')).to be false
     end
   end
 
@@ -246,6 +266,11 @@ describe EventInfoParser do
       expect(EventInfoParser.current_military_gauge_left(event_info_list, 'HEI')).to eq(0)
       expect(EventInfoParser.current_military_gauge_left(event_info_list, 'OTU')).to eq(1500)
     end
+
+    it 'returns opened?' do
+      expect(EventInfoParser.opened?(event_info_list, 'HEI')).to be true
+      expect(EventInfoParser.opened?(event_info_list, 'OTU')).to be true
+    end
   end
 
   # 丙2周目突入、および乙E-1クリア後
@@ -292,6 +317,11 @@ describe EventInfoParser do
       expect(EventInfoParser.current_military_gauge_left(event_info_list, 'HEI')).to eq(610)
       expect(EventInfoParser.current_military_gauge_left(event_info_list, 'OTU')).to eq(1500)
     end
+
+    it 'returns opened?' do
+      expect(EventInfoParser.opened?(event_info_list, 'HEI')).to be true
+      expect(EventInfoParser.opened?(event_info_list, 'OTU')).to be true
+    end
   end
 
   # 乙E-5クリア後
@@ -337,6 +367,11 @@ describe EventInfoParser do
     it 'returns current_military_gauge_left' do
       expect(EventInfoParser.current_military_gauge_left(event_info_list, 'HEI')).to eq(610)
       expect(EventInfoParser.current_military_gauge_left(event_info_list, 'OTU')).to eq(0)
+    end
+
+    it 'returns opened?' do
+      expect(EventInfoParser.opened?(event_info_list, 'HEI')).to be true
+      expect(EventInfoParser.opened?(event_info_list, 'OTU')).to be true
     end
   end
 end

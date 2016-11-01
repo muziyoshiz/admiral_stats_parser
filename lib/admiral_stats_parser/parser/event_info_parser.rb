@@ -136,8 +136,7 @@ class EventInfoParser
     list = event_info_list.select{|info| info.level == level }
 
     # その周回をクリア済みかどうか
-    # 最初の海域が 'NOOPEN' でなく、かつ 'NOTCLEAR' の海域が存在しない場合はクリア済み
-    cleared = ( list.first.area_clear_state != 'NOOPEN' and list.select{|i| i.area_clear_state == 'NOTCLEAR' }.size == 0 )
+    cleared = EventInfoParser.all_cleared?(event_info_list, level)
 
     # 現在の周回数
     loop_count = list.map{|i| i.loop_count }.max
@@ -149,11 +148,11 @@ class EventInfoParser
   # 丙 E-1 クリア済みの場合も、乙 E-1 クリア済みの場合も 1 を返します。
   # E-1 未クリアの場合は 0 を返します。
   def self.cleared_stage_no(event_info_list, level)
+    # その難易度が未開放の場合は、0 を返す
+    return 0 unless EventInfoParser.opened?(event_info_list, level)
+
     # 指定されたレベルの情報を、サブ海域番号の小さい順に取り出し
     list = event_info_list.select{|info| info.level == level}.sort_by {|info| info.area_sub_id }
-
-    # 最初の海域が NOOPEN の場合は、難易度自体が開放されていないため、0 を返す
-    return 0 if list.first.area_clear_state == 'NOOPEN'
 
     list.each_with_index do |info, prev_stage_no|
       return prev_stage_no if info.area_clear_state == 'NOTCLEAR'
@@ -166,10 +165,13 @@ class EventInfoParser
   # 与えられたリストから、攻略中のステージの海域ゲージの現在値を返します。
   # 全ステージクリア後、および掃討戦の場合は 0 を返します。
   def self.current_military_gauge_left(event_info_list, level)
+    # 全ステージクリア後は 0 を返す
+    return 0 if EventInfoParser.all_cleared?(event_info_list, level)
+
     # 指定されたレベルの情報を、サブ海域番号の小さい順に取り出し
     list = event_info_list.select{|info| info.level == level}.sort_by {|info| info.area_sub_id }
 
-    list.each_with_index do |info, prev_stage_no|
+    list.each do |info|
       if info.area_clear_state == 'NOTCLEAR' or info.area_clear_state == 'NOOPEN'
         return info.military_gauge_left
       end
@@ -177,5 +179,29 @@ class EventInfoParser
 
     # NOTCLEAR のエリアがなければ 0 を返す
     0
+  end
+
+  # 与えられた難易度が解放済みの場合に true を返します。
+  def self.opened?(event_info_list, level)
+    # 指定されたレベルの情報を、サブ海域番号の小さい順に取り出し
+    list = event_info_list.select{|info| info.level == level}.sort_by {|info| info.area_sub_id }
+
+    # その難易度のデータがなければ、未開放と見なす（通常は発生しない）
+    return false if list.size == 0
+
+    # 最初の海域の状態が NOOPEN の場合は未開放
+    return false if list.first.area_clear_state == 'NOOPEN'
+
+    true
+  end
+
+  # 与えられた難易度の全海域をクリア済みの場合に true を返します。
+  # その難易度が解放済みで、かつ 'NOTCLEAR' の海域が存在しない場合はクリア済みとみなします。
+  def self.all_cleared?(event_info_list, level)
+    return false unless EventInfoParser.opened?(event_info_list, level)
+
+    # 指定されたレベルの情報を、サブ海域番号の小さい順に取り出し
+    list = event_info_list.select{|info| info.level == level}.sort_by {|info| info.area_sub_id }
+    list.select{|i| i.area_clear_state == 'NOTCLEAR' }.size == 0
   end
 end
