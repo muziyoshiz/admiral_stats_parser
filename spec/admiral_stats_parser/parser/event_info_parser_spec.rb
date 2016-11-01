@@ -16,15 +16,15 @@ describe EventInfoParser do
 
     statuses = [
         [1000, 1, "HEI", "NOTCLEAR", 1000, 1000, 1],
-        [1000, 2, "HEI", "NOTCLEAR", 1000, 1000, 1],
-        [1000, 3, "HEI", "NOTCLEAR", 1200, 1200, 1],
-        [1000, 4, "HEI", "NOTCLEAR", 2000, 2000, 1],
-        [1000, 5, "HEI", "NOTCLEAR", 0, 0, 1],
-        [1000, 6, "OTU", "NOTCLEAR", 1500, 1500, 1],
-        [1000, 7, "OTU", "NOTCLEAR", 1500, 1500, 1],
-        [1000, 8, "OTU", "NOTCLEAR", 1800, 1800, 1],
-        [1000, 9, "OTU", "NOTCLEAR", 2500, 2500, 1],
-        [1000, 10, "OTU", "NOTCLEAR", 0, 0, 1],
+        [1000, 2, "HEI", "NOOPEN", 1000, 1000, 1],
+        [1000, 3, "HEI", "NOOPEN", 1200, 1200, 1],
+        [1000, 4, "HEI", "NOOPEN", 2000, 2000, 1],
+        [1000, 5, "HEI", "NOOPEN", 0, 0, 1],
+        [1000, 6, "OTU", "NOOPEN", 1500, 1500, 1],
+        [1000, 7, "OTU", "NOOPEN", 1500, 1500, 1],
+        [1000, 8, "OTU", "NOOPEN", 1800, 1800, 1],
+        [1000, 9, "OTU", "NOOPEN", 2500, 2500, 1],
+        [1000, 10, "OTU", "NOOPEN", 0, 0, 1],
     ]
 
     event_info_list = []
@@ -63,14 +63,14 @@ describe EventInfoParser do
     statuses = [
         [1000, 1, "HEI", "CLEAR", 1000, 0, 1],
         [1000, 2, "HEI", "NOTCLEAR", 1000, 1000, 1],
-        [1000, 3, "HEI", "NOTCLEAR", 1200, 1200, 1],
-        [1000, 4, "HEI", "NOTCLEAR", 2000, 2000, 1],
-        [1000, 5, "HEI", "NOTCLEAR", 0, 0, 1],
-        [1000, 6, "OTU", "NOTCLEAR", 1500, 1500, 1],
-        [1000, 7, "OTU", "NOTCLEAR", 1500, 1500, 1],
-        [1000, 8, "OTU", "NOTCLEAR", 1800, 1800, 1],
-        [1000, 9, "OTU", "NOTCLEAR", 2500, 2500, 1],
-        [1000, 10, "OTU", "NOTCLEAR", 0, 0, 1],
+        [1000, 3, "HEI", "NOOPEN", 1200, 1200, 1],
+        [1000, 4, "HEI", "NOOPEN", 2000, 2000, 1],
+        [1000, 5, "HEI", "NOOPEN", 0, 0, 1],
+        [1000, 6, "OTU", "NOOPEN", 1500, 1500, 1],
+        [1000, 7, "OTU", "NOOPEN", 1500, 1500, 1],
+        [1000, 8, "OTU", "NOOPEN", 1800, 1800, 1],
+        [1000, 9, "OTU", "NOOPEN", 2500, 2500, 1],
+        [1000, 10, "OTU", "NOOPEN", 0, 0, 1],
     ]
 
     event_info_list = []
@@ -113,12 +113,12 @@ describe EventInfoParser do
         [1000, 2, "HEI", "CLEAR", 1000, 0, 1],
         [1000, 3, "HEI", "CLEAR", 1200, 0, 1],
         [1000, 4, "HEI", "NOTCLEAR", 2000, 468, 1],
-        [1000, 5, "HEI", "NOTCLEAR", 0, 0, 1],
-        [1000, 6, "OTU", "NOTCLEAR", 1500, 1500, 1],
-        [1000, 7, "OTU", "NOTCLEAR", 1500, 1500, 1],
-        [1000, 8, "OTU", "NOTCLEAR", 1800, 1800, 1],
-        [1000, 9, "OTU", "NOTCLEAR", 2500, 2500, 1],
-        [1000, 10, "OTU", "NOTCLEAR", 0, 0, 1],
+        [1000, 5, "HEI", "NOOPEN", 0, 0, 1],
+        [1000, 6, "OTU", "NOOPEN", 1500, 1500, 1],
+        [1000, 7, "OTU", "NOOPEN", 1500, 1500, 1],
+        [1000, 8, "OTU", "NOOPEN", 1800, 1800, 1],
+        [1000, 9, "OTU", "NOOPEN", 2500, 2500, 1],
+        [1000, 10, "OTU", "NOOPEN", 0, 0, 1],
     ]
 
     event_info_list = []
@@ -163,11 +163,11 @@ describe EventInfoParser do
         [1000, 3, "HEI", "CLEAR", 1200, 0, 1],
         [1000, 4, "HEI", "CLEAR", 2000, 0, 1],
         [1000, 5, "HEI", "NOTCLEAR", 0, 0, 1],
-        [1000, 6, "OTU", "NOTCLEAR", 1500, 1500, 1],
-        [1000, 7, "OTU", "NOTCLEAR", 1500, 1500, 1],
-        [1000, 8, "OTU", "NOTCLEAR", 1800, 1800, 1],
-        [1000, 9, "OTU", "NOTCLEAR", 2500, 2500, 1],
-        [1000, 10, "OTU", "NOTCLEAR", 0, 0, 1],
+        [1000, 6, "OTU", "NOOPEN", 1500, 1500, 1],
+        [1000, 7, "OTU", "NOOPEN", 1500, 1500, 1],
+        [1000, 8, "OTU", "NOOPEN", 1800, 1800, 1],
+        [1000, 9, "OTU", "NOOPEN", 2500, 2500, 1],
+        [1000, 10, "OTU", "NOOPEN", 0, 0, 1],
     ]
 
     event_info_list = []
@@ -214,10 +214,10 @@ describe EventInfoParser do
         [1000, 4, "HEI", "CLEAR", 2000, 0, 1],
         [1000, 5, "HEI", "NOOPEN", 0, 0, 1],
         [1000, 6, "OTU", "NOTCLEAR", 1500, 1500, 1],
-        [1000, 7, "OTU", "NOTCLEAR", 1500, 1500, 1],
-        [1000, 8, "OTU", "NOTCLEAR", 1800, 1800, 1],
-        [1000, 9, "OTU", "NOTCLEAR", 2500, 2500, 1],
-        [1000, 10, "OTU", "NOTCLEAR", 0, 0, 1],
+        [1000, 7, "OTU", "NOOPEN", 1500, 1500, 1],
+        [1000, 8, "OTU", "NOOPEN", 1800, 1800, 1],
+        [1000, 9, "OTU", "NOOPEN", 2500, 2500, 1],
+        [1000, 10, "OTU", "NOOPEN", 0, 0, 1],
     ]
 
     event_info_list = []
@@ -261,9 +261,9 @@ describe EventInfoParser do
         [1000, 5, "HEI", "NOTCLEAR", 0, 0, 2],
         [1000, 6, "OTU", "CLEAR", 1500, 0, 1],
         [1000, 7, "OTU", "NOTCLEAR", 1500, 1500, 1],
-        [1000, 8, "OTU", "NOTCLEAR", 1800, 1800, 1],
-        [1000, 9, "OTU", "NOTCLEAR", 2500, 2500, 1],
-        [1000, 10, "OTU", "NOTCLEAR", 0, 0, 1],
+        [1000, 8, "OTU", "NOOPEN", 1800, 1800, 1],
+        [1000, 9, "OTU", "NOOPEN", 2500, 2500, 1],
+        [1000, 10, "OTU", "NOOPEN", 0, 0, 1],
     ]
 
     event_info_list = []
