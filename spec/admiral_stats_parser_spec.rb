@@ -555,4 +555,16 @@ describe AdmiralStatsParser do
       expect(hei_results[:current_military_gauge_left]).to eq(0)
     end
   end
+
+  describe ".summarize_event_info('[]', 4)" do
+    it 'returns summary' do
+      # イベントを開催していない期間は、空の配列が返される
+      json = '[]'
+
+      # 引数が空の配列の場合、返り値も空の配列になる
+      event_info_list = AdmiralStatsParser.parse_event_info(json, 4)
+      expect(event_info_list).to be_an(Array)
+      expect(event_info_list.size).to eq(0)
+    end
+  end
 end
