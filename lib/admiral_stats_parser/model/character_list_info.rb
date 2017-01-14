@@ -27,6 +27,49 @@ class CharacterListInfo
   # 星の数（1〜5）
   attr_accessor :star_num
 
+  # 艦型
+  # 未取得の場合は、空文字列
+  attr_accessor :ship_class
+
+  # 艦番号（1〜）
+  # 未取得の場合は、-1
+  attr_accessor :ship_class_index
+
+  # 詳細画面で表示する画像のファイル名
+  attr_accessor :tc_img
+
+  # 経験値の獲得割合(%)
+  attr_accessor :exp_percent
+
+  # 最大HP
+  attr_accessor :max_hp
+
+  # 現在HP
+  attr_accessor :real_hp
+
+  # 被弾状態を表す文字列（"NORMAL" 以外に何がある？）
+  attr_accessor :damage_status
+
+  # 装備スロット数
+  attr_accessor :slot_num
+
+  # 各スロットの装備名を表す文字列の配列（スロット数が4未満でも、要素は4個）
+  attr_accessor :slot_equip_name
+
+  # 各スロットに搭載可能な艦載機数の配列（スロット数が4未満でも、要素は4個）
+  # 艦載機を搭載できない場合は 0
+  attr_accessor :slot_amount
+
+  # 各スロットの搭載状況を表す文字列の配列（スロット数が4未満でも、要素は4個）
+  # "NONE":
+  # "NOT_EQUIPPED_AIRCRAFT": 艦載機を装備可能なスロットだが、艦載機を装備していない
+  # "EQUIPPED_AIRCRAFT": 艦載機を装備している
+  attr_accessor :slot_disp
+
+  # 各スロットの装備画像のファイル名の配列（スロット数が4未満でも、要素は4個）
+  # 何も装備していない場合、および装備可能なスロットでない場合は、空文字列
+  attr_accessor :slot_img
+
   # 累計経験値表
   EXP_TABLE = {
     92 => 584500,

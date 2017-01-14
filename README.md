@@ -56,24 +56,25 @@ AdmiralStatsParser は、以下の API version をサポートしています。
 | 1           | 2016-04-26 〜 2016-06-29 |
 | 2           | 2016-06-30（REVISION 2 のリリース日）〜 2016-09-14 |
 | 3           | 2016-09-15 〜 2016-10-26 |
-| 4           | 2016-10-27 〜 |
+| 4           | 2016-10-27 〜 2016-12-20 |
+| 5           | 2016-12-21 〜 |
 
 各 API version でパースできる JSON の種類は以下の通りです。また、同じ情報でも、API version によって、含まれる情報量が異なる場合があります。その場合は Supported (1), Supported (2) のように記載して区別しています。
 
-| 提督情報での表示 | URL | API version 1 | API version 2〜4 |
+| 提督情報での表示 | URL | API version 1 | API version 2〜5 |
 |:----------------|:----|:--------------|:--------------|
 | 基本情報 | Personal/basicInfo | Supported (1) | Supported (2) |
 | 海域情報 | Area/captureInfo   | Supported (1) | Supported (2) |
 | 艦娘図鑑 | TcBook/info        | Supported (1) | Supported (2) |
 | 装備図鑑 | EquipBook/info     | Supported     | Supported     |
 
-| 提督情報での表示 | URL | API version 2 | API version 3〜4 |
-|:----------------|:----|:--------------|:-------------|
-| 艦娘一覧 | CharacterList/info | Supported (1) | Supported (2) |
-| 装備一覧 | EquipList/info     | Supported     | Supported     |
-| 任務一覧 | Quest/info         | Unsupported   | Unsupported   |
+| 提督情報での表示 | URL | API version 2 | API version 3〜4 | API version 5 |
+|:----------------|:----|:--------------|:-------------|:-------------|
+| 艦娘一覧 | CharacterList/info | Supported (1) | Supported (2) | Supported (3) |
+| 装備一覧 | EquipList/info     | Supported     | Supported     | Supported   |
+| 任務一覧 | Quest/info         | Unsupported   | Unsupported   | Unsupported |
 
-| 提督情報での表示 | URL | API version 4 |
+| 提督情報での表示 | URL | API version 4〜5 |
 |:----------------|:----|:--------------|
 | イベント海域情報 | Event/info | Supported (1) |
 

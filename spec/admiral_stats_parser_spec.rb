@@ -6,8 +6,8 @@ describe AdmiralStatsParser do
   end
 
   describe '.get_latest_api_version' do
-    it 'returns 4' do
-      expect(AdmiralStatsParser.get_latest_api_version).to eq(4)
+    it 'returns 5' do
+      expect(AdmiralStatsParser.get_latest_api_version).to eq(5)
     end
   end
 
@@ -30,12 +30,20 @@ describe AdmiralStatsParser do
       expect(AdmiralStatsParser.guess_api_version(Time.parse('2016-10-27T06:59:59+0900'))).to eq(3)
     end
 
-    # 2016-10-27 〜
+    # 2016-10-27 〜 2016-12-20
     it 'returns 4' do
       expect(AdmiralStatsParser.guess_api_version(Time.parse('2016-10-27T07:00:00+0900'))).to eq(4)
+      expect(AdmiralStatsParser.guess_api_version(Time.parse('2016-12-21T06:59:59+0900'))).to eq(4)
+    end
 
+    # 2016-12-21 〜
+    it 'returns 5' do
+      expect(AdmiralStatsParser.guess_api_version(Time.parse('2016-12-21T07:00:00+0900'))).to eq(5)
+    end
+
+    it 'returns latest version' do
       # 遠い未来の場合は、最新バージョンを返す
-      expect(AdmiralStatsParser.guess_api_version(Time.parse('2200-01-01T00:00:00+0900'))).to eq(4)
+      expect(AdmiralStatsParser.guess_api_version(Time.parse('2200-01-01T00:00:00+0900'))).to eq(AdmiralStatsParser.get_latest_api_version)
     end
   end
 
@@ -81,8 +89,8 @@ describe AdmiralStatsParser do
     end
   end
 
-  # 基本情報は version 2 〜 4 で仕様が同じ
-  (2..4).each do |version|
+  # 基本情報は version 2 〜 5 で仕様が同じ
+  (2..5).each do |version|
     describe ".parse_personal_basic_info(json_without_admiral_name, #{version})" do
         it 'returns PersonalBasicInfo' do
         json = '{"fuel":6750,"ammo":6183,"steel":7126,"bauxite":6513,"bucket":46,"level":32,"roomItemCoin":82,"resultPoint":"3571","rank":"圏外","titleId":7,"materialMax":7200,"strategyPoint":915}'
@@ -166,8 +174,8 @@ describe AdmiralStatsParser do
     end
   end
 
-  # 海域情報は version 2 〜 4 で仕様が同じ
-  (2..4).each do |version|
+  # 海域情報は version 2 〜 5 で仕様が同じ
+  (2..5).each do |version|
     describe ".parse_area_capture_info(json, #{version})" do
       it 'returns AreaCaptureInfo[]' do
         json = '[{"areaId":1,"areaSubId":1,"limitSec":150,"requireGp":150,"pursuitMap":false,"pursuitMapOpen":true,"sortieLimit":false,"stageImageName":"area_rprx04hjnl.png","stageMissionName":"近海警備","stageMissionInfo":"鎮守府正面近海の警備に出動せよ！","stageClearItemInfo":"MEISTER","stageDropItemInfo":["BUCKET","NONE","NONE","NONE"],"areaClearState":"CLEAR"},{"areaId":1,"areaSubId":1,"limitSec":90,"requireGp":100,"pursuitMap":true,"pursuitMapOpen":false,"sortieLimit":false,"stageImageName":"area_rprx04hjnl.png","stageMissionName":"近海警備","stageMissionInfo":"鎮守府正面近海の敵艦隊を追撃せよ！","stageClearItemInfo":"NONE","stageDropItemInfo":["NONE","NONE","NONE","NONE"],"areaClearState":"CLEAR"}]'
@@ -245,8 +253,8 @@ describe AdmiralStatsParser do
     end
   end
 
-  # 艦娘図鑑は version 2 〜 4 で仕様が同じ
-  (2..4).each do |version|
+  # 艦娘図鑑は version 2 〜 5 で仕様が同じ
+  (2..5).each do |version|
     describe ".parse_tc_book_info(json, #{version})" do
       it 'returns TcBookInfo[]' do
         json = '[{"bookNo":1,"shipClass":"長門型","shipClassIndex":1,"shipType":"戦艦","shipName":"長門","cardIndexImg":"s/tc_1_d7ju63kolamj.jpg","cardImgList":["","","s/tc_1_gk42czm42s3p.jpg","","",""],"variationNum":6,"acquireNum":1,"lv":23,"statusImg":["i/i_d7ju63kolamj_n.png"]},{"bookNo":5,"shipClass":"","shipClassIndex":-1,"shipType":"","shipName":"未取得","cardIndexImg":"","cardImgList":[],"variationNum":0,"acquireNum":0,"lv":0,"statusImg":[]}]'
@@ -284,8 +292,8 @@ describe AdmiralStatsParser do
     end
   end
 
-  # 装備図鑑は version 1 〜 4 で仕様が同じ
-  (1..4).each do |version|
+  # 装備図鑑は version 1 〜 5 で仕様が同じ
+  (1..5).each do |version|
     describe ".parse_equip_book_info(json, #{version})" do
       it 'returns EquipBookInfo[]' do
         json = '[{"bookNo":1,"equipKind":"小口径主砲","equipName":"12cm単装砲","equipImg":"e/equip_1_3315nm5166d.png"},{"bookNo":2,"equipKind":"小口径主砲","equipName":"12.7cm連装砲","equipImg":"e/equip_2_fon8wsqc5sn.png"},{"bookNo":3,"equipKind":"","equipName":"","equipImg":""},{"bookNo":4,"equipKind":"中口径主砲","equipName":"14cm単装砲","equipImg":"e/equip_4_8tzid3z8li7.png"}]'
@@ -409,6 +417,114 @@ describe AdmiralStatsParser do
     end
   end
 
+  # 艦娘一覧は、version 5 で各艦娘が装備中のアイテムが追加された
+  describe '.parse_character_list_info(json, 5)' do
+    it 'returns CharacterListInfo[]' do
+      # 朝潮、朝潮改、鈴谷、鈴谷改のデータ
+      json = <<-'EOS'
+[{"bookNo":85,"lv":97,"shipType":"駆逐艦","shipSortNo":1800,"remodelLv":0,"shipName":"朝潮","statusImg":"i/i_69ex6r4uutp3_n.png","starNum":5,"shipClass":"朝潮型","shipClassIndex":1,"tcImg":"s/tc_85_69ex6r4uutp3.jpg","expPercent":97,"maxHp":16,"realHp":16,"damageStatus":"NORMAL","slotNum":2,"slotEquipName":["","","",""],"slotAmount":[0,0,0,0],"slotDisp":["NONE","NONE","NONE","NONE"],"slotImg":["","","",""]},{"bookNo":85,"lv":97,"shipType":"駆逐艦","shipSortNo":1800,"remodelLv":1,"shipName":"朝潮改","statusImg":"i/i_umacfn9qcwp1_n.png","starNum":5,"shipClass":"朝潮型","shipClassIndex":1,"tcImg":"s/tc_85_umacfn9qcwp1.jpg","expPercent":97,"maxHp":31,"realHp":31,"damageStatus":"NORMAL","slotNum":3,"slotEquipName":["10cm高角砲＋高射装置","10cm高角砲＋高射装置","61cm四連装(酸素)魚雷",""],"slotAmount":[0,0,0,0],"slotDisp":["NONE","NONE","NONE","NONE"],"slotImg":["equip_icon_26_rv74l134q7an.png","equip_icon_26_rv74l134q7an.png","equip_icon_5_c4bcdscek33o.png",""]},{"bookNo":124,"lv":70,"shipType":"重巡洋艦","shipSortNo":1500,"remodelLv":0,"shipName":"鈴谷","statusImg":"i/i_zrr1yq3annrq_n.png","starNum":5,"shipClass":"最上型","shipClassIndex":3,"tcImg":"s/tc_124_2uejd60gndj3.jpg","expPercent":4,"maxHp":40,"realHp":40,"damageStatus":"NORMAL","slotNum":3,"slotEquipName":["","","",""],"slotAmount":[2,2,2,0],"slotDisp":["NOT_EQUIPPED_AIRCRAFT","NOT_EQUIPPED_AIRCRAFT","NOT_EQUIPPED_AIRCRAFT","NONE"],"slotImg":["","","",""]},{"bookNo":129,"lv":70,"shipType":"航空巡洋艦","shipSortNo":1400,"remodelLv":1,"shipName":"鈴谷改","statusImg":"i/i_6cc94esr14nz_n.png","starNum":5,"shipClass":"最上型","shipClassIndex":3,"tcImg":"s/tc_129_7k4atc4mguna.jpg","expPercent":4,"maxHp":50,"realHp":50,"damageStatus":"NORMAL","slotNum":4,"slotEquipName":["20.3cm(3号)連装砲","瑞雲","15.5cm三連装副砲","三式弾"],"slotAmount":[5,6,5,6],"slotDisp":["NOT_EQUIPPED_AIRCRAFT","EQUIPPED_AIRCRAFT","NOT_EQUIPPED_AIRCRAFT","NOT_EQUIPPED_AIRCRAFT"],"slotImg":["equip_icon_2_n8b0sex6xclf.png","equip_icon_10_lpoysb3zk6s4.png","equip_icon_4_mgy58yrghven.png","equip_icon_13_jdkmrexetpvn.png"]}]
+      EOS
+
+      results = AdmiralStatsParser.parse_character_list_info(json, 5)
+
+      expect(results.size).to eq(4)
+
+      result = results[0]
+      expect(result.book_no).to eq(85)
+      expect(result.lv).to eq(97)
+      expect(result.ship_type).to eq('駆逐艦')
+      expect(result.ship_sort_no).to eq(1800)
+      expect(result.remodel_lv).to eq(0)
+      expect(result.ship_name).to eq('朝潮')
+      expect(result.status_img).to eq('i/i_69ex6r4uutp3_n.png')
+      expect(result.star_num).to eq(5)
+      expect(result.ship_class).to eq('朝潮型')
+      expect(result.ship_class_index).to eq(1)
+      expect(result.tc_img).to eq('s/tc_85_69ex6r4uutp3.jpg')
+      expect(result.exp_percent).to eq(97)
+      expect(result.max_hp).to eq(16)
+      expect(result.real_hp).to eq(16)
+      expect(result.damage_status).to eq('NORMAL')
+      expect(result.slot_num).to eq(2)
+      expect(result.slot_equip_name).to eq(['', '', '', ''])
+      expect(result.slot_amount).to eq([0, 0, 0, 0])
+      expect(result.slot_disp).to eq(%w(NONE NONE NONE NONE))
+      expect(result.slot_img).to eq(['', '', '', ''])
+
+      result = results[1]
+      expect(result.book_no).to eq(85)
+      expect(result.lv).to eq(97)
+      expect(result.ship_type).to eq('駆逐艦')
+      expect(result.ship_sort_no).to eq(1800)
+      expect(result.remodel_lv).to eq(1)
+      expect(result.ship_name).to eq('朝潮改')
+      expect(result.status_img).to eq('i/i_umacfn9qcwp1_n.png')
+      expect(result.star_num).to eq(5)
+      expect(result.ship_class).to eq('朝潮型')
+      expect(result.ship_class_index).to eq(1)
+      expect(result.tc_img).to eq('s/tc_85_umacfn9qcwp1.jpg')
+      expect(result.exp_percent).to eq(97)
+      expect(result.max_hp).to eq(31)
+      expect(result.real_hp).to eq(31)
+      expect(result.damage_status).to eq('NORMAL')
+      expect(result.slot_num).to eq(3)
+      expect(result.slot_equip_name).to eq(['10cm高角砲＋高射装置', '10cm高角砲＋高射装置', '61cm四連装(酸素)魚雷', ''])
+      expect(result.slot_amount).to eq([0, 0, 0, 0])
+      expect(result.slot_disp).to eq(%w(NONE NONE NONE NONE))
+      expect(result.slot_img).to eq(['equip_icon_26_rv74l134q7an.png', 'equip_icon_26_rv74l134q7an.png', 'equip_icon_5_c4bcdscek33o.png', ''])
+
+      result = results[2]
+      expect(result.book_no).to eq(124)
+      expect(result.lv).to eq(70)
+      expect(result.ship_type).to eq('重巡洋艦')
+      expect(result.ship_sort_no).to eq(1500)
+      expect(result.remodel_lv).to eq(0)
+      expect(result.ship_name).to eq('鈴谷')
+      expect(result.status_img).to eq('i/i_zrr1yq3annrq_n.png')
+      expect(result.star_num).to eq(5)
+      expect(result.ship_class).to eq('最上型')
+      expect(result.ship_class_index).to eq(3)
+      expect(result.tc_img).to eq('s/tc_124_2uejd60gndj3.jpg')
+      expect(result.exp_percent).to eq(4)
+      expect(result.max_hp).to eq(40)
+      expect(result.real_hp).to eq(40)
+      expect(result.damage_status).to eq('NORMAL')
+      expect(result.slot_num).to eq(3)
+      expect(result.slot_equip_name).to eq(['', '', '', ''])
+      expect(result.slot_amount).to eq([2, 2, 2, 0])
+      expect(result.slot_disp).to eq(%w(NOT_EQUIPPED_AIRCRAFT NOT_EQUIPPED_AIRCRAFT NOT_EQUIPPED_AIRCRAFT NONE))
+      expect(result.slot_img).to eq(['', '', '', ''])
+
+      # {"bookNo":129,"lv":70,"shipType":"航空巡洋艦","shipSortNo":1400,"remodelLv":1,"shipName":"鈴谷改",
+      # "statusImg":"i/i_6cc94esr14nz_n.png","starNum":5,"shipClass":"最上型","shipClassIndex":3,
+      # "tcImg":"s/tc_129_7k4atc4mguna.jpg","expPercent":4,"maxHp":50,"realHp":50,"damageStatus":"NORMAL",
+      # "slotNum":4,"slotEquipName":["20.3cm(3号)連装砲","瑞雲","15.5cm三連装副砲","三式弾"],"slotAmount":[5,6,5,6],
+      # "slotDisp":["NOT_EQUIPPED_AIRCRAFT","EQUIPPED_AIRCRAFT","NOT_EQUIPPED_AIRCRAFT","NOT_EQUIPPED_AIRCRAFT"],
+      # "slotImg":["equip_icon_2_n8b0sex6xclf.png","equip_icon_10_lpoysb3zk6s4.png","equip_icon_4_mgy58yrghven.png","equip_icon_13_jdkmrexetpvn.png"]}]
+      result = results[3]
+      expect(result.book_no).to eq(129)
+      expect(result.lv).to eq(70)
+      expect(result.ship_type).to eq('航空巡洋艦')
+      expect(result.ship_sort_no).to eq(1400)
+      expect(result.remodel_lv).to eq(1)
+      expect(result.ship_name).to eq('鈴谷改')
+      expect(result.status_img).to eq('i/i_6cc94esr14nz_n.png')
+      expect(result.star_num).to eq(5)
+      expect(result.ship_class).to eq('最上型')
+      expect(result.ship_class_index).to eq(3)
+      expect(result.tc_img).to eq('s/tc_129_7k4atc4mguna.jpg')
+      expect(result.exp_percent).to eq(4)
+      expect(result.max_hp).to eq(50)
+      expect(result.real_hp).to eq(50)
+      expect(result.damage_status).to eq('NORMAL')
+      expect(result.slot_num).to eq(4)
+      expect(result.slot_equip_name).to eq(%w(20.3cm(3号)連装砲 瑞雲 15.5cm三連装副砲 三式弾))
+      expect(result.slot_amount).to eq([5, 6, 5, 6])
+      expect(result.slot_disp).to eq(%w(NOT_EQUIPPED_AIRCRAFT EQUIPPED_AIRCRAFT NOT_EQUIPPED_AIRCRAFT NOT_EQUIPPED_AIRCRAFT))
+      expect(result.slot_img).to eq(%w(equip_icon_2_n8b0sex6xclf.png equip_icon_10_lpoysb3zk6s4.png equip_icon_4_mgy58yrghven.png equip_icon_13_jdkmrexetpvn.png))
+    end
+  end
+
   describe '.parse_equip_list_info(json, 1)' do
     it 'raises' do
       json = '[{"type":1,"equipmentId":1,"name":"12cm単装砲","num":8,"img":"equip_icon_1_1984kzwm2f7s.png"},{"type":1,"equipmentId":2,"name":"12.7cm連装砲","num":31,"img":"equip_icon_1_1984kzwm2f7s.png"},{"type":1,"equipmentId":3,"name":"10cm連装高角砲","num":6,"img":"equip_icon_26_rv74l134q7an.png"}]'
@@ -417,8 +533,8 @@ describe AdmiralStatsParser do
     end
   end
 
-  # 装備一覧は version 2 〜 4 で仕様が同じ
-  (2..4).each do |version|
+  # 装備一覧は version 2 〜 5 で仕様が同じ
+  (2..5).each do |version|
     describe ".parse_equip_list_info(json, #{version})" do
       it 'returns EquipListInfo[]' do
         json = '[{"type":1,"equipmentId":1,"name":"12cm単装砲","num":8,"img":"equip_icon_1_1984kzwm2f7s.png"},{"type":1,"equipmentId":2,"name":"12.7cm連装砲","num":31,"img":"equip_icon_1_1984kzwm2f7s.png"},{"type":1,"equipmentId":3,"name":"10cm連装高角砲","num":6,"img":"equip_icon_26_rv74l134q7an.png"}]'
@@ -463,108 +579,117 @@ describe AdmiralStatsParser do
     end
   end
 
-  describe ".parse_event_info(json, 4)" do
-    it 'returns EventInfo[]' do
-      # E-1 クリア、E-5 未クリア
-      json = '[{"areaId":1000,"areaSubId":1,"level":"HEI","areaKind":"NORMAL","stageImageName":"area_14yzzpb2ab.png","stageMissionName":"前哨戦","stageMissionInfo":"敵泊地へ強襲作戦が発令された！\n主作戦に先立ち、敵泊地海域付近の\n偵察を実施せよ！","requireGp":300,"limitSec":240,"rewardList":[{"rewardType":"FIRST","dataId":0,"kind":"ROOM_ITEM_COIN","value":50},{"rewardType":"FIRST","dataId":1,"kind":"RESULT_POINT","value":500},{"rewardType":"SECOND","dataId":0,"kind":"RESULT_POINT","value":200}],"stageDropItemInfo":["SMALLBOX","MEDIUMBOX","SMALLREC","NONE"],"sortieLimit":false,"areaClearState":"CLEAR","militaryGaugeStatus":"BREAK","eneMilitaryGaugeVal":1000,"militaryGaugeLeft":0,"bossStatus":"NONE","loopCount":1},' +
-          '{"areaId":1000,"areaSubId":5,"level":"HEI","areaKind":"SWEEP","stageImageName":"area_0555h7ae9d.png","stageMissionName":"？","stageMissionInfo":"？","requireGp":0,"limitSec":0,"rewardList":[{"dataId":0,"kind":"NONE","value":0}],"stageDropItemInfo":["UNKNOWN","NONE","NONE","NONE"],"sortieLimit":false,"areaClearState":"NOTCLEAR","militaryGaugeStatus":"NONE","eneMilitaryGaugeVal":0,"militaryGaugeLeft":0,"bossStatus":"NONE","loopCount":1}]'
+  # イベント海域情報は version 4 〜 5 で仕様が同じ
+  (4..5).each do |version|
+    describe ".parse_event_info(json, #{version})" do
+      it 'returns EventInfo[]' do
+        # E-1 クリア、E-5 未クリア
+        json = '[{"areaId":1000,"areaSubId":1,"level":"HEI","areaKind":"NORMAL","stageImageName":"area_14yzzpb2ab.png","stageMissionName":"前哨戦","stageMissionInfo":"敵泊地へ強襲作戦が発令された！\n主作戦に先立ち、敵泊地海域付近の\n偵察を実施せよ！","requireGp":300,"limitSec":240,"rewardList":[{"rewardType":"FIRST","dataId":0,"kind":"ROOM_ITEM_COIN","value":50},{"rewardType":"FIRST","dataId":1,"kind":"RESULT_POINT","value":500},{"rewardType":"SECOND","dataId":0,"kind":"RESULT_POINT","value":200}],"stageDropItemInfo":["SMALLBOX","MEDIUMBOX","SMALLREC","NONE"],"sortieLimit":false,"areaClearState":"CLEAR","militaryGaugeStatus":"BREAK","eneMilitaryGaugeVal":1000,"militaryGaugeLeft":0,"bossStatus":"NONE","loopCount":1},' +
+            '{"areaId":1000,"areaSubId":5,"level":"HEI","areaKind":"SWEEP","stageImageName":"area_0555h7ae9d.png","stageMissionName":"？","stageMissionInfo":"？","requireGp":0,"limitSec":0,"rewardList":[{"dataId":0,"kind":"NONE","value":0}],"stageDropItemInfo":["UNKNOWN","NONE","NONE","NONE"],"sortieLimit":false,"areaClearState":"NOTCLEAR","militaryGaugeStatus":"NONE","eneMilitaryGaugeVal":0,"militaryGaugeLeft":0,"bossStatus":"NONE","loopCount":1}]'
 
-      results = AdmiralStatsParser.parse_event_info(json, 4)
+        results = AdmiralStatsParser.parse_event_info(json, version)
 
-      expect(results.size).to eq(2)
+        expect(results.size).to eq(2)
 
-      result = results[0]
-      expect(result.area_id).to eq(1000)
-      expect(result.area_sub_id).to eq(1)
-      expect(result.level).to eq('HEI')
-      expect(result.area_kind).to eq('NORMAL')
-      expect(result.stage_image_name).to eq('area_14yzzpb2ab.png')
-      expect(result.stage_mission_name).to eq('前哨戦')
-      expect(result.stage_mission_info).to eq("敵泊地へ強襲作戦が発令された！\n主作戦に先立ち、敵泊地海域付近の\n偵察を実施せよ！")
-      expect(result.require_gp).to eq(300)
-      expect(result.limit_sec).to eq(240)
-      expect(result.reward_list.size).to eq(3)
-      expect(result.reward_list[0].reward_type).to eq('FIRST')
-      expect(result.reward_list[0].data_id).to eq(0)
-      expect(result.reward_list[0].kind).to eq('ROOM_ITEM_COIN')
-      expect(result.reward_list[0].value).to eq(50)
-      expect(result.reward_list[1].reward_type).to eq('FIRST')
-      expect(result.reward_list[1].data_id).to eq(1)
-      expect(result.reward_list[1].kind).to eq('RESULT_POINT')
-      expect(result.reward_list[1].value).to eq(500)
-      expect(result.reward_list[2].reward_type).to eq('SECOND')
-      expect(result.reward_list[2].data_id).to eq(0)
-      expect(result.reward_list[2].kind).to eq('RESULT_POINT')
-      expect(result.reward_list[2].value).to eq(200)
-      expect(result.stage_drop_item_info.size).to eq(4)
-      expect(result.stage_drop_item_info[0]).to eq('SMALLBOX')
-      expect(result.stage_drop_item_info[1]).to eq('MEDIUMBOX')
-      expect(result.stage_drop_item_info[2]).to eq('SMALLREC')
-      expect(result.stage_drop_item_info[3]).to eq('NONE')
-      expect(result.sortie_limit).to eq(false)
-      expect(result.area_clear_state).to eq('CLEAR')
-      expect(result.military_gauge_status).to eq('BREAK')
-      expect(result.ene_military_gauge_val).to eq(1000)
-      expect(result.military_gauge_left).to eq(0)
-      expect(result.boss_status).to eq('NONE')
-      expect(result.loop_count).to eq(1)
+        result = results[0]
+        expect(result.area_id).to eq(1000)
+        expect(result.area_sub_id).to eq(1)
+        expect(result.level).to eq('HEI')
+        expect(result.area_kind).to eq('NORMAL')
+        expect(result.stage_image_name).to eq('area_14yzzpb2ab.png')
+        expect(result.stage_mission_name).to eq('前哨戦')
+        expect(result.stage_mission_info).to eq("敵泊地へ強襲作戦が発令された！\n主作戦に先立ち、敵泊地海域付近の\n偵察を実施せよ！")
+        expect(result.require_gp).to eq(300)
+        expect(result.limit_sec).to eq(240)
+        expect(result.reward_list.size).to eq(3)
+        expect(result.reward_list[0].reward_type).to eq('FIRST')
+        expect(result.reward_list[0].data_id).to eq(0)
+        expect(result.reward_list[0].kind).to eq('ROOM_ITEM_COIN')
+        expect(result.reward_list[0].value).to eq(50)
+        expect(result.reward_list[1].reward_type).to eq('FIRST')
+        expect(result.reward_list[1].data_id).to eq(1)
+        expect(result.reward_list[1].kind).to eq('RESULT_POINT')
+        expect(result.reward_list[1].value).to eq(500)
+        expect(result.reward_list[2].reward_type).to eq('SECOND')
+        expect(result.reward_list[2].data_id).to eq(0)
+        expect(result.reward_list[2].kind).to eq('RESULT_POINT')
+        expect(result.reward_list[2].value).to eq(200)
+        expect(result.stage_drop_item_info.size).to eq(4)
+        expect(result.stage_drop_item_info[0]).to eq('SMALLBOX')
+        expect(result.stage_drop_item_info[1]).to eq('MEDIUMBOX')
+        expect(result.stage_drop_item_info[2]).to eq('SMALLREC')
+        expect(result.stage_drop_item_info[3]).to eq('NONE')
+        expect(result.sortie_limit).to eq(false)
+        expect(result.area_clear_state).to eq('CLEAR')
+        expect(result.military_gauge_status).to eq('BREAK')
+        expect(result.ene_military_gauge_val).to eq(1000)
+        expect(result.military_gauge_left).to eq(0)
+        expect(result.boss_status).to eq('NONE')
+        expect(result.loop_count).to eq(1)
 
-      result = results[1]
-      expect(result.area_id).to eq(1000)
-      expect(result.area_sub_id).to eq(5)
-      expect(result.level).to eq('HEI')
-      expect(result.area_kind).to eq('SWEEP')
-      expect(result.stage_image_name).to eq('area_0555h7ae9d.png')
-      expect(result.stage_mission_name).to eq('？')
-      expect(result.stage_mission_info).to eq('？')
-      expect(result.require_gp).to eq(0)
-      expect(result.limit_sec).to eq(0)
-      expect(result.reward_list.size).to eq(1)
-      expect(result.reward_list[0].data_id).to eq(0)
-      expect(result.reward_list[0].kind).to eq('NONE')
-      expect(result.reward_list[0].value).to eq(0)
-      expect(result.stage_drop_item_info.size).to eq(4)
-      expect(result.stage_drop_item_info[0]).to eq('UNKNOWN')
-      expect(result.stage_drop_item_info[1]).to eq('NONE')
-      expect(result.stage_drop_item_info[2]).to eq('NONE')
-      expect(result.stage_drop_item_info[3]).to eq('NONE')
-      expect(result.sortie_limit).to eq(false)
-      expect(result.area_clear_state).to eq('NOTCLEAR')
-      expect(result.military_gauge_status).to eq('NONE')
-      expect(result.ene_military_gauge_val).to eq(0)
-      expect(result.military_gauge_left).to eq(0)
-      expect(result.boss_status).to eq('NONE')
-      expect(result.loop_count).to eq(1)
+        result = results[1]
+        expect(result.area_id).to eq(1000)
+        expect(result.area_sub_id).to eq(5)
+        expect(result.level).to eq('HEI')
+        expect(result.area_kind).to eq('SWEEP')
+        expect(result.stage_image_name).to eq('area_0555h7ae9d.png')
+        expect(result.stage_mission_name).to eq('？')
+        expect(result.stage_mission_info).to eq('？')
+        expect(result.require_gp).to eq(0)
+        expect(result.limit_sec).to eq(0)
+        expect(result.reward_list.size).to eq(1)
+        expect(result.reward_list[0].data_id).to eq(0)
+        expect(result.reward_list[0].kind).to eq('NONE')
+        expect(result.reward_list[0].value).to eq(0)
+        expect(result.stage_drop_item_info.size).to eq(4)
+        expect(result.stage_drop_item_info[0]).to eq('UNKNOWN')
+        expect(result.stage_drop_item_info[1]).to eq('NONE')
+        expect(result.stage_drop_item_info[2]).to eq('NONE')
+        expect(result.stage_drop_item_info[3]).to eq('NONE')
+        expect(result.sortie_limit).to eq(false)
+        expect(result.area_clear_state).to eq('NOTCLEAR')
+        expect(result.military_gauge_status).to eq('NONE')
+        expect(result.ene_military_gauge_val).to eq(0)
+        expect(result.military_gauge_left).to eq(0)
+        expect(result.boss_status).to eq('NONE')
+        expect(result.loop_count).to eq(1)
+      end
     end
   end
 
-  describe ".summarize_event_info(json, 4)" do
-    it 'returns summary' do
-      # E-1 クリア、E-5 未クリア
-      json = '[{"areaId":1000,"areaSubId":1,"level":"HEI","areaKind":"NORMAL","stageImageName":"area_14yzzpb2ab.png","stageMissionName":"前哨戦","stageMissionInfo":"敵泊地へ強襲作戦が発令された！\n主作戦に先立ち、敵泊地海域付近の\n偵察を実施せよ！","requireGp":300,"limitSec":240,"rewardList":[{"rewardType":"FIRST","dataId":0,"kind":"ROOM_ITEM_COIN","value":50},{"rewardType":"FIRST","dataId":1,"kind":"RESULT_POINT","value":500},{"rewardType":"SECOND","dataId":0,"kind":"RESULT_POINT","value":200}],"stageDropItemInfo":["SMALLBOX","MEDIUMBOX","SMALLREC","NONE"],"sortieLimit":false,"areaClearState":"CLEAR","militaryGaugeStatus":"BREAK","eneMilitaryGaugeVal":1000,"militaryGaugeLeft":0,"bossStatus":"NONE","loopCount":1},' +
-          '{"areaId":1000,"areaSubId":5,"level":"HEI","areaKind":"SWEEP","stageImageName":"area_0555h7ae9d.png","stageMissionName":"？","stageMissionInfo":"？","requireGp":0,"limitSec":0,"rewardList":[{"dataId":0,"kind":"NONE","value":0}],"stageDropItemInfo":["UNKNOWN","NONE","NONE","NONE"],"sortieLimit":false,"areaClearState":"NOTCLEAR","militaryGaugeStatus":"NONE","eneMilitaryGaugeVal":0,"militaryGaugeLeft":0,"bossStatus":"NONE","loopCount":1}]'
+  # イベント海域情報は version 4 〜 5 で仕様が同じ
+  (4..5).each do |version|
+    describe ".summarize_event_info(json, #{version})" do
+      it 'returns summary' do
+        # E-1 クリア、E-5 未クリア
+        json = '[{"areaId":1000,"areaSubId":1,"level":"HEI","areaKind":"NORMAL","stageImageName":"area_14yzzpb2ab.png","stageMissionName":"前哨戦","stageMissionInfo":"敵泊地へ強襲作戦が発令された！\n主作戦に先立ち、敵泊地海域付近の\n偵察を実施せよ！","requireGp":300,"limitSec":240,"rewardList":[{"rewardType":"FIRST","dataId":0,"kind":"ROOM_ITEM_COIN","value":50},{"rewardType":"FIRST","dataId":1,"kind":"RESULT_POINT","value":500},{"rewardType":"SECOND","dataId":0,"kind":"RESULT_POINT","value":200}],"stageDropItemInfo":["SMALLBOX","MEDIUMBOX","SMALLREC","NONE"],"sortieLimit":false,"areaClearState":"CLEAR","militaryGaugeStatus":"BREAK","eneMilitaryGaugeVal":1000,"militaryGaugeLeft":0,"bossStatus":"NONE","loopCount":1},' +
+            '{"areaId":1000,"areaSubId":5,"level":"HEI","areaKind":"SWEEP","stageImageName":"area_0555h7ae9d.png","stageMissionName":"？","stageMissionInfo":"？","requireGp":0,"limitSec":0,"rewardList":[{"dataId":0,"kind":"NONE","value":0}],"stageDropItemInfo":["UNKNOWN","NONE","NONE","NONE"],"sortieLimit":false,"areaClearState":"NOTCLEAR","militaryGaugeStatus":"NONE","eneMilitaryGaugeVal":0,"militaryGaugeLeft":0,"bossStatus":"NONE","loopCount":1}]'
 
-      event_info_list = AdmiralStatsParser.parse_event_info(json, 4)
+        event_info_list = AdmiralStatsParser.parse_event_info(json, version)
 
-      hei_results = AdmiralStatsParser.summarize_event_info(event_info_list, "HEI", 4)
-      expect(hei_results[:opened]).to be true
-      expect(hei_results[:all_cleared]).to be false
-      expect(hei_results[:current_loop_counts]).to eq(1)
-      expect(hei_results[:cleared_loop_counts]).to eq(0)
-      expect(hei_results[:cleared_stage_no]).to eq(1)
-      expect(hei_results[:current_military_gauge_left]).to eq(0)
+        hei_results = AdmiralStatsParser.summarize_event_info(event_info_list, "HEI", version)
+        expect(hei_results[:opened]).to be true
+        expect(hei_results[:all_cleared]).to be false
+        expect(hei_results[:current_loop_counts]).to eq(1)
+        expect(hei_results[:cleared_loop_counts]).to eq(0)
+        expect(hei_results[:cleared_stage_no]).to eq(1)
+        expect(hei_results[:current_military_gauge_left]).to eq(0)
+      end
     end
   end
 
-  describe ".summarize_event_info('[]', 4)" do
-    it 'returns summary' do
-      # イベントを開催していない期間は、空の配列が返される
-      json = '[]'
+  # イベント海域情報は version 4 〜 5 で仕様が同じ
+  (4..5).each do |version|
+    describe ".summarize_event_info('[]', #{version})" do
+      it 'returns summary' do
+        # イベントを開催していない期間は、空の配列が返される
+        json = '[]'
 
-      # 引数が空の配列の場合、返り値も空の配列になる
-      event_info_list = AdmiralStatsParser.parse_event_info(json, 4)
-      expect(event_info_list).to be_an(Array)
-      expect(event_info_list.size).to eq(0)
+        # 引数が空の配列の場合、返り値も空の配列になる
+        event_info_list = AdmiralStatsParser.parse_event_info(json, version)
+        expect(event_info_list).to be_an(Array)
+        expect(event_info_list.size).to eq(0)
+      end
     end
   end
 end
