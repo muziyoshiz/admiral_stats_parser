@@ -4,37 +4,37 @@ require 'admiral_stats_parser/model/personal_basic_info'
 class PersonalBasicInfoParser
   MANDATORY_KEYS = {
     1 => {
-      :fuel => Integer,
-      :ammo => Integer,
-      :steel => Integer,
-      :bauxite => Integer,
-      :bucket => Integer,
-      :level => Integer,
-      :room_item_coin => Integer,
+      fuel: Integer,
+      ammo: Integer,
+      steel: Integer,
+      bauxite: Integer,
+      bucket: Integer,
+      level: Integer,
+      room_item_coin: Integer,
     },
     2 => {
-      :fuel => Integer,
-      :ammo => Integer,
-      :steel => Integer,
-      :bauxite => Integer,
-      :bucket => Integer,
-      :level => Integer,
-      :room_item_coin => Integer,
-      :result_point => String,
-      :rank => String,
-      :title_id => Integer,
-      :material_max => Integer,
-      :strategy_point => Integer,
+      fuel: Integer,
+      ammo: Integer,
+      steel: Integer,
+      bauxite: Integer,
+      bucket: Integer,
+      level: Integer,
+      room_item_coin: Integer,
+      result_point: String,
+      rank: String,
+      title_id: Integer,
+      material_max: Integer,
+      strategy_point: Integer,
     }
   }
 
   OPTIONAL_KEYS = {
     1 => {
       # 元のデータには必ず提督名が含まれるが、データ解析の上では不要のため、オプションとする
-      :admiral_name => String,
+      admiral_name: String,
     },
     2 => {
-      :admiral_name => String,
+      admiral_name: String,
     }
   }
 

@@ -3,11 +3,11 @@ require 'admiral_stats_parser/model/equip_list_info'
 
 class EquipListInfoParser
   MANDATORY_KEYS = {
-    :type => Integer,
-    :equipment_id => Integer,
-    :name => String,
-    :num => Integer,
-    :img => String,
+    type: Integer,
+    equipment_id: Integer,
+    name: String,
+    num: Integer,
+    img: String,
   }
 
   def self.parse(json)

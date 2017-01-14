@@ -4,35 +4,35 @@ require 'admiral_stats_parser/model/event_info'
 class EventInfoParser
   MANDATORY_KEYS = {
       1 => {
-          :area_id => Integer,
-          :area_sub_id => Integer,
-          :level => String,
-          :area_kind => String,
-          :limit_sec => Integer,
-          :require_gp => Integer,
-          :sortie_limit => :boolean,
-          :stage_image_name => String,
-          :stage_mission_name => String,
-          :stage_mission_info => String,
-          :reward_list => :reward_list,
-          :stage_drop_item_info => Array,
-          :area_clear_state => String,
-          :military_gauge_status => String,
-          :ene_military_gauge_val => Integer,
-          :military_gauge_left => Integer,
-          :boss_status => String,
-          :loop_count => Integer,
+          area_id: Integer,
+          area_sub_id: Integer,
+          level: String,
+          area_kind: String,
+          limit_sec: Integer,
+          require_gp: Integer,
+          sortie_limit: :boolean,
+          stage_image_name: String,
+          stage_mission_name: String,
+          stage_mission_info: String,
+          reward_list: :reward_list,
+          stage_drop_item_info: Array,
+          area_clear_state: String,
+          military_gauge_status: String,
+          ene_military_gauge_val: Integer,
+          military_gauge_left: Integer,
+          boss_status: String,
+          loop_count: Integer,
       }
   }
 
   REWARD_LIST_MANDATORY_KEYS = {
-      :data_id => Integer,
-      :kind => String,
-      :value => Integer,
+      data_id: Integer,
+      kind: String,
+      value: Integer,
   }
 
   REWARD_LIST_OPTIONAL_KEYS = {
-      :reward_type => String,
+      reward_type: String,
   }
 
   def self.parse(json, api_version)

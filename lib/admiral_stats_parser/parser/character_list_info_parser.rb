@@ -42,7 +42,7 @@ class CharacterListInfoParser
           slot_equip_name: Array,
           slot_amount: Array,
           slot_disp: Array,
-          slot_img: Array
+          slot_img: Array,
       }
   }
 
