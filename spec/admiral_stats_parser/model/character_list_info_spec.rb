@@ -59,10 +59,57 @@ describe CharacterListInfo do
       expect(info.lv_to_exp).to eq(1000000)
 
       info.lv = 100
-      expect(info.lv_to_exp).to be_nil
+      expect{ info.lv_to_exp }.to raise_error(RuntimeError, 'Unsupported Lv: 100')
 
       info.lv = nil
-      expect(info.lv_to_exp).to be_nil
+      expect{ info.lv_to_exp }.to raise_error(RuntimeError, 'Unsupported Lv: ')
+    end
+  end
+
+  describe '#lv_and_exp_percent_to_exp' do
+    it 'returns sum of experience points' do
+      info = CharacterListInfo.new
+
+      # レベル1、経験値0の場合は0
+      info.lv = 1
+      info.exp_percent = 0
+      expect(info.lv_and_exp_percent_to_exp).to eq(0)
+
+      info.lv = 1
+      info.exp_percent = nil
+      expect(info.lv_and_exp_percent_to_exp).to eq(0)
+
+      # レベル2に必要な経験値100の10%
+      info.lv = 1
+      info.exp_percent = 10
+      expect(info.lv_and_exp_percent_to_exp).to eq(10)
+
+      info.lv = 98
+      info.exp_percent = 0
+      expect(info.lv_and_exp_percent_to_exp).to eq(851500)
+
+      info.lv = 99
+      info.exp_percent = 0
+      expect(info.lv_and_exp_percent_to_exp).to eq(1000000)
+
+      # 98 -> 99 は 148500
+      # その 11% は 16335
+      info.lv = 98
+      info.exp_percent = 11
+      expect(info.lv_and_exp_percent_to_exp).to eq(851500 + 16335)
+
+      # 過去のデータ（exp_percent が nil）もサポート
+      info.lv = 98
+      info.exp_percent = nil
+      expect(info.lv_and_exp_percent_to_exp).to eq(851500)
+
+      info.lv = 100
+      info.exp_percent = 0
+      expect{ info.lv_and_exp_percent_to_exp }.to raise_error(RuntimeError, 'Unsupported Lv: 100')
+
+      info.lv = nil
+      info.exp_percent = 0
+      expect{ info.lv_and_exp_percent_to_exp }.to raise_error(RuntimeError, 'Unsupported Lv: ')
     end
   end
 end
