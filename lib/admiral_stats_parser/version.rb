@@ -1,3 +1,3 @@
 module AdmiralStatsParser
-  VERSION = "0.1.9"
+  VERSION = "1.5.0"
 end
