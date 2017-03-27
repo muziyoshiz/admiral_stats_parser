@@ -1,6 +1,6 @@
 # admiral_stats_parser
 
-[![Join the chat at https://gitter.im/muziyoshiz/admiral_stats](https://badges.gitter.im/muziyoshiz/admiral_stats.svg)](https://gitter.im/muziyoshiz/admiral_stats?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.org/muziyoshiz/admiral_stats_parser.svg?branch=master)](https://travis-ci.org/muziyoshiz/admiral_stats_parser) [![Join the chat at https://gitter.im/muziyoshiz/admiral_stats](https://badges.gitter.im/muziyoshiz/admiral_stats.svg)](https://gitter.im/muziyoshiz/admiral_stats?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Parser for admiral stats JSON data exported from kancolle-arcade.net
 
