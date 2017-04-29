@@ -11,7 +11,7 @@ require 'admiral_stats_parser/parser/event_info_parser'
 module AdmiralStatsParser
   # 最新の API バージョンを返します。
   def self.get_latest_api_version
-    return 5
+    return 7
   end
 
   # エクスポート時刻を元に、API バージョンを推測して返します。
@@ -27,6 +27,12 @@ module AdmiralStatsParser
 
     # version 5 の開始日
     return 4 if exported_at < Time.parse('2016-12-21T07:00:00+0900')
+
+    # version 6 の開始日
+    return 5 if exported_at < Time.parse('2017-02-14T07:00:00+0900')
+
+    # version 7 の開始日
+    return 6 if exported_at < Time.parse('2017-04-26T07:00:00+0900')
 
     return self.get_latest_api_version
   end

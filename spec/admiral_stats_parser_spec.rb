@@ -6,8 +6,8 @@ describe AdmiralStatsParser do
   end
 
   describe '.get_latest_api_version' do
-    it 'returns 5' do
-      expect(AdmiralStatsParser.get_latest_api_version).to eq(5)
+    it 'returns 7' do
+      expect(AdmiralStatsParser.get_latest_api_version).to eq(7)
     end
   end
 
@@ -36,9 +36,21 @@ describe AdmiralStatsParser do
       expect(AdmiralStatsParser.guess_api_version(Time.parse('2016-12-21T06:59:59+0900'))).to eq(4)
     end
 
-    # 2016-12-21 〜
+    # 2016-12-21 〜 2017-02-13
     it 'returns 5' do
       expect(AdmiralStatsParser.guess_api_version(Time.parse('2016-12-21T07:00:00+0900'))).to eq(5)
+      expect(AdmiralStatsParser.guess_api_version(Time.parse('2017-02-14T06:59:59+0900'))).to eq(5)
+    end
+
+    # 2017-02-14 〜 2017-04-25
+    it 'returns 6' do
+      expect(AdmiralStatsParser.guess_api_version(Time.parse('2017-02-14T07:00:00+0900'))).to eq(6)
+      expect(AdmiralStatsParser.guess_api_version(Time.parse('2017-04-26T06:59:59+0900'))).to eq(6)
+    end
+
+    # 2017-04-26 〜
+    it 'returns 7' do
+      expect(AdmiralStatsParser.guess_api_version(Time.parse('2017-04-26T07:00:00+0900'))).to eq(7)
     end
 
     it 'returns latest version' do
