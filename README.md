@@ -43,6 +43,9 @@ AdmiralStatsParser.parse_equip_list_info(json, api_version)
 
 # イベント海域情報
 AdmiralStatsParser.parse_event_info(json, api_version)
+
+# 改装設計図一覧
+AdmiralStatsParser.parse_blueprint_list_info(json, api_version)
 ```
 
 ## Specification
@@ -63,22 +66,20 @@ AdmiralStatsParser は、以下の API version をサポートしています。
 
 各 API version でパースできる JSON の種類は以下の通りです。また、同じ情報でも、API version によって、含まれる情報量が異なる場合があります。その場合は Supported (1), Supported (2) のように記載して区別しています。
 
-| 提督情報での表示 | URL | API version 1 | API version 2〜6 |
-|:----------------|:----|:--------------|:--------------|
-| 基本情報 | Personal/basicInfo | Supported (1) | Supported (2) |
-| 海域情報 | Area/captureInfo   | Supported (1) | Supported (2) |
-| 艦娘図鑑 | TcBook/info        | Supported (1) | Supported (2) |
-| 装備図鑑 | EquipBook/info     | Supported     | Supported     |
+| API version | 基本情報 | 海域情報 | 艦娘図鑑 | 装備図鑑 |
+|------------:|:-----|:-----|:-----|:-----|
+| 1           | Supported (1) | Supported (1) | Supported (1) | Supported |
+| 2 〜 6      | Supported (2) | Supported (2) | Supported (2) | Supported |
+| 7           | Supported (3) | Supported (3) | Supported (2) | Supported |
 
-| 提督情報での表示 | URL | API version 2 | API version 3〜4 | API version 5〜6 |
-|:----------------|:----|:--------------|:-------------|:-------------|
-| 艦娘一覧 | CharacterList/info | Supported (1) | Supported (2) | Supported (3) |
-| 装備一覧 | EquipList/info     | Supported     | Supported     | Supported   |
-| 任務一覧 | Quest/info         | Unsupported   | Unsupported   | Unsupported |
-
-| 提督情報での表示 | URL | API version 4〜6 |
-|:----------------|:----|:--------------|
-| イベント海域情報 | Event/info | Supported (1) |
+| API version | 艦娘一覧 | 装備一覧 | イベント海域情報 |
+|------------:|:-----|:-----|:-----|:-----|
+| 1           | Unsupported   | Unsupported   | Unsupported   |
+| 2           | Supported (1) | Supported     | Unsupported   |
+| 3           | Supported (2) | Supported     | Unsupported   |
+| 4           | Supported (2) | Supported     | Supported (1) |
+| 5 〜 6      | Supported (3) | Supported     | Supported (1) |
+| 7           | Supported (4) | Supported     | Supported (2) |
 
 ## Development
 
