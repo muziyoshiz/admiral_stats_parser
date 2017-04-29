@@ -11,11 +11,13 @@ class EventInfo
   # 難易度
   # "HEI": 丙
   # "OTU": 乙
+  # "KOU": 甲
   attr_accessor :level
 
   # 海域の種類
   # ボス戦は "BOSS"
   # 掃討戦は "SWEEP"
+  # 前段作戦の最終海域は "PERIOD_LAST"
   # それ以外は "NORMAL"
   attr_accessor :area_kind
 
@@ -67,15 +69,23 @@ class EventInfo
   # E-1 攻略開始前は 1000、攻略後は 0
   attr_accessor :military_gauge_left
 
-  # ボスのランク
+  # ボスのランク (API version 7 で廃止)
   # 泊地棲鬼は "ONI"
   # ゲージ半減して泊地棲姫になると "HIME"
   # それ以外は "NONE"
   attr_accessor :boss_status
 
+  # 海域ゲージに表示されるボスアイコンの種類？ (From API version 7)
+  attr_accessor :ene_military_gauge2d
+
   # 周回数
   # E-1 攻略開始前は 1、攻略後も 1
   attr_accessor :loop_count
+
+  # 前段作戦か後段作戦か (From API version 7)
+  # 0: 前段作戦
+  # 1: 後段作戦
+  attr_accessor :period
 
   # 海域撃破ボーナス
   class EventInfoReward

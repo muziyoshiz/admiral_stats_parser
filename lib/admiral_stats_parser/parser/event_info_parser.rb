@@ -22,7 +22,28 @@ class EventInfoParser
           military_gauge_left: Integer,
           boss_status: String,
           loop_count: Integer,
-      }
+      },
+      2 => {
+          area_id: Integer,
+          area_sub_id: Integer,
+          level: String,
+          area_kind: String,
+          limit_sec: Integer,
+          require_gp: Integer,
+          sortie_limit: :boolean,
+          stage_image_name: String,
+          stage_mission_name: String,
+          stage_mission_info: String,
+          reward_list: :reward_list,
+          stage_drop_item_info: Array,
+          area_clear_state: String,
+          military_gauge_status: String,
+          ene_military_gauge_val: Integer,
+          military_gauge_left: Integer,
+          ene_military_gauge2d: String,
+          loop_count: Integer,
+          period: Integer,
+      },
   }
 
   REWARD_LIST_MANDATORY_KEYS = {

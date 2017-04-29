@@ -803,8 +803,8 @@ describe AdmiralStatsParser do
     end
   end
 
-  # イベント海域情報は version 4 〜 5 で仕様が同じ
-  (4..5).each do |version|
+  # イベント海域情報は version 4 〜 6 で仕様が同じ
+  (4..6).each do |version|
     describe ".parse_event_info(json, #{version})" do
       it 'returns EventInfo[]' do
         # E-1 クリア、E-5 未クリア
@@ -850,6 +850,8 @@ describe AdmiralStatsParser do
         expect(result.military_gauge_left).to eq(0)
         expect(result.boss_status).to eq('NONE')
         expect(result.loop_count).to eq(1)
+        expect(result.ene_military_gauge2d).to be_nil
+        expect(result.period).to be_nil
 
         result = results[1]
         expect(result.area_id).to eq(1000)
@@ -877,6 +879,168 @@ describe AdmiralStatsParser do
         expect(result.military_gauge_left).to eq(0)
         expect(result.boss_status).to eq('NONE')
         expect(result.loop_count).to eq(1)
+        expect(result.ene_military_gauge2d).to be_nil
+        expect(result.period).to be_nil
+      end
+    end
+  end
+
+  # イベント海域情報は version 7 から前段作戦、後段作戦あり
+  [7].each do |version|
+    describe ".parse_event_info(json, #{version})" do
+      it 'returns EventInfo[]' do
+        # E-3 クリア直後
+        json = File.open('spec/fixtures/v7/Event_info_zendan_hei1_e3_cleared.json').read
+        results = AdmiralStatsParser.parse_event_info(json, version)
+
+        expect(results.size).to eq(12)
+
+        # 丙E-1 (クリア済)
+        result = results[0]
+        expect(result.area_id).to eq(1001)
+        expect(result.area_sub_id).to eq(1)
+        expect(result.level).to eq('HEI')
+        expect(result.area_kind).to eq('NORMAL')
+        expect(result.stage_image_name).to eq('area_gbaewgvif8.png')
+        expect(result.stage_mission_name).to eq('南方海域へ進出せよ！')
+        expect(result.stage_mission_info).to eq("いよいよ南方海域へ進出を開始する。\n哨戒線を偵察せよ！")
+        expect(result.require_gp).to eq(300)
+        expect(result.limit_sec).to eq(240)
+        expect(result.reward_list.size).to eq(3)
+        expect(result.reward_list[0].reward_type).to eq('FIRST')
+        expect(result.reward_list[0].data_id).to eq(0)
+        expect(result.reward_list[0].kind).to eq('ROOM_ITEM_COIN')
+        expect(result.reward_list[0].value).to eq(50)
+        expect(result.reward_list[1].reward_type).to eq('FIRST')
+        expect(result.reward_list[1].data_id).to eq(1)
+        expect(result.reward_list[1].kind).to eq('RESULT_POINT')
+        expect(result.reward_list[1].value).to eq(500)
+        expect(result.reward_list[2].reward_type).to eq('SECOND')
+        expect(result.reward_list[2].data_id).to eq(0)
+        expect(result.reward_list[2].kind).to eq('RESULT_POINT')
+        expect(result.reward_list[2].value).to eq(200)
+        expect(result.stage_drop_item_info.size).to eq(4)
+        expect(result.stage_drop_item_info[0]).to eq('SMALLBOX')
+        expect(result.stage_drop_item_info[1]).to eq('MEDIUMBOX')
+        expect(result.stage_drop_item_info[2]).to eq('LARGEBOX')
+        expect(result.stage_drop_item_info[3]).to eq('NONE')
+        expect(result.sortie_limit).to eq(true)
+        expect(result.area_clear_state).to eq('CLEAR')
+        expect(result.military_gauge_status).to eq('BREAK')
+        expect(result.ene_military_gauge_val).to eq(2000)
+        expect(result.military_gauge_left).to eq(0)
+        expect(result.boss_status).to be_nil
+        expect(result.ene_military_gauge2d).to eq('base_sensuikakyuu1')
+        expect(result.loop_count).to eq(1)
+        expect(result.period).to eq(0)
+
+        # 丙E-3 (クリア済)
+        result = results[2]
+        expect(result.area_id).to eq(1001)
+        expect(result.area_sub_id).to eq(3)
+        expect(result.level).to eq('HEI')
+        expect(result.area_kind).to eq('PERIOD_LAST')
+        expect(result.stage_image_name).to eq('area_xexlaicaqs.png')
+        expect(result.stage_mission_name).to eq('敵洋上戦力を排除せよ！')
+        expect(result.stage_mission_info).to eq("南方海域の前面に展開する\n敵洋上戦力の排除を行う。\n未知の大型戦艦の情報あり！注意せよ！")
+        expect(result.require_gp).to eq(400)
+        expect(result.limit_sec).to eq(360)
+        expect(result.reward_list.size).to eq(3)
+        expect(result.reward_list[0].reward_type).to eq('FIRST')
+        expect(result.reward_list[0].data_id).to eq(0)
+        expect(result.reward_list[0].kind).to eq('EQUIP')
+        expect(result.reward_list[0].value).to eq(1)
+        expect(result.reward_list[1].reward_type).to eq('FIRST')
+        expect(result.reward_list[1].data_id).to eq(1)
+        expect(result.reward_list[1].kind).to eq('RESULT_POINT')
+        expect(result.reward_list[1].value).to eq(1000)
+        expect(result.reward_list[2].reward_type).to eq('SECOND')
+        expect(result.reward_list[2].data_id).to eq(0)
+        expect(result.reward_list[2].kind).to eq('RESULT_POINT')
+        expect(result.reward_list[2].value).to eq(500)
+        expect(result.stage_drop_item_info.size).to eq(4)
+        expect(result.stage_drop_item_info[0]).to eq('SMALLBOX')
+        expect(result.stage_drop_item_info[1]).to eq('MEDIUMBOX')
+        expect(result.stage_drop_item_info[2]).to eq('LARGEBOX')
+        expect(result.stage_drop_item_info[3]).to eq('NONE')
+        expect(result.sortie_limit).to eq(false)
+        expect(result.area_clear_state).to eq('CLEAR')
+        expect(result.military_gauge_status).to eq('BREAK')
+        expect(result.ene_military_gauge_val).to eq(2800)
+        expect(result.military_gauge_left).to eq(0)
+        expect(result.boss_status).to be_nil
+        expect(result.ene_military_gauge2d).to eq('base_nanpouseiki')
+        expect(result.loop_count).to eq(1)
+        expect(result.period).to eq(0)
+
+        # 乙E-1 (未クリア、開放済み)
+        result = results[4]
+        expect(result.area_id).to eq(1001)
+        expect(result.area_sub_id).to eq(9)
+        expect(result.level).to eq('OTU')
+        expect(result.area_kind).to eq('NORMAL')
+        expect(result.stage_image_name).to eq('area_9wb019oc5p.png')
+        expect(result.stage_mission_name).to eq('南方海域へ進出せよ！')
+        expect(result.stage_mission_info).to eq("いよいよ南方海域へ進出を開始する。\n哨戒線を偵察せよ！")
+        expect(result.require_gp).to eq(300)
+        expect(result.limit_sec).to eq(240)
+        expect(result.reward_list.size).to eq(3)
+        expect(result.reward_list[0].reward_type).to eq('FIRST')
+        expect(result.reward_list[0].data_id).to eq(0)
+        expect(result.reward_list[0].kind).to eq('ROOM_ITEM_COIN')
+        expect(result.reward_list[0].value).to eq(100)
+        expect(result.reward_list[1].reward_type).to eq('FIRST')
+        expect(result.reward_list[1].data_id).to eq(1)
+        expect(result.reward_list[1].kind).to eq('RESULT_POINT')
+        expect(result.reward_list[1].value).to eq(1000)
+        expect(result.reward_list[2].reward_type).to eq('SECOND')
+        expect(result.reward_list[2].data_id).to eq(0)
+        expect(result.reward_list[2].kind).to eq('RESULT_POINT')
+        expect(result.reward_list[2].value).to eq(500)
+        expect(result.stage_drop_item_info.size).to eq(4)
+        expect(result.stage_drop_item_info[0]).to eq('SMALLBOX')
+        expect(result.stage_drop_item_info[1]).to eq('MEDIUMBOX')
+        expect(result.stage_drop_item_info[2]).to eq('LARGEBOX')
+        expect(result.stage_drop_item_info[3]).to eq('NONE')
+        expect(result.sortie_limit).to eq(true)
+        expect(result.area_clear_state).to eq('NOTCLEAR')
+        expect(result.military_gauge_status).to eq('NORMAL')
+        expect(result.ene_military_gauge_val).to eq(1800)
+        expect(result.military_gauge_left).to eq(1800)
+        expect(result.boss_status).to be_nil
+        expect(result.ene_military_gauge2d).to eq('base_sensuikakyuu1')
+        expect(result.loop_count).to eq(1)
+        expect(result.period).to eq(0)
+
+        # 甲E-1 (未クリア、未開放)
+        result = results[8]
+        expect(result.area_id).to eq(1001)
+        expect(result.area_sub_id).to eq(17)
+        expect(result.level).to eq('KOU')
+        expect(result.area_kind).to eq('NORMAL')
+        expect(result.stage_image_name).to eq('area_egorqr3pa3.png')
+        expect(result.stage_mission_name).to eq('？')
+        expect(result.stage_mission_info).to eq('？')
+        expect(result.require_gp).to eq(0)
+        expect(result.limit_sec).to eq(0)
+        expect(result.reward_list.size).to eq(1)
+        expect(result.reward_list[0].data_id).to eq(0)
+        expect(result.reward_list[0].kind).to eq('NONE')
+        expect(result.reward_list[0].value).to eq(0)
+        expect(result.stage_drop_item_info.size).to eq(4)
+        expect(result.stage_drop_item_info[0]).to eq('UNKNOWN')
+        expect(result.stage_drop_item_info[1]).to eq('NONE')
+        expect(result.stage_drop_item_info[2]).to eq('NONE')
+        expect(result.stage_drop_item_info[3]).to eq('NONE')
+        expect(result.sortie_limit).to eq(false)
+        expect(result.area_clear_state).to eq('NOOPEN')
+        expect(result.military_gauge_status).to eq('NORMAL')
+        expect(result.ene_military_gauge_val).to eq(2000)
+        expect(result.military_gauge_left).to eq(2000)
+        expect(result.boss_status).to be_nil
+        expect(result.ene_military_gauge2d).to eq('')
+        expect(result.loop_count).to eq(1)
+        expect(result.period).to eq(0)
       end
     end
   end

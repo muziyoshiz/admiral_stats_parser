@@ -123,8 +123,10 @@ module AdmiralStatsParser
     case api_version
       when 1..3
         raise "API version #{api_version} does not support event info"
-      when 4..5
+      when 4..6
         EventInfoParser.parse(json, 1)
+      when 7
+        EventInfoParser.parse(json, 2)
       else
         raise 'unsupported API version'
     end
