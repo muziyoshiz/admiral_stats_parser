@@ -73,7 +73,7 @@ AdmiralStatsParser は、以下の API version をサポートしています。
 | 7           | Supported (3) | Supported (3) | Supported (2) | Supported |
 
 | API version | 艦娘一覧 | 装備一覧 | イベント海域情報 |
-|------------:|:-----|:-----|:-----|:-----|
+|------------:|:-----|:-----|:-----|
 | 1           | Unsupported   | Unsupported   | Unsupported   |
 | 2           | Supported (1) | Supported     | Unsupported   |
 | 3           | Supported (2) | Supported     | Unsupported   |
