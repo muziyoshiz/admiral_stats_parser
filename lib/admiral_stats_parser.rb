@@ -70,7 +70,7 @@ module AdmiralStatsParser
     case api_version
       when 1
         TcBookInfoParser.parse(json, 1)
-      when 2..5
+      when 2..7
         TcBookInfoParser.parse(json, 2)
       else
         raise 'unsupported API version'
@@ -80,7 +80,7 @@ module AdmiralStatsParser
   # 装備図鑑をパースします。
   def self.parse_equip_book_info(json, api_version)
     case api_version
-      when 1..5
+      when 1..7
         EquipBookInfoParser.parse(json)
       else
         raise 'unsupported API version'
@@ -110,7 +110,7 @@ module AdmiralStatsParser
     case api_version
       when 1
         raise 'API version 1 does not support equip list info'
-      when 2..5
+      when 2..7
         EquipListInfoParser.parse(json)
       else
         raise 'unsupported API version'
