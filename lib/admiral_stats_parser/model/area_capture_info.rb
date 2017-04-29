@@ -53,4 +53,25 @@ class AreaCaptureInfo
   # NOTCLEAR: 出撃可能だが未クリア
   # NOOPEN: 出撃不可
   attr_accessor :area_clear_state
+
+  # 海域ボスの情報（ボスが存在する場合のみ） (From API version 7?)
+  attr_accessor :boss_info
+
+  # 海域ボスの情報
+  class BossInfo
+    # 海域ゲージの状態
+    # "NORMAL": 攻略中
+    # "BREAK": 攻略後
+    attr_accessor :military_gauge_status
+
+    # 海域ゲージの最大値
+    attr_accessor :ene_military_gauge_val
+
+    # 海域ゲージの現在値
+    attr_accessor :military_gauge_left
+
+    # ボスの状態を表す文字列
+    # FORM_1: 第1形態？
+    attr_accessor :boss_status
+  end
 end

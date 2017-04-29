@@ -56,8 +56,10 @@ module AdmiralStatsParser
     case api_version
       when 1
         AreaCaptureInfoParser.parse(json, 1)
-      when 2..5
+      when 2..6
         AreaCaptureInfoParser.parse(json, 2)
+      when 7
+        AreaCaptureInfoParser.parse(json, 3)
       else
         raise 'unsupported API version'
     end

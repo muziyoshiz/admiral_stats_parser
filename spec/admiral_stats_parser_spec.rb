@@ -237,8 +237,8 @@ describe AdmiralStatsParser do
     end
   end
 
-  # 海域情報は version 2 〜 5 で仕様が同じ
-  (2..5).each do |version|
+  # 海域情報は version 2 〜 6 で仕様が同じ
+  (2..6).each do |version|
     describe ".parse_area_capture_info(json, #{version})" do
       it 'returns AreaCaptureInfo[]' do
         json = '[{"areaId":1,"areaSubId":1,"limitSec":150,"requireGp":150,"pursuitMap":false,"pursuitMapOpen":true,"sortieLimit":false,"stageImageName":"area_rprx04hjnl.png","stageMissionName":"近海警備","stageMissionInfo":"鎮守府正面近海の警備に出動せよ！","stageClearItemInfo":"MEISTER","stageDropItemInfo":["BUCKET","NONE","NONE","NONE"],"areaClearState":"CLEAR"},{"areaId":1,"areaSubId":1,"limitSec":90,"requireGp":100,"pursuitMap":true,"pursuitMapOpen":false,"sortieLimit":false,"stageImageName":"area_rprx04hjnl.png","stageMissionName":"近海警備","stageMissionInfo":"鎮守府正面近海の敵艦隊を追撃せよ！","stageClearItemInfo":"NONE","stageDropItemInfo":["NONE","NONE","NONE","NONE"],"areaClearState":"CLEAR"}]'
@@ -276,6 +276,55 @@ describe AdmiralStatsParser do
         expect(result.stage_clear_item_info).to eq('NONE')
         expect(result.stage_drop_item_info).to eq(['NONE', 'NONE', 'NONE', 'NONE'])
         expect(result.area_clear_state).to eq('CLEAR')
+      end
+    end
+  end
+
+  # 海域情報は version 7 から bossStatus が追加された？（もっと前からかもしれない）
+  [7].each do |version|
+    describe ".parse_area_capture_info(json, #{version})" do
+      it 'returns AreaCaptureInfo[]' do
+        json = File.open('spec/fixtures/v7/Area_captureInfo.json').read
+        results = AdmiralStatsParser.parse_area_capture_info(json, version)
+
+        expect(results.size).to eq(21)
+
+        # 1-1
+        result = results[0]
+        expect(result.area_id).to eq(1)
+        expect(result.area_sub_id).to eq(1)
+        expect(result.limit_sec).to eq(150)
+        expect(result.require_gp).to eq(150)
+        expect(result.pursuit_map).to eq(false)
+        expect(result.pursuit_map_open).to eq(false)
+        expect(result.sortie_limit).to eq(false)
+        expect(result.stage_image_name).to eq('area_rprx04hjnl.png')
+        expect(result.stage_mission_name).to eq('近海警備')
+        expect(result.stage_mission_info).to eq('鎮守府正面近海の警備に出動せよ！')
+        expect(result.stage_clear_item_info).to eq('MEISTER')
+        expect(result.stage_drop_item_info).to eq(['BUCKET', 'NONE', 'NONE', 'NONE'])
+        expect(result.area_clear_state).to eq('CLEAR')
+        expect(result.boss_info).to be_nil
+
+        # 4-4 (bossInfoがある)
+        result = results[19]
+        expect(result.area_id).to eq(4)
+        expect(result.area_sub_id).to eq(4)
+        expect(result.limit_sec).to eq(390)
+        expect(result.require_gp).to eq(450)
+        expect(result.pursuit_map).to eq(false)
+        expect(result.pursuit_map_open).to eq(true)
+        expect(result.sortie_limit).to eq(false)
+        expect(result.stage_image_name).to eq('area_rwcr2jocm4.png')
+        expect(result.stage_mission_name).to eq('カスガダマ沖海戦')
+        expect(result.stage_mission_info).to eq('カレー洋西方の敵哨戒線を突破、カスガダマ島沖へ侵攻し、敵東方艦隊の中枢部隊を撃滅せよ！')
+        expect(result.stage_clear_item_info).to eq('MEISTER')
+        expect(result.stage_drop_item_info).to eq(['BUCKET', 'SMALLBOX', 'MEDIUMBOX', 'NONE'])
+        expect(result.area_clear_state).to eq('CLEAR')
+        expect(result.boss_info.military_gauge_status).to eq('BREAK')
+        expect(result.boss_info.ene_military_gauge_val).to eq(4500)
+        expect(result.boss_info.military_gauge_left).to eq(0)
+        expect(result.boss_info.boss_status).to eq('FORM_1')
       end
     end
   end
