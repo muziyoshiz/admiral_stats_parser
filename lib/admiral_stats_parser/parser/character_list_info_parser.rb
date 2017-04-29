@@ -43,7 +43,30 @@ class CharacterListInfoParser
           slot_amount: Array,
           slot_disp: Array,
           slot_img: Array,
-      }
+      },
+      4 => {
+          book_no: Integer,
+          lv: Integer,
+          ship_type: String,
+          ship_sort_no: Integer,
+          remodel_lv: Integer,
+          ship_name: String,
+          status_img: String,
+          star_num: Integer,
+          ship_class: String,
+          ship_class_index: Integer,
+          tc_img: String,
+          exp_percent: Integer,
+          max_hp: Integer,
+          real_hp: Integer,
+          damage_status: String,
+          slot_num: Integer,
+          slot_equip_name: Array,
+          slot_amount: Array,
+          slot_disp: Array,
+          slot_img: Array,
+          blueprint_total_num: Integer,
+      },
   }
 
   def self.parse(json, api_version)

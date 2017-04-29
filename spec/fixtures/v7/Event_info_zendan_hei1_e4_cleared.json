@@ -1,0 +1,438 @@
+[
+  {
+    "areaId": 1001,
+    "areaSubId": 1,
+    "level": "HEI",
+    "areaKind": "NORMAL",
+    "stageImageName": "area_gbaewgvif8.png",
+    "stageMissionName": "南方海域へ進出せよ！",
+    "stageMissionInfo": "いよいよ南方海域へ進出を開始する。\n哨戒線を偵察せよ！",
+    "requireGp": 300,
+    "limitSec": 240,
+    "rewardList": [
+      {
+        "rewardType": "FIRST",
+        "dataId": 0,
+        "kind": "ROOM_ITEM_COIN",
+        "value": 50
+      },
+      {
+        "rewardType": "FIRST",
+        "dataId": 1,
+        "kind": "RESULT_POINT",
+        "value": 500
+      },
+      {
+        "rewardType": "SECOND",
+        "dataId": 0,
+        "kind": "RESULT_POINT",
+        "value": 200
+      }
+    ],
+    "stageDropItemInfo": [
+      "SMALLBOX",
+      "MEDIUMBOX",
+      "LARGEBOX",
+      "NONE"
+    ],
+    "sortieLimit": true,
+    "areaClearState": "CLEAR",
+    "militaryGaugeStatus": "BREAK",
+    "eneMilitaryGaugeVal": 2000,
+    "militaryGaugeLeft": 0,
+    "eneMilitaryGauge2d": "base_sensuikakyuu1",
+    "loopCount": 1,
+    "period": 0
+  },
+  {
+    "areaId": 1001,
+    "areaSubId": 2,
+    "level": "HEI",
+    "areaKind": "NORMAL",
+    "stageImageName": "area_ctvqhzc2ex.png",
+    "stageMissionName": "警戒線を突破せよ！",
+    "stageMissionInfo": "先の作戦で警戒線に展開する敵戦力が\n判明した。我が主力艦隊をもって、\n同海域の敵哨戒線を突破せよ！",
+    "requireGp": 350,
+    "limitSec": 300,
+    "rewardList": [
+      {
+        "rewardType": "FIRST",
+        "dataId": 0,
+        "kind": "STRATEGY_POINT",
+        "value": 100
+      },
+      {
+        "rewardType": "FIRST",
+        "dataId": 1,
+        "kind": "RESULT_POINT",
+        "value": 500
+      },
+      {
+        "rewardType": "SECOND",
+        "dataId": 0,
+        "kind": "RESULT_POINT",
+        "value": 200
+      }
+    ],
+    "stageDropItemInfo": [
+      "SMALLBOX",
+      "MEDIUMBOX",
+      "SMALLREC",
+      "NONE"
+    ],
+    "sortieLimit": false,
+    "areaClearState": "CLEAR",
+    "militaryGaugeStatus": "BREAK",
+    "eneMilitaryGaugeVal": 2700,
+    "militaryGaugeLeft": 0,
+    "eneMilitaryGauge2d": "base_soukoukuubo_1",
+    "loopCount": 1,
+    "period": 0
+  },
+  {
+    "areaId": 1001,
+    "areaSubId": 3,
+    "level": "HEI",
+    "areaKind": "PERIOD_LAST",
+    "stageImageName": "area_xexlaicaqs.png",
+    "stageMissionName": "敵洋上戦力を排除せよ！",
+    "stageMissionInfo": "南方海域の前面に展開する\n敵洋上戦力の排除を行う。\n未知の大型戦艦の情報あり！注意せよ！",
+    "requireGp": 400,
+    "limitSec": 360,
+    "rewardList": [
+      {
+        "rewardType": "FIRST",
+        "dataId": 0,
+        "kind": "EQUIP",
+        "value": 1
+      },
+      {
+        "rewardType": "FIRST",
+        "dataId": 1,
+        "kind": "RESULT_POINT",
+        "value": 1000
+      },
+      {
+        "rewardType": "SECOND",
+        "dataId": 0,
+        "kind": "RESULT_POINT",
+        "value": 500
+      }
+    ],
+    "stageDropItemInfo": [
+      "SMALLBOX",
+      "MEDIUMBOX",
+      "LARGEBOX",
+      "NONE"
+    ],
+    "sortieLimit": false,
+    "areaClearState": "CLEAR",
+    "militaryGaugeStatus": "BREAK",
+    "eneMilitaryGaugeVal": 2800,
+    "militaryGaugeLeft": 0,
+    "eneMilitaryGauge2d": "base_nanpouseiki",
+    "loopCount": 1,
+    "period": 0
+  },
+  {
+    "areaId": 1001,
+    "areaSubId": 4,
+    "level": "HEI",
+    "areaKind": "SWEEP",
+    "stageImageName": "area_zti34ai1cr.png",
+    "stageMissionName": "？",
+    "stageMissionInfo": "？",
+    "requireGp": 0,
+    "limitSec": 0,
+    "rewardList": [
+      {
+        "dataId": 0,
+        "kind": "NONE",
+        "value": 0
+      }
+    ],
+    "stageDropItemInfo": [
+      "UNKNOWN",
+      "NONE",
+      "NONE",
+      "NONE"
+    ],
+    "sortieLimit": false,
+    "areaClearState": "NOOPEN",
+    "militaryGaugeStatus": "NONE",
+    "eneMilitaryGaugeVal": 0,
+    "militaryGaugeLeft": 0,
+    "eneMilitaryGauge2d": "",
+    "loopCount": 1,
+    "period": 0
+  },
+  {
+    "areaId": 1001,
+    "areaSubId": 9,
+    "level": "OTU",
+    "areaKind": "NORMAL",
+    "stageImageName": "area_9wb019oc5p.png",
+    "stageMissionName": "南方海域へ進出せよ！",
+    "stageMissionInfo": "いよいよ南方海域へ進出を開始する。\n哨戒線を偵察せよ！",
+    "requireGp": 300,
+    "limitSec": 240,
+    "rewardList": [
+      {
+        "rewardType": "FIRST",
+        "dataId": 0,
+        "kind": "ROOM_ITEM_COIN",
+        "value": 100
+      },
+      {
+        "rewardType": "FIRST",
+        "dataId": 1,
+        "kind": "RESULT_POINT",
+        "value": 1000
+      },
+      {
+        "rewardType": "SECOND",
+        "dataId": 0,
+        "kind": "RESULT_POINT",
+        "value": 500
+      }
+    ],
+    "stageDropItemInfo": [
+      "SMALLBOX",
+      "MEDIUMBOX",
+      "LARGEBOX",
+      "NONE"
+    ],
+    "sortieLimit": true,
+    "areaClearState": "NOTCLEAR",
+    "militaryGaugeStatus": "NORMAL",
+    "eneMilitaryGaugeVal": 1800,
+    "militaryGaugeLeft": 1800,
+    "eneMilitaryGauge2d": "base_sensuikakyuu1",
+    "loopCount": 1,
+    "period": 0
+  },
+  {
+    "areaId": 1001,
+    "areaSubId": 10,
+    "level": "OTU",
+    "areaKind": "NORMAL",
+    "stageImageName": "area_kago3nijg3.png",
+    "stageMissionName": "？",
+    "stageMissionInfo": "？",
+    "requireGp": 0,
+    "limitSec": 0,
+    "rewardList": [
+      {
+        "dataId": 0,
+        "kind": "NONE",
+        "value": 0
+      }
+    ],
+    "stageDropItemInfo": [
+      "UNKNOWN",
+      "NONE",
+      "NONE",
+      "NONE"
+    ],
+    "sortieLimit": false,
+    "areaClearState": "NOOPEN",
+    "militaryGaugeStatus": "NORMAL",
+    "eneMilitaryGaugeVal": 2500,
+    "militaryGaugeLeft": 2500,
+    "eneMilitaryGauge2d": "",
+    "loopCount": 1,
+    "period": 0
+  },
+  {
+    "areaId": 1001,
+    "areaSubId": 11,
+    "level": "OTU",
+    "areaKind": "PERIOD_LAST",
+    "stageImageName": "area_hvn6srmesi.png",
+    "stageMissionName": "？",
+    "stageMissionInfo": "？",
+    "requireGp": 0,
+    "limitSec": 0,
+    "rewardList": [
+      {
+        "dataId": 0,
+        "kind": "NONE",
+        "value": 0
+      }
+    ],
+    "stageDropItemInfo": [
+      "UNKNOWN",
+      "NONE",
+      "NONE",
+      "NONE"
+    ],
+    "sortieLimit": false,
+    "areaClearState": "NOOPEN",
+    "militaryGaugeStatus": "NORMAL",
+    "eneMilitaryGaugeVal": 2600,
+    "militaryGaugeLeft": 2600,
+    "eneMilitaryGauge2d": "",
+    "loopCount": 1,
+    "period": 0
+  },
+  {
+    "areaId": 1001,
+    "areaSubId": 12,
+    "level": "OTU",
+    "areaKind": "SWEEP",
+    "stageImageName": "area_wzo0o6hlyj.png",
+    "stageMissionName": "？",
+    "stageMissionInfo": "？",
+    "requireGp": 0,
+    "limitSec": 0,
+    "rewardList": [
+      {
+        "dataId": 0,
+        "kind": "NONE",
+        "value": 0
+      }
+    ],
+    "stageDropItemInfo": [
+      "UNKNOWN",
+      "NONE",
+      "NONE",
+      "NONE"
+    ],
+    "sortieLimit": false,
+    "areaClearState": "NOOPEN",
+    "militaryGaugeStatus": "NORMAL",
+    "eneMilitaryGaugeVal": 0,
+    "militaryGaugeLeft": 0,
+    "eneMilitaryGauge2d": "",
+    "loopCount": 1,
+    "period": 0
+  },
+  {
+    "areaId": 1001,
+    "areaSubId": 17,
+    "level": "KOU",
+    "areaKind": "NORMAL",
+    "stageImageName": "area_egorqr3pa3.png",
+    "stageMissionName": "？",
+    "stageMissionInfo": "？",
+    "requireGp": 0,
+    "limitSec": 0,
+    "rewardList": [
+      {
+        "dataId": 0,
+        "kind": "NONE",
+        "value": 0
+      }
+    ],
+    "stageDropItemInfo": [
+      "UNKNOWN",
+      "NONE",
+      "NONE",
+      "NONE"
+    ],
+    "sortieLimit": false,
+    "areaClearState": "NOOPEN",
+    "militaryGaugeStatus": "NORMAL",
+    "eneMilitaryGaugeVal": 2000,
+    "militaryGaugeLeft": 2000,
+    "eneMilitaryGauge2d": "",
+    "loopCount": 1,
+    "period": 0
+  },
+  {
+    "areaId": 1001,
+    "areaSubId": 18,
+    "level": "KOU",
+    "areaKind": "NORMAL",
+    "stageImageName": "area_j7ognsdkqc.png",
+    "stageMissionName": "？",
+    "stageMissionInfo": "？",
+    "requireGp": 0,
+    "limitSec": 0,
+    "rewardList": [
+      {
+        "dataId": 0,
+        "kind": "NONE",
+        "value": 0
+      }
+    ],
+    "stageDropItemInfo": [
+      "UNKNOWN",
+      "NONE",
+      "NONE",
+      "NONE"
+    ],
+    "sortieLimit": false,
+    "areaClearState": "NOOPEN",
+    "militaryGaugeStatus": "NORMAL",
+    "eneMilitaryGaugeVal": 2700,
+    "militaryGaugeLeft": 2700,
+    "eneMilitaryGauge2d": "",
+    "loopCount": 1,
+    "period": 0
+  },
+  {
+    "areaId": 1001,
+    "areaSubId": 19,
+    "level": "KOU",
+    "areaKind": "PERIOD_LAST",
+    "stageImageName": "area_6nna83rq2r.png",
+    "stageMissionName": "？",
+    "stageMissionInfo": "？",
+    "requireGp": 0,
+    "limitSec": 0,
+    "rewardList": [
+      {
+        "dataId": 0,
+        "kind": "NONE",
+        "value": 0
+      }
+    ],
+    "stageDropItemInfo": [
+      "UNKNOWN",
+      "NONE",
+      "NONE",
+      "NONE"
+    ],
+    "sortieLimit": false,
+    "areaClearState": "NOOPEN",
+    "militaryGaugeStatus": "NORMAL",
+    "eneMilitaryGaugeVal": 2800,
+    "militaryGaugeLeft": 2800,
+    "eneMilitaryGauge2d": "",
+    "loopCount": 1,
+    "period": 0
+  },
+  {
+    "areaId": 1001,
+    "areaSubId": 20,
+    "level": "KOU",
+    "areaKind": "SWEEP",
+    "stageImageName": "area_mz7a7bmfed.png",
+    "stageMissionName": "？",
+    "stageMissionInfo": "？",
+    "requireGp": 0,
+    "limitSec": 0,
+    "rewardList": [
+      {
+        "dataId": 0,
+        "kind": "NONE",
+        "value": 0
+      }
+    ],
+    "stageDropItemInfo": [
+      "UNKNOWN",
+      "NONE",
+      "NONE",
+      "NONE"
+    ],
+    "sortieLimit": false,
+    "areaClearState": "NOOPEN",
+    "militaryGaugeStatus": "NORMAL",
+    "eneMilitaryGaugeVal": 0,
+    "militaryGaugeLeft": 0,
+    "eneMilitaryGauge2d": "",
+    "loopCount": 1,
+    "period": 0
+  }
+]

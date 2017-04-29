@@ -70,6 +70,9 @@ class CharacterListInfo
   # 何も装備していない場合、および装備可能なスロットでない場合は、空文字列
   attr_accessor :slot_img
 
+  # 改装設計図の枚数 (From API version 7)
+  attr_accessor :blueprint_total_num
+
   # 累計経験値表
   EXP_TABLE = {
     92 => 584500,

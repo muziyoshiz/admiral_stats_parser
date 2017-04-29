@@ -1,39 +1,5 @@
 # 海域情報
 class AreaCaptureInfo
-  # 海域番号と海域名の対応関係
-  AREA_NAMES = {
-    1 => '鎮守府海域',
-    2 => '南西諸島海域',
-    3 => '北方海域',
-    4 => '西方海域',
-  }
-
-  # サブ海域番号と海域名の対応関係
-  AREA_SUB_NAMES = {
-    1 => {
-      1 => '鎮守府正面海域',
-      2 => '南西諸島沖',
-      3 => '製油所地帯沿岸',
-      4 => '南西諸島防衛戦',
-    },
-    2 => {
-      1 => 'カムラン半島',
-      2 => 'バシー島沖',
-      3 => '東部オリョール海',
-      4 => '沖ノ島海域',
-    },
-    3 => {
-      1 => 'モーレイ海哨戒',
-      2 => 'キス島撤退作戦',
-      3 => 'アルフォンシーノ方面進出',
-      4 => '北方海域艦隊決戦',
-    },
-    4 => {
-      1 => 'ジャム島攻略作戦',
-      2 => 'カレー洋制圧戦',
-    },
-  }
-
   # 海域番号
   attr_accessor :area_id
 
@@ -88,19 +54,24 @@ class AreaCaptureInfo
   # NOOPEN: 出撃不可
   attr_accessor :area_clear_state
 
-  # 海域を表す数値を、海域名に変換して返します。
-  def area_id_to_s
-    AREA_NAMES.include?(@area_id) ? AREA_NAMES[@area_id] : @area_id.to_s
-  end
+  # 海域ボスの情報（ボスが存在する場合のみ） (From API version 7?)
+  attr_accessor :boss_info
 
-  # サブ海域を表す数値を、海域名に変換して返します。
-  def area_sub_id_to_s
-    return "#{@area_id}-#{@area_sub_id}" unless AREA_SUB_NAMES.include?(@area_id)
+  # 海域ボスの情報
+  class BossInfo
+    # 海域ゲージの状態
+    # "NORMAL": 攻略中
+    # "BREAK": 攻略後
+    attr_accessor :military_gauge_status
 
-    if AREA_SUB_NAMES[@area_id].include?(@area_sub_id)
-      AREA_SUB_NAMES[@area_id][@area_sub_id]
-    else
-      "#{@area_id}-#{@area_sub_id}"
-    end
+    # 海域ゲージの最大値
+    attr_accessor :ene_military_gauge_val
+
+    # 海域ゲージの現在値
+    attr_accessor :military_gauge_left
+
+    # ボスの状態を表す文字列
+    # FORM_1: 第1形態？
+    attr_accessor :boss_status
   end
 end

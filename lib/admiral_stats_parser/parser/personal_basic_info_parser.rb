@@ -25,7 +25,22 @@ class PersonalBasicInfoParser
       title_id: Integer,
       material_max: Integer,
       strategy_point: Integer,
-    }
+    },
+    3 => {
+        fuel: Integer,
+        ammo: Integer,
+        steel: Integer,
+        bauxite: Integer,
+        bucket: Integer,
+        level: Integer,
+        room_item_coin: Integer,
+        result_point: String,
+        rank: String,
+        title_id: Integer,
+        material_max: Integer,
+        strategy_point: Integer,
+        kou_medal: Integer,
+    },
   }
 
   OPTIONAL_KEYS = {
@@ -35,6 +50,9 @@ class PersonalBasicInfoParser
     },
     2 => {
       admiral_name: String,
+    },
+    3 => {
+        admiral_name: String,
     }
   }
 

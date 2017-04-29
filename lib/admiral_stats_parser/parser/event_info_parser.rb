@@ -22,7 +22,28 @@ class EventInfoParser
           military_gauge_left: Integer,
           boss_status: String,
           loop_count: Integer,
-      }
+      },
+      2 => {
+          area_id: Integer,
+          area_sub_id: Integer,
+          level: String,
+          area_kind: String,
+          limit_sec: Integer,
+          require_gp: Integer,
+          sortie_limit: :boolean,
+          stage_image_name: String,
+          stage_mission_name: String,
+          stage_mission_info: String,
+          reward_list: :reward_list,
+          stage_drop_item_info: Array,
+          area_clear_state: String,
+          military_gauge_status: String,
+          ene_military_gauge_val: Integer,
+          military_gauge_left: Integer,
+          ene_military_gauge2d: String,
+          loop_count: Integer,
+          period: Integer,
+      },
   }
 
   REWARD_LIST_MANDATORY_KEYS = {
@@ -122,21 +143,29 @@ class EventInfoParser
   end
 
   # 与えられたリストから、現在の周回数を返します。
-  def self.current_loop_counts(event_info_list, level)
+  # その作戦が未開放の場合は nil を返します。
+  def self.current_loop_counts(event_info_list, level, period = nil)
     # 指定されたレベルの情報のみ取り出し
-    list = event_info_list.select{|info| info.level == level }
+    list = event_info_list.select{|info| info.level == level and info.period == period }
+
+    # その難易度および作戦のデータがない場合は nil
+    return nil if list.empty?
 
     # 現在の周回数
     list.map{|i| i.loop_count }.max
   end
 
   # 与えられたリストから、クリア済みの周回数を返します。
-  def self.cleared_loop_counts(event_info_list, level)
+  # その作戦が未開放の場合は nil を返します。
+  def self.cleared_loop_counts(event_info_list, level, period = nil)
     # 指定されたレベルの情報のみ取り出し
-    list = event_info_list.select{|info| info.level == level }
+    list = event_info_list.select{|info| info.level == level and info.period == period }
+
+    # その難易度および作戦のデータがない場合は nil
+    return nil if list.empty?
 
     # その周回をクリア済みかどうか
-    cleared = EventInfoParser.all_cleared?(event_info_list, level)
+    cleared = EventInfoParser.all_cleared?(event_info_list, level, period)
 
     # 現在の周回数
     loop_count = list.map{|i| i.loop_count }.max
@@ -147,12 +176,13 @@ class EventInfoParser
   # 与えられたリストから、現在の周回でクリア済みのステージ No. を返します。
   # 丙 E-1 クリア済みの場合も、乙 E-1 クリア済みの場合も 1 を返します。
   # E-1 未クリアの場合は 0 を返します。
-  def self.cleared_stage_no(event_info_list, level)
+  # その難易度または作戦が未開放の場合は 0 を返します。
+  def self.cleared_stage_no(event_info_list, level, period = nil)
     # その難易度が未開放の場合は、0 を返す
-    return 0 unless EventInfoParser.opened?(event_info_list, level)
+    return 0 unless EventInfoParser.opened?(event_info_list, level, period)
 
     # 指定されたレベルの情報を、サブ海域番号の小さい順に取り出し
-    list = event_info_list.select{|info| info.level == level}.sort_by {|info| info.area_sub_id }
+    list = event_info_list.select{|info| info.level == level and info.period == period }.sort_by {|info| info.area_sub_id }
 
     list.each_with_index do |info, prev_stage_no|
       return prev_stage_no if info.area_clear_state == 'NOTCLEAR'
@@ -164,12 +194,13 @@ class EventInfoParser
 
   # 与えられたリストから、攻略中のステージの海域ゲージの現在値を返します。
   # 全ステージクリア後、および掃討戦の場合は 0 を返します。
-  def self.current_military_gauge_left(event_info_list, level)
+  # その難易度または作戦が未開放の場合は 0 を返します。
+  def self.current_military_gauge_left(event_info_list, level, period = nil)
     # 全ステージクリア後は 0 を返す
-    return 0 if EventInfoParser.all_cleared?(event_info_list, level)
+    return 0 if EventInfoParser.all_cleared?(event_info_list, level, period)
 
     # 指定されたレベルの情報を、サブ海域番号の小さい順に取り出し
-    list = event_info_list.select{|info| info.level == level}.sort_by {|info| info.area_sub_id }
+    list = event_info_list.select{|info| info.level == level and info.period == period }.sort_by {|info| info.area_sub_id }
 
     list.each do |info|
       if info.area_clear_state == 'NOTCLEAR' or info.area_clear_state == 'NOOPEN'
@@ -182,9 +213,9 @@ class EventInfoParser
   end
 
   # 与えられた難易度が解放済みの場合に true を返します。
-  def self.opened?(event_info_list, level)
+  def self.opened?(event_info_list, level, period = nil)
     # 指定されたレベルの情報を、サブ海域番号の小さい順に取り出し
-    list = event_info_list.select{|info| info.level == level}.sort_by {|info| info.area_sub_id }
+    list = event_info_list.select{|info| info.level == level and info.period == period }.sort_by {|info| info.area_sub_id }
 
     # その難易度のデータがなければ、未開放と見なす（通常は発生しない）
     return false if list.size == 0
@@ -197,11 +228,11 @@ class EventInfoParser
 
   # 与えられた難易度の全海域をクリア済みの場合に true を返します。
   # その難易度が解放済みで、かつ 'NOTCLEAR' の海域が存在しない場合はクリア済みとみなします。
-  def self.all_cleared?(event_info_list, level)
-    return false unless EventInfoParser.opened?(event_info_list, level)
+  def self.all_cleared?(event_info_list, level, period = nil)
+    return false unless EventInfoParser.opened?(event_info_list, level, period)
 
     # 指定されたレベルの情報を、サブ海域番号の小さい順に取り出し
-    list = event_info_list.select{|info| info.level == level}.sort_by {|info| info.area_sub_id }
+    list = event_info_list.select{|info| info.level == level and info.period == period }.sort_by {|info| info.area_sub_id }
     list.select{|i| i.area_clear_state == 'NOTCLEAR' }.size == 0
   end
 end

@@ -1,0 +1,428 @@
+[
+  {
+    "areaId": 1,
+    "areaSubId": 1,
+    "limitSec": 150,
+    "requireGp": 150,
+    "pursuitMap": false,
+    "pursuitMapOpen": false,
+    "sortieLimit": false,
+    "stageImageName": "area_rprx04hjnl.png",
+    "stageMissionName": "近海警備",
+    "stageMissionInfo": "鎮守府正面近海の警備に出動せよ！",
+    "stageClearItemInfo": "MEISTER",
+    "stageDropItemInfo": [
+      "BUCKET",
+      "NONE",
+      "NONE",
+      "NONE"
+    ],
+    "areaClearState": "CLEAR"
+  },
+  {
+    "areaId": 1,
+    "areaSubId": 2,
+    "limitSec": 210,
+    "requireGp": 200,
+    "pursuitMap": false,
+    "pursuitMapOpen": false,
+    "sortieLimit": false,
+    "stageImageName": "area_x1gkpfeowy.png",
+    "stageMissionName": "南西諸島沖警備",
+    "stageMissionInfo": "南西諸島沖に接近する敵前衛艦隊を捕捉、迎撃せよ！",
+    "stageClearItemInfo": "NONE",
+    "stageDropItemInfo": [
+      "BUCKET",
+      "SMALLREC",
+      "NONE",
+      "NONE"
+    ],
+    "areaClearState": "CLEAR"
+  },
+  {
+    "areaId": 1,
+    "areaSubId": 3,
+    "limitSec": 300,
+    "requireGp": 240,
+    "pursuitMap": false,
+    "pursuitMapOpen": false,
+    "sortieLimit": false,
+    "stageImageName": "area_mhnc33naiz.png",
+    "stageMissionName": "海上護衛作戦",
+    "stageMissionInfo": "製油所地帯沿岸部の海上輸送ラインを防衛せよ！",
+    "stageClearItemInfo": "NONE",
+    "stageDropItemInfo": [
+      "BUCKET",
+      "SMALLBOX",
+      "SMALLREC",
+      "NONE"
+    ],
+    "areaClearState": "CLEAR"
+  },
+  {
+    "areaId": 1,
+    "areaSubId": 4,
+    "limitSec": 330,
+    "requireGp": 280,
+    "pursuitMap": false,
+    "pursuitMapOpen": true,
+    "sortieLimit": false,
+    "stageImageName": "area_0c6tpjoayu.png",
+    "stageMissionName": "南１号作戦",
+    "stageMissionInfo": "南西諸島の防衛ライン上の敵侵攻艦隊を捕捉、全力出撃でこれを撃滅せよ！",
+    "stageClearItemInfo": "MEISTER",
+    "stageDropItemInfo": [
+      "BUCKET",
+      "SMALLBOX",
+      "SMALLREC",
+      "NONE"
+    ],
+    "areaClearState": "CLEAR"
+  },
+  {
+    "areaId": 1,
+    "areaSubId": 4,
+    "limitSec": 90,
+    "requireGp": 150,
+    "pursuitMap": true,
+    "pursuitMapOpen": false,
+    "sortieLimit": false,
+    "stageImageName": "area_0c6tpjoayu.png",
+    "stageMissionName": "南１号作戦",
+    "stageMissionInfo": "南西諸島の防衛ライン上の敵艦隊を追撃せよ！",
+    "stageClearItemInfo": "NONE",
+    "stageDropItemInfo": [
+      "NONE",
+      "NONE",
+      "NONE",
+      "NONE"
+    ],
+    "areaClearState": "CLEAR"
+  },
+  {
+    "areaId": 2,
+    "areaSubId": 1,
+    "limitSec": 270,
+    "requireGp": 240,
+    "pursuitMap": false,
+    "pursuitMapOpen": false,
+    "sortieLimit": false,
+    "stageImageName": "area_8nzeirxrui.png",
+    "stageMissionName": "カ号迎撃戦",
+    "stageMissionInfo": "カムラン半島付近に遊弋する敵艦隊を捕捉、これを迎撃せよ！",
+    "stageClearItemInfo": "NONE",
+    "stageDropItemInfo": [
+      "BUCKET",
+      "SMALLBOX",
+      "NONE",
+      "NONE"
+    ],
+    "areaClearState": "CLEAR"
+  },
+  {
+    "areaId": 2,
+    "areaSubId": 2,
+    "limitSec": 300,
+    "requireGp": 260,
+    "pursuitMap": false,
+    "pursuitMapOpen": true,
+    "sortieLimit": false,
+    "stageImageName": "area_fd46kmpuln.png",
+    "stageMissionName": "柳輸送作戦",
+    "stageMissionInfo": "敵艦隊を排除し、バシー島に蓄積されたボーキサイト資材を輸送せよ！",
+    "stageClearItemInfo": "NONE",
+    "stageDropItemInfo": [
+      "BUCKET",
+      "SMALLREC",
+      "NONE",
+      "NONE"
+    ],
+    "areaClearState": "CLEAR"
+  },
+  {
+    "areaId": 2,
+    "areaSubId": 2,
+    "limitSec": 90,
+    "requireGp": 150,
+    "pursuitMap": true,
+    "pursuitMapOpen": false,
+    "sortieLimit": false,
+    "stageImageName": "area_fd46kmpuln.png",
+    "stageMissionName": "柳輸送作戦",
+    "stageMissionInfo": "ボーキサイト資材輸送のためにバシー島沖の敵艦隊を追撃せよ！",
+    "stageClearItemInfo": "NONE",
+    "stageDropItemInfo": [
+      "NONE",
+      "NONE",
+      "NONE",
+      "NONE"
+    ],
+    "areaClearState": "CLEAR"
+  },
+  {
+    "areaId": 2,
+    "areaSubId": 3,
+    "limitSec": 330,
+    "requireGp": 280,
+    "pursuitMap": false,
+    "pursuitMapOpen": true,
+    "sortieLimit": false,
+    "stageImageName": "area_d3vephb56f.png",
+    "stageMissionName": "０１号作戦",
+    "stageMissionInfo": "オリョール海に進出し敵通商破壊艦隊を排除して海上輸送ラインを防衛せよ！",
+    "stageClearItemInfo": "NONE",
+    "stageDropItemInfo": [
+      "BUCKET",
+      "MEDIUMBOX",
+      "SMALLREC",
+      "NONE"
+    ],
+    "areaClearState": "CLEAR"
+  },
+  {
+    "areaId": 2,
+    "areaSubId": 3,
+    "limitSec": 90,
+    "requireGp": 200,
+    "pursuitMap": true,
+    "pursuitMapOpen": false,
+    "sortieLimit": false,
+    "stageImageName": "area_d3vephb56f.png",
+    "stageMissionName": "０１号作戦",
+    "stageMissionInfo": "オリョール海の敵通商破壊艦隊を追撃し海上輸送ラインを防衛せよ！",
+    "stageClearItemInfo": "NONE",
+    "stageDropItemInfo": [
+      "NONE",
+      "NONE",
+      "NONE",
+      "NONE"
+    ],
+    "areaClearState": "CLEAR"
+  },
+  {
+    "areaId": 2,
+    "areaSubId": 4,
+    "limitSec": 390,
+    "requireGp": 300,
+    "pursuitMap": false,
+    "pursuitMapOpen": true,
+    "sortieLimit": false,
+    "stageImageName": "area_ipvvrzkii5.png",
+    "stageMissionName": "あ号艦隊決戦",
+    "stageMissionInfo": "沖ノ島海域に襲来した有力な敵機動部隊を迎撃、全力出撃で、これを撃滅せよ！",
+    "stageClearItemInfo": "MEISTER",
+    "stageDropItemInfo": [
+      "BUCKET",
+      "SMALLBOX",
+      "MEDIUMBOX",
+      "NONE"
+    ],
+    "areaClearState": "CLEAR"
+  },
+  {
+    "areaId": 2,
+    "areaSubId": 4,
+    "limitSec": 90,
+    "requireGp": 200,
+    "pursuitMap": true,
+    "pursuitMapOpen": false,
+    "sortieLimit": false,
+    "stageImageName": "area_ipvvrzkii5.png",
+    "stageMissionName": "あ号艦隊決戦",
+    "stageMissionInfo": "沖ノ島海域に襲来した有力な敵機動部隊を追撃せよ！",
+    "stageClearItemInfo": "NONE",
+    "stageDropItemInfo": [
+      "NONE",
+      "NONE",
+      "NONE",
+      "NONE"
+    ],
+    "areaClearState": "CLEAR"
+  },
+  {
+    "areaId": 3,
+    "areaSubId": 1,
+    "limitSec": 270,
+    "requireGp": 360,
+    "pursuitMap": false,
+    "pursuitMapOpen": false,
+    "sortieLimit": false,
+    "stageImageName": "area_rtnze23pxc.png",
+    "stageMissionName": "モーレイ海哨戒",
+    "stageMissionInfo": "北方海域に艦隊を進出させモーレイ海を哨戒せよ！",
+    "stageClearItemInfo": "NONE",
+    "stageDropItemInfo": [
+      "BUCKET",
+      "MEDIUMBOX",
+      "NONE",
+      "NONE"
+    ],
+    "areaClearState": "CLEAR"
+  },
+  {
+    "areaId": 3,
+    "areaSubId": 2,
+    "limitSec": 300,
+    "requireGp": 390,
+    "pursuitMap": false,
+    "pursuitMapOpen": false,
+    "sortieLimit": true,
+    "stageImageName": "area_leu0q4z3oo.png",
+    "stageMissionName": "キス島撤退作戦",
+    "stageMissionInfo": "敵艦隊に包囲された北方海域キス島に突入！島の守備隊を無事収容せよ！",
+    "stageClearItemInfo": "NONE",
+    "stageDropItemInfo": [
+      "BUCKET",
+      "SMALLREC",
+      "NONE",
+      "NONE"
+    ],
+    "areaClearState": "CLEAR"
+  },
+  {
+    "areaId": 3,
+    "areaSubId": 3,
+    "limitSec": 330,
+    "requireGp": 420,
+    "pursuitMap": false,
+    "pursuitMapOpen": false,
+    "sortieLimit": true,
+    "stageImageName": "area_d23zup8bq4.png",
+    "stageMissionName": "アルフォンシーノ方面進出",
+    "stageMissionInfo": "北方海域へ進出。敵情の強行偵察を敢行せよ！",
+    "stageClearItemInfo": "NONE",
+    "stageDropItemInfo": [
+      "BUCKET",
+      "MEDIUMBOX",
+      "SMALLREC",
+      "NONE"
+    ],
+    "areaClearState": "CLEAR"
+  },
+  {
+    "areaId": 3,
+    "areaSubId": 4,
+    "limitSec": 390,
+    "requireGp": 450,
+    "pursuitMap": false,
+    "pursuitMapOpen": false,
+    "sortieLimit": false,
+    "stageImageName": "area_zqr12tx7j2.png",
+    "stageMissionName": "北方海域艦隊決戦",
+    "stageMissionInfo": "北方海域奥地に敵艦隊の大規模泊地を発見！我が艦隊の総力を挙げてこれを撃滅せよ！",
+    "stageClearItemInfo": "MEISTER",
+    "stageDropItemInfo": [
+      "BUCKET",
+      "SMALLBOX",
+      "MEDIUMBOX",
+      "NONE"
+    ],
+    "areaClearState": "CLEAR"
+  },
+  {
+    "areaId": 4,
+    "areaSubId": 1,
+    "limitSec": 300,
+    "requireGp": 390,
+    "pursuitMap": false,
+    "pursuitMapOpen": false,
+    "sortieLimit": true,
+    "stageImageName": "area_61nit2qxqj.png",
+    "stageMissionName": "ジャム島攻略作戦",
+    "stageMissionInfo": "西方作戦の第一弾として、ジャム島攻略作戦を展開せよ！",
+    "stageClearItemInfo": "NONE",
+    "stageDropItemInfo": [
+      "BUCKET",
+      "SMALLBOX",
+      "SMALLREC",
+      "NONE"
+    ],
+    "areaClearState": "CLEAR"
+  },
+  {
+    "areaId": 4,
+    "areaSubId": 2,
+    "limitSec": 330,
+    "requireGp": 420,
+    "pursuitMap": false,
+    "pursuitMapOpen": false,
+    "sortieLimit": true,
+    "stageImageName": "area_adrax4tekq.png",
+    "stageMissionName": "カレー洋制圧戦",
+    "stageMissionInfo": "カレー洋の制圧作戦を行う。カレー半島水域の敵艦隊を無力化せよ！",
+    "stageClearItemInfo": "NONE",
+    "stageDropItemInfo": [
+      "BUCKET",
+      "SMALLBOX",
+      "SMALLREC",
+      "NONE"
+    ],
+    "areaClearState": "CLEAR"
+  },
+  {
+    "areaId": 4,
+    "areaSubId": 3,
+    "limitSec": 360,
+    "requireGp": 420,
+    "pursuitMap": false,
+    "pursuitMapOpen": false,
+    "sortieLimit": true,
+    "stageImageName": "area_5kitwrzojc.png",
+    "stageMissionName": "リランカ島空襲",
+    "stageMissionInfo": "リランカ島の敵母港に展開する敵艦隊を叩け！",
+    "stageClearItemInfo": "NONE",
+    "stageDropItemInfo": [
+      "BUCKET",
+      "SMALLBOX",
+      "MEDIUMBOX",
+      "NONE"
+    ],
+    "areaClearState": "CLEAR"
+  },
+  {
+    "areaId": 4,
+    "areaSubId": 4,
+    "limitSec": 390,
+    "requireGp": 450,
+    "pursuitMap": false,
+    "pursuitMapOpen": true,
+    "sortieLimit": false,
+    "stageImageName": "area_rwcr2jocm4.png",
+    "stageMissionName": "カスガダマ沖海戦",
+    "stageMissionInfo": "カレー洋西方の敵哨戒線を突破、カスガダマ島沖へ侵攻し、敵東方艦隊の中枢部隊を撃滅せよ！",
+    "stageClearItemInfo": "MEISTER",
+    "stageDropItemInfo": [
+      "BUCKET",
+      "SMALLBOX",
+      "MEDIUMBOX",
+      "NONE"
+    ],
+    "areaClearState": "CLEAR",
+    "bossInfo": {
+      "militaryGaugeStatus": "BREAK",
+      "eneMilitaryGaugeVal": 4500,
+      "militaryGaugeLeft": 0,
+      "bossStatus": "FORM_1"
+    }
+  },
+  {
+    "areaId": 4,
+    "areaSubId": 4,
+    "limitSec": 90,
+    "requireGp": 200,
+    "pursuitMap": true,
+    "pursuitMapOpen": false,
+    "sortieLimit": false,
+    "stageImageName": "area_rwcr2jocm4.png",
+    "stageMissionName": "カスガダマ沖海戦",
+    "stageMissionInfo": "カスガダマ島沖へ侵攻し、敵東方艦隊の中枢部隊を追撃せよ！",
+    "stageClearItemInfo": "NONE",
+    "stageDropItemInfo": [
+      "NONE",
+      "NONE",
+      "NONE",
+      "NONE"
+    ],
+    "areaClearState": "CLEAR"
+  }
+]
