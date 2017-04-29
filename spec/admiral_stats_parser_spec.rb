@@ -77,6 +77,7 @@ describe AdmiralStatsParser do
       expect(result.title_id).to be_nil
       expect(result.material_max).to be_nil
       expect(result.strategy_point).to be_nil
+      expect(result.kou_medal).to be_nil
     end
   end
 
@@ -98,11 +99,12 @@ describe AdmiralStatsParser do
       expect(result.title_id).to be_nil
       expect(result.material_max).to be_nil
       expect(result.strategy_point).to be_nil
+      expect(result.kou_medal).to be_nil
     end
   end
 
-  # 基本情報は version 2 〜 5 で仕様が同じ
-  (2..5).each do |version|
+  # 基本情報は version 2 〜 6 で仕様が同じ
+  (2..6).each do |version|
     describe ".parse_personal_basic_info(json_without_admiral_name, #{version})" do
         it 'returns PersonalBasicInfo' do
         json = '{"fuel":6750,"ammo":6183,"steel":7126,"bauxite":6513,"bucket":46,"level":32,"roomItemCoin":82,"resultPoint":"3571","rank":"圏外","titleId":7,"materialMax":7200,"strategyPoint":915}'
@@ -121,6 +123,7 @@ describe AdmiralStatsParser do
         expect(result.title_id).to eq(7)
         expect(result.material_max).to eq(7200)
         expect(result.strategy_point).to eq(915)
+        expect(result.kou_medal).to be_nil
       end
     end
 
@@ -142,6 +145,54 @@ describe AdmiralStatsParser do
         expect(result.title_id).to eq(7)
         expect(result.material_max).to eq(7200)
         expect(result.strategy_point).to eq(915)
+        expect(result.kou_medal).to be_nil
+      end
+    end
+  end
+
+  # 基本情報は version 7 で「甲種勲章の数」が追加された
+  [7].each do |version|
+    describe ".parse_personal_basic_info(json_without_admiral_name, #{version})" do
+      it 'returns PersonalBasicInfo' do
+        json = File.open('spec/fixtures/v7/Personal_basicInfo_without_admiralName.json').read
+        result = AdmiralStatsParser.parse_personal_basic_info(json, version)
+
+        expect(result.admiral_name).to be_nil
+        expect(result.fuel).to eq(18600)
+        expect(result.ammo).to eq(18601)
+        expect(result.steel).to eq(18602)
+        expect(result.bauxite).to eq(17947)
+        expect(result.bucket).to eq(397)
+        expect(result.level).to eq(89)
+        expect(result.room_item_coin).to eq(1226)
+        expect(result.result_point).to eq('2944')
+        expect(result.rank).to eq('圏外')
+        expect(result.title_id).to eq(7)
+        expect(result.material_max).to eq(18600)
+        expect(result.strategy_point).to eq(9705)
+        expect(result.kou_medal).to eq(0)
+      end
+    end
+
+    describe ".parse_personal_basic_info(json, #{version})" do
+      it 'returns PersonalBasicInfo' do
+        json = File.open('spec/fixtures/v7/Personal_basicInfo.json').read
+        result = AdmiralStatsParser.parse_personal_basic_info(json, version)
+
+        expect(result.admiral_name).to eq('ムジ')
+        expect(result.fuel).to eq(18600)
+        expect(result.ammo).to eq(18601)
+        expect(result.steel).to eq(18602)
+        expect(result.bauxite).to eq(17947)
+        expect(result.bucket).to eq(397)
+        expect(result.level).to eq(89)
+        expect(result.room_item_coin).to eq(1226)
+        expect(result.result_point).to eq('2944')
+        expect(result.rank).to eq('圏外')
+        expect(result.title_id).to eq(7)
+        expect(result.material_max).to eq(18600)
+        expect(result.strategy_point).to eq(9705)
+        expect(result.kou_medal).to eq(0)
       end
     end
   end

@@ -57,6 +57,9 @@ class PersonalBasicInfo
   # 戦略ポイント (From API version 2)
   attr_accessor :strategy_point
 
+  # 甲種勲章の数 (From API version 7)
+  attr_accessor :kou_medal
+
   # 階級を表す数値を、階級を表す文字列に変換して返します。
   # 数値と階級の対応関係を未調査のため、私が自分で確認できた範囲だけ、文字列にして返します。
   def title_id_to_s

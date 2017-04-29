@@ -42,8 +42,10 @@ module AdmiralStatsParser
     case api_version
       when 1
         PersonalBasicInfoParser.parse(json, 1)
-      when 2..5
+      when 2..6
         PersonalBasicInfoParser.parse(json, 2)
+      when 7
+        PersonalBasicInfoParser.parse(json, 3)
       else
         raise 'unsupported API version'
     end
