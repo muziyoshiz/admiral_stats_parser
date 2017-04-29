@@ -1045,8 +1045,23 @@ describe AdmiralStatsParser do
     end
   end
 
-  # イベント海域情報は version 4 〜 5 で仕様が同じ
-  (4..5).each do |version|
+  # イベント海域情報がからの場合の動作は、version 4 〜 7 で仕様が同じ
+  (4..7).each do |version|
+    describe ".summarize_event_info('[]', #{version})" do
+      it 'returns summary' do
+        # イベントを開催していない期間は、空の配列が返される
+        json = '[]'
+
+        # 引数が空の配列の場合、返り値も空の配列になる
+        event_info_list = AdmiralStatsParser.parse_event_info(json, version)
+        expect(event_info_list).to be_an(Array)
+        expect(event_info_list.size).to eq(0)
+      end
+    end
+  end
+
+  # イベント海域情報は version 4 〜 6 で仕様が同じ
+  (4..6).each do |version|
     describe ".summarize_event_info(json, #{version})" do
       it 'returns summary' do
         # E-1 クリア、E-5 未クリア
@@ -1055,7 +1070,7 @@ describe AdmiralStatsParser do
 
         event_info_list = AdmiralStatsParser.parse_event_info(json, version)
 
-        hei_results = AdmiralStatsParser.summarize_event_info(event_info_list, "HEI", version)
+        hei_results = AdmiralStatsParser.summarize_event_info(event_info_list, "HEI", nil, version)
         expect(hei_results[:opened]).to be true
         expect(hei_results[:all_cleared]).to be false
         expect(hei_results[:current_loop_counts]).to eq(1)
@@ -1066,8 +1081,230 @@ describe AdmiralStatsParser do
     end
   end
 
-  # イベント海域情報は version 4 〜 5 で仕様が同じ
-  (4..5).each do |version|
+  # イベント海域情報は version 7 から前段作戦、後段作戦あり
+  [7].each do |version|
+    describe ".summarize_event_info(json, #{version}) 何も出撃していない時点" do
+      it 'returns summary' do
+        json = File.open('spec/fixtures/v7/Event_info_zendan_initial.json').read
+        event_info_list = AdmiralStatsParser.parse_event_info(json, version)
+
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "HEI", 0, version)
+        expect(results[:opened]).to be true
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to eq(1)
+        expect(results[:cleared_loop_counts]).to eq(0)
+        expect(results[:cleared_stage_no]).to eq(0)
+        expect(results[:current_military_gauge_left]).to eq(2000)
+
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "HEI", 1, version)
+        expect(results[:opened]).to be false
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to be_nil
+        expect(results[:cleared_loop_counts]).to be_nil
+        expect(results[:cleared_stage_no]).to eq(0)
+        expect(results[:current_military_gauge_left]).to eq(0)
+
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "OTU", 0, version)
+        expect(results[:opened]).to be true
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to eq(1)
+        expect(results[:cleared_loop_counts]).to eq(0)
+        expect(results[:cleared_stage_no]).to eq(0)
+        expect(results[:current_military_gauge_left]).to eq(1800)
+
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "OTU", 1, version)
+        expect(results[:opened]).to be false
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to be_nil
+        expect(results[:cleared_loop_counts]).to be_nil
+        expect(results[:cleared_stage_no]).to eq(0)
+        expect(results[:current_military_gauge_left]).to eq(0)
+
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "KOU", 0, version)
+        expect(results[:opened]).to be false
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to eq(1)
+        expect(results[:cleared_loop_counts]).to eq(0)
+        expect(results[:cleared_stage_no]).to eq(0)
+        expect(results[:current_military_gauge_left]).to eq(2000)
+
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "KOU", 1, version)
+        expect(results[:opened]).to be false
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to be_nil
+        expect(results[:cleared_loop_counts]).to be_nil
+        expect(results[:cleared_stage_no]).to eq(0)
+        expect(results[:current_military_gauge_left]).to eq(0)
+      end
+    end
+
+    describe ".summarize_event_info(json, #{version}) 丙1周目E-3クリア後" do
+      it 'returns summary' do
+        json = File.open('spec/fixtures/v7/Event_info_zendan_hei1_e3_cleared.json').read
+        event_info_list = AdmiralStatsParser.parse_event_info(json, version)
+
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "HEI", 0, version)
+        expect(results[:opened]).to be true
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to eq(1)
+        expect(results[:cleared_loop_counts]).to eq(0)
+        expect(results[:cleared_stage_no]).to eq(3)
+        expect(results[:current_military_gauge_left]).to eq(0)
+
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "HEI", 1, version)
+        expect(results[:opened]).to be false
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to be_nil
+        expect(results[:cleared_loop_counts]).to be_nil
+        expect(results[:cleared_stage_no]).to eq(0)
+        expect(results[:current_military_gauge_left]).to eq(0)
+
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "OTU", 0, version)
+        expect(results[:opened]).to be true
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to eq(1)
+        expect(results[:cleared_loop_counts]).to eq(0)
+        expect(results[:cleared_stage_no]).to eq(0)
+        expect(results[:current_military_gauge_left]).to eq(1800)
+
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "OTU", 1, version)
+        expect(results[:opened]).to be false
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to be_nil
+        expect(results[:cleared_loop_counts]).to be_nil
+        expect(results[:cleared_stage_no]).to eq(0)
+        expect(results[:current_military_gauge_left]).to eq(0)
+
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "KOU", 0, version)
+        expect(results[:opened]).to be false
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to eq(1)
+        expect(results[:cleared_loop_counts]).to eq(0)
+        expect(results[:cleared_stage_no]).to eq(0)
+        expect(results[:current_military_gauge_left]).to eq(2000)
+
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "KOU", 1, version)
+        expect(results[:opened]).to be false
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to be_nil
+        expect(results[:cleared_loop_counts]).to be_nil
+        expect(results[:cleared_stage_no]).to eq(0)
+        expect(results[:current_military_gauge_left]).to eq(0)
+      end
+    end
+
+    describe ".summarize_event_info(json, #{version}) 丙1周目掃討戦クリア後" do
+      it 'returns summary' do
+        json = File.open('spec/fixtures/v7/Event_info_zendan_hei1_e4_cleared.json').read
+        event_info_list = AdmiralStatsParser.parse_event_info(json, version)
+
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "HEI", 0, version)
+        expect(results[:opened]).to be true
+        expect(results[:all_cleared]).to be true
+        expect(results[:current_loop_counts]).to eq(1)
+        expect(results[:cleared_loop_counts]).to eq(1)
+        expect(results[:cleared_stage_no]).to eq(4)
+        expect(results[:current_military_gauge_left]).to eq(0)
+
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "HEI", 1, version)
+        expect(results[:opened]).to be false
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to be_nil
+        expect(results[:cleared_loop_counts]).to be_nil
+        expect(results[:cleared_stage_no]).to eq(0)
+        expect(results[:current_military_gauge_left]).to eq(0)
+
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "OTU", 0, version)
+        expect(results[:opened]).to be true
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to eq(1)
+        expect(results[:cleared_loop_counts]).to eq(0)
+        expect(results[:cleared_stage_no]).to eq(0)
+        expect(results[:current_military_gauge_left]).to eq(1800)
+
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "OTU", 1, version)
+        expect(results[:opened]).to be false
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to be_nil
+        expect(results[:cleared_loop_counts]).to be_nil
+        expect(results[:cleared_stage_no]).to eq(0)
+        expect(results[:current_military_gauge_left]).to eq(0)
+
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "KOU", 0, version)
+        expect(results[:opened]).to be false
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to eq(1)
+        expect(results[:cleared_loop_counts]).to eq(0)
+        expect(results[:cleared_stage_no]).to eq(0)
+        expect(results[:current_military_gauge_left]).to eq(2000)
+
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "KOU", 1, version)
+        expect(results[:opened]).to be false
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to be_nil
+        expect(results[:cleared_loop_counts]).to be_nil
+        expect(results[:cleared_stage_no]).to eq(0)
+        expect(results[:current_military_gauge_left]).to eq(0)
+      end
+    end
+
+    describe ".summarize_event_info(json, #{version}) 丙2周目開始直後" do
+      it 'returns summary' do
+        json = File.open('spec/fixtures/v7/Event_info_zendan_hei2_initial.json').read
+        event_info_list = AdmiralStatsParser.parse_event_info(json, version)
+
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "HEI", 0, version)
+        expect(results[:opened]).to be true
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to eq(2)
+        expect(results[:cleared_loop_counts]).to eq(1)
+        expect(results[:cleared_stage_no]).to eq(0)
+        expect(results[:current_military_gauge_left]).to eq(2000)
+
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "HEI", 1, version)
+        expect(results[:opened]).to be false
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to be_nil
+        expect(results[:cleared_loop_counts]).to be_nil
+        expect(results[:cleared_stage_no]).to eq(0)
+        expect(results[:current_military_gauge_left]).to eq(0)
+
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "OTU", 0, version)
+        expect(results[:opened]).to be true
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to eq(1)
+        expect(results[:cleared_loop_counts]).to eq(0)
+        expect(results[:cleared_stage_no]).to eq(0)
+        expect(results[:current_military_gauge_left]).to eq(1800)
+
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "OTU", 1, version)
+        expect(results[:opened]).to be false
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to be_nil
+        expect(results[:cleared_loop_counts]).to be_nil
+        expect(results[:cleared_stage_no]).to eq(0)
+        expect(results[:current_military_gauge_left]).to eq(0)
+
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "KOU", 0, version)
+        expect(results[:opened]).to be false
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to eq(1)
+        expect(results[:cleared_loop_counts]).to eq(0)
+        expect(results[:cleared_stage_no]).to eq(0)
+        expect(results[:current_military_gauge_left]).to eq(2000)
+
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "KOU", 1, version)
+        expect(results[:opened]).to be false
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to be_nil
+        expect(results[:cleared_loop_counts]).to be_nil
+        expect(results[:cleared_stage_no]).to eq(0)
+        expect(results[:current_military_gauge_left]).to eq(0)
+      end
+    end
+  end
+
+  [7].each do |version|
     describe ".summarize_event_info('[]', #{version})" do
       it 'returns summary' do
         # イベントを開催していない期間は、空の配列が返される

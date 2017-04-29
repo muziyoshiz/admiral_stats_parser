@@ -133,18 +133,18 @@ module AdmiralStatsParser
   end
 
   # イベント海域情報のサマリを作成します。
-  def self.summarize_event_info(event_info_list, level, api_version)
+  def self.summarize_event_info(event_info_list, level, period, api_version)
     case api_version
       when 1..3
         raise "API version #{api_version} does not support event info"
-      when 4..5
+      when 4..7
         {
-            opened: EventInfoParser.opened?(event_info_list, level),
-            all_cleared: EventInfoParser.all_cleared?(event_info_list, level),
-            current_loop_counts: EventInfoParser.current_loop_counts(event_info_list, level),
-            cleared_loop_counts: EventInfoParser.cleared_loop_counts(event_info_list, level),
-            cleared_stage_no: EventInfoParser.cleared_stage_no(event_info_list, level),
-            current_military_gauge_left: EventInfoParser.current_military_gauge_left(event_info_list, level)
+            opened: EventInfoParser.opened?(event_info_list, level, period),
+            all_cleared: EventInfoParser.all_cleared?(event_info_list, level, period),
+            current_loop_counts: EventInfoParser.current_loop_counts(event_info_list, level, period),
+            cleared_loop_counts: EventInfoParser.cleared_loop_counts(event_info_list, level, period),
+            cleared_stage_no: EventInfoParser.cleared_stage_no(event_info_list, level, period),
+            current_military_gauge_left: EventInfoParser.current_military_gauge_left(event_info_list, level, period)
         }
       else
         raise 'unsupported API version'

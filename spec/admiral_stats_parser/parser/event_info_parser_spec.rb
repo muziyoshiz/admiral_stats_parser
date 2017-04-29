@@ -374,4 +374,349 @@ describe EventInfoParser do
       expect(EventInfoParser.opened?(event_info_list, 'OTU')).to be true
     end
   end
+
+  describe '前段作戦のみ表示された状態で、前段作戦の丙のみクリア済み' do
+    statuses = [
+        # area_id, area_sub_id, level, area_clear_state, ene_military_gauge_val, ene_military_gauge_left, loop_count, period
+        [1001, 1, 'HEI', 'CLEAR', 2000, 0, 1, 0],
+        [1001, 2, 'HEI', 'CLEAR', 2700, 0, 1, 0],
+        [1001, 3, 'HEI', 'CLEAR', 2800, 0, 1, 0],
+        [1001, 4, 'HEI', 'NOOPEN', 0, 0, 1, 0],
+        [1001, 9, 'OTU', 'NOTCLEAR', 1800, 1800, 1, 0],
+        [1001, 10, 'OTU', 'NOOPEN', 2500, 2500, 1, 0],
+        [1001, 11, 'OTU', 'NOOPEN', 2600, 2600, 1, 0],
+        [1001, 12, 'OTU', 'NOOPEN', 0, 0, 1, 0],
+        [1001, 17, 'KOU', 'NOOPEN', 2000, 2000, 1, 0],
+        [1001, 18, 'KOU', 'NOOPEN', 2700, 2700, 1, 0],
+        [1001, 19, 'KOU', 'NOOPEN', 2800, 2800, 1, 0],
+        [1001, 20, 'KOU', 'NOOPEN', 0, 0, 1, 0],
+
+    ]
+
+    event_info_list = []
+    statuses.each do |status|
+      e = EventInfo.new
+      e.area_id, e.area_sub_id, e.level, e.area_clear_state, e.ene_military_gauge_val, e.military_gauge_left, e.loop_count, e.period = status
+      event_info_list << e
+    end
+
+    it 'returns current_loop_counts' do
+      # 前段作戦
+      expect(EventInfoParser.current_loop_counts(event_info_list, 'HEI', 0)).to eq(1)
+      expect(EventInfoParser.current_loop_counts(event_info_list, 'OTU', 0)).to eq(1)
+      expect(EventInfoParser.current_loop_counts(event_info_list, 'KOU', 0)).to eq(1)
+      # 後段作戦
+      expect(EventInfoParser.current_loop_counts(event_info_list, 'HEI', 1)).to be_nil
+      expect(EventInfoParser.current_loop_counts(event_info_list, 'OTU', 1)).to be_nil
+      expect(EventInfoParser.current_loop_counts(event_info_list, 'KOU', 1)).to be_nil
+    end
+
+    it 'returns cleared_loop_counts' do
+      # 前段作戦
+      expect(EventInfoParser.cleared_loop_counts(event_info_list, 'HEI', 0)).to eq(1)
+      expect(EventInfoParser.cleared_loop_counts(event_info_list, 'OTU', 0)).to eq(0)
+      expect(EventInfoParser.cleared_loop_counts(event_info_list, 'KOU', 0)).to eq(0)
+      # 後段作戦
+      expect(EventInfoParser.cleared_loop_counts(event_info_list, 'HEI', 1)).to be_nil
+      expect(EventInfoParser.cleared_loop_counts(event_info_list, 'OTU', 1)).to be_nil
+      expect(EventInfoParser.cleared_loop_counts(event_info_list, 'KOU', 1)).to be_nil
+    end
+
+    it 'returns cleared_stage_no' do
+      # 前段作戦
+      expect(EventInfoParser.cleared_stage_no(event_info_list, 'HEI', 0)).to eq(4)
+      expect(EventInfoParser.cleared_stage_no(event_info_list, 'OTU', 0)).to eq(0)
+      expect(EventInfoParser.cleared_stage_no(event_info_list, 'KOU', 0)).to eq(0)
+      # 後段作戦
+      expect(EventInfoParser.cleared_stage_no(event_info_list, 'HEI', 1)).to eq(0)
+      expect(EventInfoParser.cleared_stage_no(event_info_list, 'OTU', 1)).to eq(0)
+      expect(EventInfoParser.cleared_stage_no(event_info_list, 'KOU', 1)).to eq(0)
+    end
+
+    it 'returns current_military_gauge_left' do
+      # 前段作戦
+      expect(EventInfoParser.current_military_gauge_left(event_info_list, 'HEI', 0)).to eq(0)
+      expect(EventInfoParser.current_military_gauge_left(event_info_list, 'OTU', 0)).to eq(1800)
+      expect(EventInfoParser.current_military_gauge_left(event_info_list, 'KOU', 0)).to eq(2000)
+      # 後段作戦
+      expect(EventInfoParser.current_military_gauge_left(event_info_list, 'HEI', 1)).to eq(0)
+      expect(EventInfoParser.current_military_gauge_left(event_info_list, 'OTU', 1)).to eq(0)
+      expect(EventInfoParser.current_military_gauge_left(event_info_list, 'KOU', 1)).to eq(0)
+    end
+
+    it 'returns opened?' do
+      # 前段作戦
+      expect(EventInfoParser.opened?(event_info_list, 'HEI', 0)).to be true
+      expect(EventInfoParser.opened?(event_info_list, 'OTU', 0)).to be true
+      expect(EventInfoParser.opened?(event_info_list, 'KOU', 0)).to be false
+      # 後段作戦
+      expect(EventInfoParser.opened?(event_info_list, 'HEI', 1)).to be false
+      expect(EventInfoParser.opened?(event_info_list, 'OTU', 1)).to be false
+      expect(EventInfoParser.opened?(event_info_list, 'KOU', 1)).to be false
+    end
+  end
+
+  describe '後段作戦も表示された状態で、前段作戦の丙のみクリア済み' do
+    statuses = [
+        # area_id, area_sub_id, level, area_clear_state, ene_military_gauge_val, ene_military_gauge_left, loop_count, period
+        [1001, 1, 'HEI', 'CLEAR', 2000, 0, 1, 0],
+        [1001, 2, 'HEI', 'CLEAR', 2700, 0, 1, 0],
+        [1001, 3, 'HEI', 'CLEAR', 2800, 0, 1, 0],
+        [1001, 4, 'HEI', 'NOOPEN', 0, 0, 1, 0],
+        [1001, 5, 'HEI', 'NOTCLEAR', 2000, 2000, 1, 1],
+        [1001, 6, 'HEI', 'NOOPEN', 0, 0, 1, 1],
+        [1001, 7, 'HEI', 'NOOPEN', 0, 0, 1, 1],
+        [1001, 8, 'HEI', 'NOOPEN', 0, 0, 1, 1],
+        [1001, 9, 'OTU', 'NOTCLEAR', 1800, 1800, 1, 0],
+        [1001, 10, 'OTU', 'NOOPEN', 2500, 2500, 1, 0],
+        [1001, 11, 'OTU', 'NOOPEN', 2600, 2600, 1, 0],
+        [1001, 12, 'OTU', 'NOOPEN', 0, 0, 1, 0],
+        [1001, 13, 'OTU', 'NOTCLEAR', 1800, 1800, 1, 1],
+        [1001, 14, 'OTU', 'NOOPEN', 2500, 2500, 1, 1],
+        [1001, 15, 'OTU', 'NOOPEN', 2600, 2600, 1, 1],
+        [1001, 16, 'OTU', 'NOOPEN', 0, 0, 1, 1],
+        [1001, 17, 'KOU', 'NOOPEN', 2000, 2000, 1, 0],
+        [1001, 18, 'KOU', 'NOOPEN', 2700, 2700, 1, 0],
+        [1001, 19, 'KOU', 'NOOPEN', 2800, 2800, 1, 0],
+        [1001, 20, 'KOU', 'NOOPEN', 0, 0, 1, 0],
+        [1001, 21, 'KOU', 'NOOPEN', 2000, 2000, 1, 1],
+        [1001, 22, 'KOU', 'NOOPEN', 2700, 2700, 1, 1],
+        [1001, 23, 'KOU', 'NOOPEN', 2800, 2800, 1, 1],
+        [1001, 24, 'KOU', 'NOOPEN', 0, 0, 1, 1],
+    ]
+
+    event_info_list = []
+    statuses.each do |status|
+      e = EventInfo.new
+      e.area_id, e.area_sub_id, e.level, e.area_clear_state, e.ene_military_gauge_val, e.military_gauge_left, e.loop_count, e.period = status
+      event_info_list << e
+    end
+
+    it 'returns current_loop_counts' do
+      # 前段作戦
+      expect(EventInfoParser.current_loop_counts(event_info_list, 'HEI', 0)).to eq(1)
+      expect(EventInfoParser.current_loop_counts(event_info_list, 'OTU', 0)).to eq(1)
+      expect(EventInfoParser.current_loop_counts(event_info_list, 'KOU', 0)).to eq(1)
+      # 後段作戦
+      expect(EventInfoParser.current_loop_counts(event_info_list, 'HEI', 1)).to eq(1)
+      expect(EventInfoParser.current_loop_counts(event_info_list, 'OTU', 1)).to eq(1)
+      expect(EventInfoParser.current_loop_counts(event_info_list, 'KOU', 1)).to eq(1)
+    end
+
+    it 'returns cleared_loop_counts' do
+      # 前段作戦
+      expect(EventInfoParser.cleared_loop_counts(event_info_list, 'HEI', 0)).to eq(1)
+      expect(EventInfoParser.cleared_loop_counts(event_info_list, 'OTU', 0)).to eq(0)
+      expect(EventInfoParser.cleared_loop_counts(event_info_list, 'KOU', 0)).to eq(0)
+      # 後段作戦
+      expect(EventInfoParser.cleared_loop_counts(event_info_list, 'HEI', 1)).to eq(0)
+      expect(EventInfoParser.cleared_loop_counts(event_info_list, 'OTU', 1)).to eq(0)
+      expect(EventInfoParser.cleared_loop_counts(event_info_list, 'KOU', 1)).to eq(0)
+    end
+
+    it 'returns cleared_stage_no' do
+      # 前段作戦
+      expect(EventInfoParser.cleared_stage_no(event_info_list, 'HEI', 0)).to eq(4)
+      expect(EventInfoParser.cleared_stage_no(event_info_list, 'OTU', 0)).to eq(0)
+      expect(EventInfoParser.cleared_stage_no(event_info_list, 'KOU', 0)).to eq(0)
+      # 後段作戦
+      expect(EventInfoParser.cleared_stage_no(event_info_list, 'HEI', 1)).to eq(0)
+      expect(EventInfoParser.cleared_stage_no(event_info_list, 'OTU', 1)).to eq(0)
+      expect(EventInfoParser.cleared_stage_no(event_info_list, 'KOU', 1)).to eq(0)
+    end
+
+    it 'returns current_military_gauge_left' do
+      # 前段作戦
+      expect(EventInfoParser.current_military_gauge_left(event_info_list, 'HEI', 0)).to eq(0)
+      expect(EventInfoParser.current_military_gauge_left(event_info_list, 'OTU', 0)).to eq(1800)
+      expect(EventInfoParser.current_military_gauge_left(event_info_list, 'KOU', 0)).to eq(2000)
+      # 後段作戦
+      expect(EventInfoParser.current_military_gauge_left(event_info_list, 'HEI', 1)).to eq(2000)
+      expect(EventInfoParser.current_military_gauge_left(event_info_list, 'OTU', 1)).to eq(1800)
+      expect(EventInfoParser.current_military_gauge_left(event_info_list, 'KOU', 1)).to eq(2000)
+    end
+
+    it 'returns opened?' do
+      # 前段作戦
+      expect(EventInfoParser.opened?(event_info_list, 'HEI', 0)).to be true
+      expect(EventInfoParser.opened?(event_info_list, 'OTU', 0)).to be true
+      expect(EventInfoParser.opened?(event_info_list, 'KOU', 0)).to be false
+      # 後段作戦
+      expect(EventInfoParser.opened?(event_info_list, 'HEI', 1)).to be true
+      expect(EventInfoParser.opened?(event_info_list, 'OTU', 1)).to be true
+      expect(EventInfoParser.opened?(event_info_list, 'KOU', 1)).to be false
+    end
+  end
+
+  describe '前段作戦のみ表示された状態で、前段作戦の丙のみ2周目E-1の途中' do
+    statuses = [
+        # area_id, area_sub_id, level, area_clear_state, ene_military_gauge_val, ene_military_gauge_left, loop_count, period
+        [1001, 1, 'HEI', 'NOTCLEAR', 2000, 1000, 2, 0],
+        [1001, 2, 'HEI', 'NOOPEN', 0, 0, 2, 0],
+        [1001, 3, 'HEI', 'NOOPEN', 0, 0, 2, 0],
+        [1001, 4, 'HEI', 'NOOPEN', 0, 0, 2, 0],
+        [1001, 9, 'OTU', 'NOTCLEAR', 1800, 1800, 1, 0],
+        [1001, 10, 'OTU', 'NOOPEN', 2500, 2500, 1, 0],
+        [1001, 11, 'OTU', 'NOOPEN', 2600, 2600, 1, 0],
+        [1001, 12, 'OTU', 'NOOPEN', 0, 0, 1, 0],
+        [1001, 17, 'KOU', 'NOOPEN', 2000, 2000, 1, 0],
+        [1001, 18, 'KOU', 'NOOPEN', 2700, 2700, 1, 0],
+        [1001, 19, 'KOU', 'NOOPEN', 2800, 2800, 1, 0],
+        [1001, 20, 'KOU', 'NOOPEN', 0, 0, 1, 0],
+    ]
+
+    event_info_list = []
+    statuses.each do |status|
+      e = EventInfo.new
+      e.area_id, e.area_sub_id, e.level, e.area_clear_state, e.ene_military_gauge_val, e.military_gauge_left, e.loop_count, e.period = status
+      event_info_list << e
+    end
+
+    it 'returns current_loop_counts' do
+      # 前段作戦
+      expect(EventInfoParser.current_loop_counts(event_info_list, 'HEI', 0)).to eq(2)
+      expect(EventInfoParser.current_loop_counts(event_info_list, 'OTU', 0)).to eq(1)
+      expect(EventInfoParser.current_loop_counts(event_info_list, 'KOU', 0)).to eq(1)
+      # 後段作戦
+      expect(EventInfoParser.current_loop_counts(event_info_list, 'HEI', 1)).to be_nil
+      expect(EventInfoParser.current_loop_counts(event_info_list, 'OTU', 1)).to be_nil
+      expect(EventInfoParser.current_loop_counts(event_info_list, 'KOU', 1)).to be_nil
+    end
+
+    it 'returns cleared_loop_counts' do
+      # 前段作戦
+      expect(EventInfoParser.cleared_loop_counts(event_info_list, 'HEI', 0)).to eq(1)
+      expect(EventInfoParser.cleared_loop_counts(event_info_list, 'OTU', 0)).to eq(0)
+      expect(EventInfoParser.cleared_loop_counts(event_info_list, 'KOU', 0)).to eq(0)
+      # 後段作戦
+      expect(EventInfoParser.cleared_loop_counts(event_info_list, 'HEI', 1)).to be_nil
+      expect(EventInfoParser.cleared_loop_counts(event_info_list, 'OTU', 1)).to be_nil
+      expect(EventInfoParser.cleared_loop_counts(event_info_list, 'KOU', 1)).to be_nil
+    end
+
+    it 'returns cleared_stage_no' do
+      # 前段作戦
+      expect(EventInfoParser.cleared_stage_no(event_info_list, 'HEI', 0)).to eq(0)
+      expect(EventInfoParser.cleared_stage_no(event_info_list, 'OTU', 0)).to eq(0)
+      expect(EventInfoParser.cleared_stage_no(event_info_list, 'KOU', 0)).to eq(0)
+      # 後段作戦
+      expect(EventInfoParser.cleared_stage_no(event_info_list, 'HEI', 1)).to eq(0)
+      expect(EventInfoParser.cleared_stage_no(event_info_list, 'OTU', 1)).to eq(0)
+      expect(EventInfoParser.cleared_stage_no(event_info_list, 'KOU', 1)).to eq(0)
+    end
+
+    it 'returns current_military_gauge_left' do
+      # 前段作戦
+      expect(EventInfoParser.current_military_gauge_left(event_info_list, 'HEI', 0)).to eq(1000)
+      expect(EventInfoParser.current_military_gauge_left(event_info_list, 'OTU', 0)).to eq(1800)
+      expect(EventInfoParser.current_military_gauge_left(event_info_list, 'KOU', 0)).to eq(2000)
+      # 後段作戦
+      expect(EventInfoParser.current_military_gauge_left(event_info_list, 'HEI', 1)).to eq(0)
+      expect(EventInfoParser.current_military_gauge_left(event_info_list, 'OTU', 1)).to eq(0)
+      expect(EventInfoParser.current_military_gauge_left(event_info_list, 'KOU', 1)).to eq(0)
+    end
+
+    it 'returns opened?' do
+      # 前段作戦
+      expect(EventInfoParser.opened?(event_info_list, 'HEI', 0)).to be true
+      expect(EventInfoParser.opened?(event_info_list, 'OTU', 0)).to be true
+      expect(EventInfoParser.opened?(event_info_list, 'KOU', 0)).to be false
+      # 後段作戦
+      expect(EventInfoParser.opened?(event_info_list, 'HEI', 1)).to be false
+      expect(EventInfoParser.opened?(event_info_list, 'OTU', 1)).to be false
+      expect(EventInfoParser.opened?(event_info_list, 'KOU', 1)).to be false
+    end
+  end
+
+  describe '後段作戦の丙クリア済み、前段作戦の丙2周目' do
+    statuses = [
+        # area_id, area_sub_id, level, area_clear_state, ene_military_gauge_val, ene_military_gauge_left, loop_count, period
+        [1001, 1, 'HEI', 'NOTCLEAR', 2000, 1000, 2, 0],
+        [1001, 2, 'HEI', 'NOOPEN', 2700, 2700, 2, 0],
+        [1001, 3, 'HEI', 'NOOPEN', 2800, 2800, 2, 0],
+        [1001, 4, 'HEI', 'NOOPEN', 0, 0, 2, 0],
+        [1001, 5, 'HEI', 'CLEAR', 2000, 2000, 1, 1],
+        [1001, 6, 'HEI', 'CLEAR', 9999, 9999, 1, 1],
+        [1001, 7, 'HEI', 'CLEAR', 9999, 9999, 1, 1],
+        [1001, 8, 'HEI', 'NOOPEN', 0, 0, 1, 1],
+        [1001, 9, 'OTU', 'NOTCLEAR', 1800, 1800, 1, 0],
+        [1001, 10, 'OTU', 'NOOPEN', 2500, 2500, 1, 0],
+        [1001, 11, 'OTU', 'NOOPEN', 2600, 2600, 1, 0],
+        [1001, 12, 'OTU', 'NOOPEN', 0, 0, 1, 0],
+        [1001, 13, 'OTU', 'NOTCLEAR', 1800, 1800, 1, 1],
+        [1001, 14, 'OTU', 'NOOPEN', 2500, 2500, 1, 1],
+        [1001, 15, 'OTU', 'NOOPEN', 2600, 2600, 1, 1],
+        [1001, 16, 'OTU', 'NOOPEN', 0, 0, 1, 1],
+        [1001, 17, 'KOU', 'NOOPEN', 2000, 2000, 1, 0],
+        [1001, 18, 'KOU', 'NOOPEN', 2700, 2700, 1, 0],
+        [1001, 19, 'KOU', 'NOOPEN', 2800, 2800, 1, 0],
+        [1001, 20, 'KOU', 'NOOPEN', 0, 0, 1, 0],
+        [1001, 21, 'KOU', 'NOOPEN', 2000, 2000, 1, 1],
+        [1001, 22, 'KOU', 'NOOPEN', 2700, 2700, 1, 1],
+        [1001, 23, 'KOU', 'NOOPEN', 2800, 2800, 1, 1],
+        [1001, 24, 'KOU', 'NOOPEN', 0, 0, 1, 1],
+    ]
+
+    event_info_list = []
+    statuses.each do |status|
+      e = EventInfo.new
+      e.area_id, e.area_sub_id, e.level, e.area_clear_state, e.ene_military_gauge_val, e.military_gauge_left, e.loop_count, e.period = status
+      event_info_list << e
+    end
+
+    it 'returns current_loop_counts' do
+      # 前段作戦
+      expect(EventInfoParser.current_loop_counts(event_info_list, 'HEI', 0)).to eq(2)
+      expect(EventInfoParser.current_loop_counts(event_info_list, 'OTU', 0)).to eq(1)
+      expect(EventInfoParser.current_loop_counts(event_info_list, 'KOU', 0)).to eq(1)
+      # 後段作戦
+      expect(EventInfoParser.current_loop_counts(event_info_list, 'HEI', 1)).to eq(1)
+      expect(EventInfoParser.current_loop_counts(event_info_list, 'OTU', 1)).to eq(1)
+      expect(EventInfoParser.current_loop_counts(event_info_list, 'KOU', 1)).to eq(1)
+    end
+
+    it 'returns cleared_loop_counts' do
+      # 前段作戦
+      expect(EventInfoParser.cleared_loop_counts(event_info_list, 'HEI', 0)).to eq(1)
+      expect(EventInfoParser.cleared_loop_counts(event_info_list, 'OTU', 0)).to eq(0)
+      expect(EventInfoParser.cleared_loop_counts(event_info_list, 'KOU', 0)).to eq(0)
+      # 後段作戦
+      expect(EventInfoParser.cleared_loop_counts(event_info_list, 'HEI', 1)).to eq(1)
+      expect(EventInfoParser.cleared_loop_counts(event_info_list, 'OTU', 1)).to eq(0)
+      expect(EventInfoParser.cleared_loop_counts(event_info_list, 'KOU', 1)).to eq(0)
+    end
+
+    it 'returns cleared_stage_no' do
+      # 前段作戦
+      expect(EventInfoParser.cleared_stage_no(event_info_list, 'HEI', 0)).to eq(0)
+      expect(EventInfoParser.cleared_stage_no(event_info_list, 'OTU', 0)).to eq(0)
+      expect(EventInfoParser.cleared_stage_no(event_info_list, 'KOU', 0)).to eq(0)
+      # 後段作戦
+      expect(EventInfoParser.cleared_stage_no(event_info_list, 'HEI', 1)).to eq(4)
+      expect(EventInfoParser.cleared_stage_no(event_info_list, 'OTU', 1)).to eq(0)
+      expect(EventInfoParser.cleared_stage_no(event_info_list, 'KOU', 1)).to eq(0)
+    end
+
+    it 'returns current_military_gauge_left' do
+      # 前段作戦
+      expect(EventInfoParser.current_military_gauge_left(event_info_list, 'HEI', 0)).to eq(1000)
+      expect(EventInfoParser.current_military_gauge_left(event_info_list, 'OTU', 0)).to eq(1800)
+      expect(EventInfoParser.current_military_gauge_left(event_info_list, 'KOU', 0)).to eq(2000)
+      # 後段作戦
+      expect(EventInfoParser.current_military_gauge_left(event_info_list, 'HEI', 1)).to eq(0)
+      expect(EventInfoParser.current_military_gauge_left(event_info_list, 'OTU', 1)).to eq(1800)
+      expect(EventInfoParser.current_military_gauge_left(event_info_list, 'KOU', 1)).to eq(2000)
+    end
+
+    it 'returns opened?' do
+      # 前段作戦
+      expect(EventInfoParser.opened?(event_info_list, 'HEI', 0)).to be true
+      expect(EventInfoParser.opened?(event_info_list, 'OTU', 0)).to be true
+      expect(EventInfoParser.opened?(event_info_list, 'KOU', 0)).to be false
+      # 後段作戦
+      expect(EventInfoParser.opened?(event_info_list, 'HEI', 1)).to be true
+      expect(EventInfoParser.opened?(event_info_list, 'OTU', 1)).to be true
+      expect(EventInfoParser.opened?(event_info_list, 'KOU', 1)).to be false
+    end
+  end
 end
