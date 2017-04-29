@@ -916,4 +916,73 @@ describe AdmiralStatsParser do
       end
     end
   end
+
+  # version 1 〜 6 には改装設計図一覧なし
+  (1..6).each do |version|
+    describe ".parse_blueprint_list_info(json, #{version})" do
+      it 'raises' do
+        json = File.open('spec/fixtures/v7/BlueprintList_info.json').read
+        expect { AdmiralStatsParser.parse_blueprint_list_info(json, version) }.to raise_error("API version #{version} does not support blueprint list info")
+      end
+    end
+  end
+
+  # 改装設計図は version 7 〜
+  [7].each do |version|
+    # 改装設計図が1枚もない場合
+    describe ".parse_blueprint_list_info('[]', #{version})" do
+      it 'returns []' do
+        results = AdmiralStatsParser.parse_blueprint_list_info('[]', version)
+        expect(results.size).to eq(0)
+      end
+    end
+
+    # 改装設計図がある場合
+    describe ".parse_blueprint_list_info(json, #{version})" do
+      it 'returns BlueprintListInfo[]' do
+        # 朝潮、卯月、龍田の改装設計図
+        json = File.open('spec/fixtures/v7/BlueprintList_info.json').read
+
+        results = AdmiralStatsParser.parse_blueprint_list_info(json, version)
+
+        expect(results.size).to eq(3)
+
+        result = results[0]
+        expect(result.ship_class_id).to eq(20)
+        expect(result.ship_class_index).to eq(1)
+        expect(result.ship_sort_no).to eq(1800)
+        expect(result.ship_type).to eq('駆逐艦')
+        expect(result.ship_name).to eq('朝潮')
+        expect(result.status_img).to eq('i/i_69ex6r4uutp3_n.png')
+        expect(result.blueprint_total_num).to eq(1)
+        expect(result.expiration_date_list.size).to eq(1)
+        expect(result.expiration_date_list[0].expiration_date).to eq(1505141999000)
+        expect(result.expiration_date_list[0].blueprint_num).to eq(1)
+
+        result = results[1]
+        expect(result.ship_class_id).to eq(14)
+        expect(result.ship_class_index).to eq(4)
+        expect(result.ship_sort_no).to eq(1800)
+        expect(result.ship_type).to eq('駆逐艦')
+        expect(result.ship_name).to eq('卯月')
+        expect(result.status_img).to eq('i/i_mj1x41twqqw6_n.png')
+        expect(result.blueprint_total_num).to eq(1)
+        expect(result.expiration_date_list.size).to eq(1)
+        expect(result.expiration_date_list[0].expiration_date).to eq(1505141999000)
+        expect(result.expiration_date_list[0].blueprint_num).to eq(1)
+
+        result = results[2]
+        expect(result.ship_class_id).to eq(24)
+        expect(result.ship_class_index).to eq(2)
+        expect(result.ship_sort_no).to eq(1700)
+        expect(result.ship_type).to eq('軽巡洋艦')
+        expect(result.ship_name).to eq('龍田')
+        expect(result.status_img).to eq('i/i_gxqprfwt6ynk_n.png')
+        expect(result.blueprint_total_num).to eq(1)
+        expect(result.expiration_date_list.size).to eq(1)
+        expect(result.expiration_date_list[0].expiration_date).to eq(1505141999000)
+        expect(result.expiration_date_list[0].blueprint_num).to eq(1)
+      end
+    end
+  end
 end

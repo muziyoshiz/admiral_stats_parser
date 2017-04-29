@@ -1,0 +1,47 @@
+[
+  {
+    "shipClassId": 20,
+    "shipClassIndex": 1,
+    "shipSortNo": 1800,
+    "shipType": "駆逐艦",
+    "shipName": "朝潮",
+    "statusImg": "i/i_69ex6r4uutp3_n.png",
+    "blueprintTotalNum": 1,
+    "expirationDateList": [
+      {
+        "expirationDate": 1505141999000,
+        "blueprintNum": 1
+      }
+    ]
+  },
+  {
+    "shipClassId": 14,
+    "shipClassIndex": 4,
+    "shipSortNo": 1800,
+    "shipType": "駆逐艦",
+    "shipName": "卯月",
+    "statusImg": "i/i_mj1x41twqqw6_n.png",
+    "blueprintTotalNum": 1,
+    "expirationDateList": [
+      {
+        "expirationDate": 1505141999000,
+        "blueprintNum": 1
+      }
+    ]
+  },
+  {
+    "shipClassId": 24,
+    "shipClassIndex": 2,
+    "shipSortNo": 1700,
+    "shipType": "軽巡洋艦",
+    "shipName": "龍田",
+    "statusImg": "i/i_gxqprfwt6ynk_n.png",
+    "blueprintTotalNum": 1,
+    "expirationDateList": [
+      {
+        "expirationDate": 1505141999000,
+        "blueprintNum": 1
+      }
+    ]
+  }
+]

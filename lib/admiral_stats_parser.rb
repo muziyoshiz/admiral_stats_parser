@@ -7,6 +7,7 @@ require 'admiral_stats_parser/parser/equip_book_info_parser'
 require 'admiral_stats_parser/parser/character_list_info_parser'
 require 'admiral_stats_parser/parser/equip_list_info_parser'
 require 'admiral_stats_parser/parser/event_info_parser'
+require 'admiral_stats_parser/parser/blueprint_list_info_parser'
 
 module AdmiralStatsParser
   # 最新の API バージョンを返します。
@@ -143,6 +144,18 @@ module AdmiralStatsParser
             cleared_stage_no: EventInfoParser.cleared_stage_no(event_info_list, level),
             current_military_gauge_left: EventInfoParser.current_military_gauge_left(event_info_list, level)
         }
+      else
+        raise 'unsupported API version'
+    end
+  end
+
+  # 改装設計図一覧をパースします。
+  def self.parse_blueprint_list_info(json, api_version)
+    case api_version
+      when 1..6
+        raise "API version #{api_version} does not support blueprint list info"
+      when 7
+        BlueprintListInfoParser.parse(json, 1)
       else
         raise 'unsupported API version'
     end
