@@ -1,31 +1,5 @@
 # 限定海域情報
 class EventInfo
-  # イベント回数
-  EVENT_NUMBERS = {
-      1000 => 1,
-  }
-
-  # 海域番号と海域名の対応関係
-  EVENT_AREA_NAMES = {
-      1000 => '敵艦隊前線泊地殴り込み',
-  }
-
-  # サブ海域番号と海域名の対応関係
-  EVENT_AREA_SUB_NAMES = {
-      1000 => {
-          1 => '前哨戦',
-          2 => '警戒線突破',
-          3 => '湾内突入！',
-          4 => '敵泊地強襲！',
-          5 => '掃討戦',
-          6 => '前哨戦',
-          7 => '警戒線突破',
-          8 => '湾内突入！',
-          9 => '敵泊地強襲！',
-          10 => '掃討戦',
-      },
-  }
-
   # 海域番号
   # 期間限定海域「敵艦隊前線泊地殴り込み」では、共通して 1000
   attr_accessor :area_id
@@ -102,28 +76,6 @@ class EventInfo
   # 周回数
   # E-1 攻略開始前は 1、攻略後も 1
   attr_accessor :loop_count
-
-  # イベント回数を返します。
-  # 第壱回期間限定海域「敵艦隊前線泊地殴り込み」は 1
-  def event_no
-    EVENT_NUMBERS[@area_id]
-  end
-
-  # 海域を表す数値を、海域名に変換して返します。
-  def area_id_to_s
-    EVENT_AREA_NAMES.include?(@area_id) ? EVENT_AREA_NAMES[@area_id] : @area_id.to_s
-  end
-
-  # サブ海域を表す数値を、海域名に変換して返します。
-  def area_sub_id_to_s
-    return "#{@area_id}-#{@area_sub_id}" unless EVENT_AREA_SUB_NAMES.include?(@area_id)
-
-    if EVENT_AREA_SUB_NAMES[@area_id].include?(@area_sub_id)
-      EVENT_AREA_SUB_NAMES[@area_id][@area_sub_id]
-    else
-      "#{@area_id}-#{@area_sub_id}"
-    end
-  end
 
   # 海域撃破ボーナス
   class EventInfoReward
