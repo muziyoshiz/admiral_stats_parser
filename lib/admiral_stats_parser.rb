@@ -94,8 +94,10 @@ module AdmiralStatsParser
         CharacterListInfoParser.parse(json, 1)
       when 3..4
         CharacterListInfoParser.parse(json, 2)
-      when 5
+      when 5..6
         CharacterListInfoParser.parse(json, 3)
+      when 7
+        CharacterListInfoParser.parse(json, 4)
       else
         raise 'unsupported API version'
     end
