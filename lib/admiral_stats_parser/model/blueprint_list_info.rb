@@ -23,6 +23,9 @@ class BlueprintListInfo
   # 改装設計図の総数
   attr_accessor :blueprint_total_num
 
+  # 有効期限切れの警告を表示するか (From API version 8)
+  attr_accessor :exists_warning_for_expiration
+
   # 有効期限の詳細
   attr_accessor :expiration_date_list
 
@@ -36,5 +39,8 @@ class BlueprintListInfo
 
     # 上記の有効期限を持つ改装設計図の枚数
     attr_accessor :blueprint_num
+
+    # 今月で有効期限切れかどうか (From API version 8)
+    attr_accessor :expire_this_month
   end
 end

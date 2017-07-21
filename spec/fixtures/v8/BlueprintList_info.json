@@ -1,0 +1,63 @@
+[
+  {
+    "shipClassId": 20,
+    "shipClassIndex": 1,
+    "shipSortNo": 1800,
+    "shipType": "駆逐艦",
+    "shipName": "朝潮",
+    "statusImg": "i/i_69ex6r4uutp3_n.png",
+    "blueprintTotalNum": 1,
+    "existsWarningForExpiration": false,
+    "expirationDateList": [
+      {
+        "expirationDate": 1505141999000,
+        "blueprintNum": 1,
+        "expireThisMonth": false
+      }
+    ]
+  },
+  {
+    "shipClassId": 14,
+    "shipClassIndex": 2,
+    "shipSortNo": 1800,
+    "shipType": "駆逐艦",
+    "shipName": "如月",
+    "statusImg": "i/i_q47stxacmqww_n.png",
+    "blueprintTotalNum": 2,
+    "existsWarningForExpiration": false,
+    "expirationDateList": [
+      {
+        "expirationDate": 1505141999000,
+        "blueprintNum": 1,
+        "expireThisMonth": false
+      },
+      {
+        "expirationDate": 1507733999000,
+        "blueprintNum": 1,
+        "expireThisMonth": false
+      }
+    ]
+  },
+  {
+    "shipClassId": 14,
+    "shipClassIndex": 11,
+    "shipSortNo": 1800,
+    "shipType": "駆逐艦",
+    "shipName": "望月",
+    "statusImg": "i/i_66r1z2tptm2x_n.png",
+    "blueprintTotalNum": 2,
+    "existsWarningForExpiration": false,
+    "expirationDateList": [
+      {
+        "expirationDate": 1505141999000,
+        "blueprintNum": 1,
+        "expireThisMonth": false
+      },
+      {
+        "expirationDate": 1507733999000,
+        "blueprintNum": 1,
+        "expireThisMonth": false
+      }
+    ]
+  }
+]

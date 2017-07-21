@@ -6,8 +6,8 @@ describe AdmiralStatsParser do
   end
 
   describe '.get_latest_api_version' do
-    it 'returns 7' do
-      expect(AdmiralStatsParser.get_latest_api_version).to eq(7)
+    it 'returns 8' do
+      expect(AdmiralStatsParser.get_latest_api_version).to eq(8)
     end
   end
 
@@ -48,9 +48,14 @@ describe AdmiralStatsParser do
       expect(AdmiralStatsParser.guess_api_version(Time.parse('2017-04-26T06:59:59+0900'))).to eq(6)
     end
 
-    # 2017-04-26 〜
+    # 2017-04-26 〜 2017-05-31
     it 'returns 7' do
       expect(AdmiralStatsParser.guess_api_version(Time.parse('2017-04-26T07:00:00+0900'))).to eq(7)
+      expect(AdmiralStatsParser.guess_api_version(Time.parse('2017-06-01T06:59:59+0900'))).to eq(7)
+    end
+
+    it 'returns 8' do
+      expect(AdmiralStatsParser.guess_api_version(Time.parse('2017-06-01T07:00:00+0900'))).to eq(8)
     end
 
     it 'returns latest version' do
@@ -151,7 +156,8 @@ describe AdmiralStatsParser do
   end
 
   # 基本情報は version 7 で「甲種勲章の数」が追加された
-  [7].each do |version|
+  # version 7 〜 8 で仕様が同じ
+  (7..8).each do |version|
     describe ".parse_personal_basic_info(json_without_admiral_name, #{version})" do
       it 'returns PersonalBasicInfo' do
         json = File.open('spec/fixtures/v7/Personal_basicInfo_without_admiralName.json').read
@@ -281,7 +287,8 @@ describe AdmiralStatsParser do
   end
 
   # 海域情報は version 7 から bossStatus が追加された？（もっと前からかもしれない）
-  [7].each do |version|
+  # version 7 〜 8 で仕様が同じ
+  (7..8).each do |version|
     describe ".parse_area_capture_info(json, #{version})" do
       it 'returns AreaCaptureInfo[]' do
         json = File.open('spec/fixtures/v7/Area_captureInfo.json').read
@@ -365,8 +372,8 @@ describe AdmiralStatsParser do
     end
   end
 
-  # 艦娘図鑑は version 2 〜 7 で仕様が同じ
-  (2..7).each do |version|
+  # 艦娘図鑑は version 2 〜 8 で仕様が同じ
+  (2..8).each do |version|
     describe ".parse_tc_book_info(json, #{version})" do
       it 'returns TcBookInfo[]' do
         json = '[{"bookNo":1,"shipClass":"長門型","shipClassIndex":1,"shipType":"戦艦","shipName":"長門","cardIndexImg":"s/tc_1_d7ju63kolamj.jpg","cardImgList":["","","s/tc_1_gk42czm42s3p.jpg","","",""],"variationNum":6,"acquireNum":1,"lv":23,"statusImg":["i/i_d7ju63kolamj_n.png"]},{"bookNo":5,"shipClass":"","shipClassIndex":-1,"shipType":"","shipName":"未取得","cardIndexImg":"","cardImgList":[],"variationNum":0,"acquireNum":0,"lv":0,"statusImg":[]}]'
@@ -404,8 +411,8 @@ describe AdmiralStatsParser do
     end
   end
 
-  # 装備図鑑は version 1 〜 7 で仕様が同じ
-  (1..7).each do |version|
+  # 装備図鑑は version 1 〜 8 で仕様が同じ
+  (1..8).each do |version|
     describe ".parse_equip_book_info(json, #{version})" do
       it 'returns EquipBookInfo[]' do
         json = '[{"bookNo":1,"equipKind":"小口径主砲","equipName":"12cm単装砲","equipImg":"e/equip_1_3315nm5166d.png"},{"bookNo":2,"equipKind":"小口径主砲","equipName":"12.7cm連装砲","equipImg":"e/equip_2_fon8wsqc5sn.png"},{"bookNo":3,"equipKind":"","equipName":"","equipImg":""},{"bookNo":4,"equipKind":"中口径主砲","equipName":"14cm単装砲","equipImg":"e/equip_4_8tzid3z8li7.png"}]'
@@ -644,7 +651,8 @@ describe AdmiralStatsParser do
   end
 
   # 艦娘一覧は、version 7 で改装設計図の枚数が追加された
-  [7].each do |version|
+  # version 7 〜 8 で仕様が同じ
+  (7..8).each do |version|
     describe ".parse_character_list_info(json, #{version})" do
       it 'returns CharacterListInfo[]' do
         # 朝潮、朝潮改、千歳、千歳改のデータ
@@ -757,8 +765,8 @@ describe AdmiralStatsParser do
     end
   end
 
-  # 装備一覧は version 2 〜 7 で仕様が同じ
-  (2..7).each do |version|
+  # 装備一覧は version 2 〜 8 で仕様が同じ
+  (2..8).each do |version|
     describe ".parse_equip_list_info(json, #{version})" do
       it 'returns EquipListInfo[]' do
         json = '[{"type":1,"equipmentId":1,"name":"12cm単装砲","num":8,"img":"equip_icon_1_1984kzwm2f7s.png"},{"type":1,"equipmentId":2,"name":"12.7cm連装砲","num":31,"img":"equip_icon_1_1984kzwm2f7s.png"},{"type":1,"equipmentId":3,"name":"10cm連装高角砲","num":6,"img":"equip_icon_26_rv74l134q7an.png"}]'
@@ -886,7 +894,8 @@ describe AdmiralStatsParser do
   end
 
   # イベント海域情報は version 7 から前段作戦、後段作戦あり
-  [7].each do |version|
+  # version 7 〜 8 で仕様が同じ
+  (7..8).each do |version|
     describe ".parse_event_info(json, #{version})" do
       it 'returns EventInfo[]' do
         # E-3 クリア直後
@@ -1045,8 +1054,8 @@ describe AdmiralStatsParser do
     end
   end
 
-  # イベント海域情報がからの場合の動作は、version 4 〜 7 で仕様が同じ
-  (4..7).each do |version|
+  # イベント海域情報がからの場合の動作は、version 4 〜 8 で仕様が同じ
+  (4..8).each do |version|
     describe ".summarize_event_info('[]', #{version})" do
       it 'returns summary' do
         # イベントを開催していない期間は、空の配列が返される
@@ -1082,7 +1091,8 @@ describe AdmiralStatsParser do
   end
 
   # イベント海域情報は version 7 から前段作戦、後段作戦あり
-  [7].each do |version|
+  # version 7 〜 8 で仕様が同じ
+  (7..8).each do |version|
     describe ".summarize_event_info(json, #{version}) 何も出撃していない時点" do
       it 'returns summary' do
         json = File.open('spec/fixtures/v7/Event_info_zendan_initial.json').read
@@ -1304,7 +1314,7 @@ describe AdmiralStatsParser do
     end
   end
 
-  [7].each do |version|
+  (7..8).each do |version|
     describe ".summarize_event_info('[]', #{version})" do
       it 'returns summary' do
         # イベントを開催していない期間は、空の配列が返される
@@ -1328,7 +1338,7 @@ describe AdmiralStatsParser do
     end
   end
 
-  # 改装設計図は version 7 〜
+  # 改装設計図は version 7 で追加
   [7].each do |version|
     # 改装設計図が1枚もない場合
     describe ".parse_blueprint_list_info('[]', #{version})" do
@@ -1383,6 +1393,77 @@ describe AdmiralStatsParser do
         expect(result.expiration_date_list.size).to eq(1)
         expect(result.expiration_date_list[0].expiration_date).to eq(1505141999000)
         expect(result.expiration_date_list[0].blueprint_num).to eq(1)
+      end
+    end
+  end
+
+  # 改装設計図は version 8 から情報が増えた（existsWarningForExpiration, expireThisMonth）
+  [8].each do |version|
+    # 改装設計図が1枚もない場合
+    describe ".parse_blueprint_list_info('[]', #{version})" do
+      it 'returns []' do
+        results = AdmiralStatsParser.parse_blueprint_list_info('[]', version)
+        expect(results.size).to eq(0)
+      end
+    end
+
+    # 改装設計図がある場合
+    describe ".parse_blueprint_list_info(json, #{version})" do
+      it 'returns BlueprintListInfo[]' do
+        # 朝潮、如月、望月の改装設計図
+        json = File.open('spec/fixtures/v8/BlueprintList_info.json').read
+
+        results = AdmiralStatsParser.parse_blueprint_list_info(json, version)
+
+        expect(results.size).to eq(3)
+
+        result = results[0]
+        expect(result.ship_class_id).to eq(20)
+        expect(result.ship_class_index).to eq(1)
+        expect(result.ship_sort_no).to eq(1800)
+        expect(result.ship_type).to eq('駆逐艦')
+        expect(result.ship_name).to eq('朝潮')
+        expect(result.status_img).to eq('i/i_69ex6r4uutp3_n.png')
+        expect(result.blueprint_total_num).to eq(1)
+        expect(result.exists_warning_for_expiration).to eq(false)
+        expect(result.expiration_date_list.size).to eq(1)
+        expect(result.expiration_date_list[0].expiration_date).to eq(1505141999000)
+        expect(result.expiration_date_list[0].blueprint_num).to eq(1)
+        expect(result.expiration_date_list[0].expire_this_month).to eq(false)
+
+        result = results[1]
+        expect(result.ship_class_id).to eq(14)
+        expect(result.ship_class_index).to eq(2)
+        expect(result.ship_sort_no).to eq(1800)
+        expect(result.ship_type).to eq('駆逐艦')
+        expect(result.ship_name).to eq('如月')
+        expect(result.status_img).to eq('i/i_q47stxacmqww_n.png')
+        expect(result.blueprint_total_num).to eq(2)
+        expect(result.exists_warning_for_expiration).to eq(false)
+        expect(result.expiration_date_list.size).to eq(2)
+        expect(result.expiration_date_list[0].expiration_date).to eq(1505141999000)
+        expect(result.expiration_date_list[0].blueprint_num).to eq(1)
+        expect(result.expiration_date_list[0].expire_this_month).to eq(false)
+        expect(result.expiration_date_list[1].expiration_date).to eq(1507733999000)
+        expect(result.expiration_date_list[1].blueprint_num).to eq(1)
+        expect(result.expiration_date_list[1].expire_this_month).to eq(false)
+
+        result = results[2]
+        expect(result.ship_class_id).to eq(14)
+        expect(result.ship_class_index).to eq(11)
+        expect(result.ship_sort_no).to eq(1800)
+        expect(result.ship_type).to eq('駆逐艦')
+        expect(result.ship_name).to eq('望月')
+        expect(result.status_img).to eq('i/i_66r1z2tptm2x_n.png')
+        expect(result.blueprint_total_num).to eq(2)
+        expect(result.exists_warning_for_expiration).to eq(false)
+        expect(result.expiration_date_list.size).to eq(2)
+        expect(result.expiration_date_list[0].expiration_date).to eq(1505141999000)
+        expect(result.expiration_date_list[0].blueprint_num).to eq(1)
+        expect(result.expiration_date_list[0].expire_this_month).to eq(false)
+        expect(result.expiration_date_list[1].expiration_date).to eq(1507733999000)
+        expect(result.expiration_date_list[1].blueprint_num).to eq(1)
+        expect(result.expiration_date_list[1].expire_this_month).to eq(false)
       end
     end
   end
