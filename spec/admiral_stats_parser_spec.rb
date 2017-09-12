@@ -803,7 +803,7 @@ describe AdmiralStatsParser do
         expect(result.img).to eq('equip_icon_26_rv74l134q7an.png')
       end
 
-      describe ".parse_max_slot_num(json, #{version}" do
+      describe ".parse_max_slot_num(json, #{version})" do
         it 'returns 500 (default)' do
           json = '[{"type":1,"equipmentId":1,"name":"12cm単装砲","num":8,"img":"equip_icon_1_1984kzwm2f7s.png"},{"type":1,"equipmentId":2,"name":"12.7cm連装砲","num":31,"img":"equip_icon_1_1984kzwm2f7s.png"},{"type":1,"equipmentId":3,"name":"10cm連装高角砲","num":6,"img":"equip_icon_26_rv74l134q7an.png"}]'
 
@@ -815,7 +815,7 @@ describe AdmiralStatsParser do
     end
   end
 
-  # 装備一覧は version 9 で装備最大数が追加された
+  # 装備一覧は version 9 で最大装備保有数が追加された
   [9].each do |version|
     describe ".parse_equip_list_info(json, #{version})" do
       it 'returns EquipListInfo[]' do
@@ -848,7 +848,7 @@ describe AdmiralStatsParser do
       end
     end
 
-    describe ".parse_max_slot_num(json, #{version}" do
+    describe ".parse_max_slot_num(json, #{version})" do
       it 'returns 510' do
         json = '{"maxSlotNum":510,"equipList":[{"type":1,"equipmentId":1,"name":"12cm単装砲","num":8,"img":"equip_icon_1_1984kzwm2f7s.png"},{"type":1,"equipmentId":2,"name":"12.7cm連装砲","num":31,"img":"equip_icon_1_1984kzwm2f7s.png"},{"type":1,"equipmentId":3,"name":"10cm連装高角砲","num":6,"img":"equip_icon_26_rv74l134q7an.png"}]}'
 
