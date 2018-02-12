@@ -6,8 +6,8 @@ describe AdmiralStatsParser do
   end
 
   describe '.get_latest_api_version' do
-    it 'returns 10' do
-      expect(AdmiralStatsParser.get_latest_api_version).to eq(10)
+    it 'returns 11' do
+      expect(AdmiralStatsParser.get_latest_api_version).to eq(11)
     end
   end
 
@@ -66,8 +66,15 @@ describe AdmiralStatsParser do
       expect(AdmiralStatsParser.guess_api_version(Time.parse('2017-09-21T06:59:59+0900'))).to eq(9)
     end
 
+    # 2017-09-21 〜 2018-01-31
     it 'returns 10' do
       expect(AdmiralStatsParser.guess_api_version(Time.parse('2017-09-21T07:00:00+0900'))).to eq(10)
+      expect(AdmiralStatsParser.guess_api_version(Time.parse('2018-02-01T06:59:59+0900'))).to eq(10)
+    end
+
+    # 2018-02-01 〜
+    it 'returns 11' do
+      expect(AdmiralStatsParser.guess_api_version(Time.parse('2018-02-01T07:00:00+0900'))).to eq(11)
     end
 
     it 'returns latest version' do
@@ -169,7 +176,7 @@ describe AdmiralStatsParser do
 
   # 基本情報は version 7 で「甲種勲章の数」が追加された
   # version 7 〜 で仕様が同じ
-  (7..10).each do |version|
+  (7..11).each do |version|
     describe ".parse_personal_basic_info(json_without_admiral_name, #{version})" do
       it 'returns PersonalBasicInfo' do
         json = File.open('spec/fixtures/v7/Personal_basicInfo_without_admiralName.json').read
@@ -299,7 +306,7 @@ describe AdmiralStatsParser do
   end
 
   # 海域情報は version 7 から bossStatus が追加された？（もっと前からかもしれない）
-  # version 7 〜 で仕様が同じ
+  # version 7 〜 10 で仕様が同じ
   (7..10).each do |version|
     describe ".parse_area_capture_info(json, #{version})" do
       it 'returns AreaCaptureInfo[]' do
@@ -348,6 +355,78 @@ describe AdmiralStatsParser do
     end
   end
 
+  # version 11 から、1海域にルートが2個あるパターンが登場した
+  [11].each do |version|
+    describe ".parse_area_capture_info(json, #{version})" do
+      it 'returns AreaCaptureInfo[]' do
+        json = File.open('spec/fixtures/v11/Area_captureInfo.json').read
+        results = AdmiralStatsParser.parse_area_capture_info(json, version)
+
+        expect(results.size).to eq(22)
+
+        # 1-1
+        result = results[0]
+        expect(result.area_id).to eq(1)
+        expect(result.area_sub_id).to eq(1)
+        expect(result.limit_sec).to eq(150)
+        expect(result.require_gp).to eq(150)
+        expect(result.pursuit_map).to eq(false)
+        expect(result.pursuit_map_open).to eq(false)
+        expect(result.sortie_limit).to eq(false)
+        expect(result.stage_image_name).to eq('area_rprx04hjnl.png')
+        expect(result.stage_mission_name).to eq('近海警備')
+        expect(result.stage_mission_info).to eq('鎮守府正面近海の警備に出動せよ！')
+        expect(result.stage_clear_item_info).to eq('MEISTER')
+        expect(result.stage_drop_item_info).to eq(['BUCKET', 'NONE', 'NONE', 'NONE'])
+        expect(result.area_clear_state).to eq('CLEAR')
+        expect(result.boss_info).to be_nil
+        expect(result.route).to be_nil
+
+        # 5-3 (450GP)
+        result = results[20]
+        expect(result.area_id).to eq(5)
+        expect(result.area_sub_id).to eq(3)
+        expect(result.limit_sec).to eq(390)
+        expect(result.require_gp).to eq(450)
+        expect(result.pursuit_map).to eq(false)
+        expect(result.pursuit_map_open).to eq(false)
+        expect(result.sortie_limit).to eq(false)
+        expect(result.stage_image_name).to eq('area_54gzha5h03.png')
+        expect(result.stage_mission_name).to eq('第一次サーモン沖海戦')
+        expect(result.stage_mission_info).to eq('敵泊地に対して夜戦突撃を敢行し、敵主力艦隊を叩け！')
+        expect(result.stage_clear_item_info).to eq('NONE')
+        expect(result.stage_drop_item_info).to eq(['BUCKET', 'SMALLBOX', 'MEDIUMBOX', 'NONE'])
+        expect(result.area_clear_state).to eq('NOTCLEAR')
+        expect(result.boss_info.military_gauge_status).to eq('NORMAL')
+        expect(result.boss_info.ene_military_gauge_val).to eq(4000)
+        expect(result.boss_info.military_gauge_left).to eq(1000)
+        expect(result.boss_info.boss_status).to eq('NONE')
+        expect(result.route).to eq('ROUTE_A')
+
+        # 5-3 (350GP)
+        result = results[21]
+        expect(result.area_id).to eq(5)
+        expect(result.area_sub_id).to eq(3)
+        expect(result.limit_sec).to eq(270)
+        expect(result.require_gp).to eq(350)
+        expect(result.pursuit_map).to eq(false)
+        expect(result.pursuit_map_open).to eq(false)
+        expect(result.sortie_limit).to eq(true)
+        expect(result.stage_image_name).to eq('area_54gzha5h03_2.png')
+        expect(result.stage_mission_name).to eq('第一次サーモン沖海戦')
+        expect(result.stage_mission_info).to eq('敵戦力が集結する泊地に対し、夜戦突撃を速やかに敢行せよ！')
+        expect(result.stage_clear_item_info).to eq('NONE')
+        expect(result.stage_drop_item_info).to eq(['SMALLBOX', 'MEDIUMBOX', 'LARGEBOX', 'NONE'])
+        expect(result.area_clear_state).to eq('NOTCLEAR')
+        expect(result.boss_info.military_gauge_status).to eq('NORMAL')
+        expect(result.boss_info.ene_military_gauge_val).to eq(4000)
+        expect(result.boss_info.military_gauge_left).to eq(1000)
+        expect(result.boss_info.boss_status).to eq('NONE')
+        expect(result.route).to eq('ROUTE_B')
+      end
+    end
+  end
+
   describe '.parse_tc_book_info(json, 1)' do
     it 'returns TcBookInfo[]' do
       json = '[{"bookNo":1,"shipClass":"","shipClassIndex":-1,"shipType":"","shipName":"未取得","cardIndexImg":"","cardImgList":[],"variationNum":0,"acquireNum":0},{"bookNo":2,"shipClass":"長門型","shipClassIndex":2,"shipType":"戦艦","shipName":"陸奥","cardIndexImg":"s/tc_2_tjpm66z1epc6.jpg","cardImgList":["s/tc_2_tjpm66z1epc6.jpg","","","","",""],"variationNum":6,"acquireNum":1}]'
@@ -385,7 +464,7 @@ describe AdmiralStatsParser do
   end
 
   # 艦娘図鑑は version 2 〜 で仕様が同じ
-  (2..10).each do |version|
+  (2..11).each do |version|
     describe ".parse_tc_book_info(json, #{version})" do
       it 'returns TcBookInfo[]' do
         json = '[{"bookNo":1,"shipClass":"長門型","shipClassIndex":1,"shipType":"戦艦","shipName":"長門","cardIndexImg":"s/tc_1_d7ju63kolamj.jpg","cardImgList":["","","s/tc_1_gk42czm42s3p.jpg","","",""],"variationNum":6,"acquireNum":1,"lv":23,"statusImg":["i/i_d7ju63kolamj_n.png"]},{"bookNo":5,"shipClass":"","shipClassIndex":-1,"shipType":"","shipName":"未取得","cardIndexImg":"","cardImgList":[],"variationNum":0,"acquireNum":0,"lv":0,"statusImg":[]}]'
@@ -424,7 +503,7 @@ describe AdmiralStatsParser do
   end
 
   # 装備図鑑は version 1 〜 で仕様が同じ
-  (1..10).each do |version|
+  (1..11).each do |version|
     describe ".parse_equip_book_info(json, #{version})" do
       it 'returns EquipBookInfo[]' do
         json = '[{"bookNo":1,"equipKind":"小口径主砲","equipName":"12cm単装砲","equipImg":"e/equip_1_3315nm5166d.png"},{"bookNo":2,"equipKind":"小口径主砲","equipName":"12.7cm連装砲","equipImg":"e/equip_2_fon8wsqc5sn.png"},{"bookNo":3,"equipKind":"","equipName":"","equipImg":""},{"bookNo":4,"equipKind":"中口径主砲","equipName":"14cm単装砲","equipImg":"e/equip_4_8tzid3z8li7.png"}]'
@@ -664,7 +743,7 @@ describe AdmiralStatsParser do
 
   # 艦娘一覧は、version 7 で改装設計図の枚数が追加された
   # version 7 〜 で仕様が同じ
-  (7..10).each do |version|
+  (7..11).each do |version|
     describe ".parse_character_list_info(json, #{version})" do
       it 'returns CharacterListInfo[]' do
         # 朝潮、朝潮改、千歳、千歳改のデータ
@@ -823,7 +902,7 @@ describe AdmiralStatsParser do
 
   # 装備一覧は version 9 で最大装備保有数が追加された
   # version 9 〜 は仕様が同じ
-  (9..10).each do |version|
+  (9..11).each do |version|
     describe ".parse_equip_list_info(json, #{version})" do
       it 'returns EquipListInfo[]' do
         json = '{"maxSlotNum":510,"equipList":[{"type":1,"equipmentId":1,"name":"12cm単装砲","num":8,"img":"equip_icon_1_1984kzwm2f7s.png"},{"type":1,"equipmentId":2,"name":"12.7cm連装砲","num":31,"img":"equip_icon_1_1984kzwm2f7s.png"},{"type":1,"equipmentId":3,"name":"10cm連装高角砲","num":6,"img":"equip_icon_26_rv74l134q7an.png"}]}'
@@ -962,7 +1041,7 @@ describe AdmiralStatsParser do
 
   # イベント海域情報は version 7 から前段作戦、後段作戦あり
   # version 7 〜 で仕様が同じ
-  (7..10).each do |version|
+  (7..11).each do |version|
     describe ".parse_event_info(json, #{version})" do
       it 'returns EventInfo[]' do
         # E-3 クリア直後
@@ -1122,7 +1201,7 @@ describe AdmiralStatsParser do
   end
 
   # イベント海域情報が空の場合の動作は、version 4 〜 で仕様が同じ
-  (4..10).each do |version|
+  (4..11).each do |version|
     describe ".summarize_event_info('[]', #{version})" do
       it 'returns summary' do
         # イベントを開催していない期間は、空の配列が返される
@@ -1161,7 +1240,7 @@ describe AdmiralStatsParser do
   # こちらはサマリのテスト
   # イベント海域情報は version 7 から前段作戦、後段作戦あり
   # version 7 〜 で仕様が同じ
-  (7..10).each do |version|
+  (7..11).each do |version|
     describe ".summarize_event_info(json, #{version}) 何も出撃していない時点" do
       it 'returns summary' do
         json = File.open('spec/fixtures/v7/Event_info_zendan_initial.json').read
@@ -1383,7 +1462,7 @@ describe AdmiralStatsParser do
     end
   end
 
-  (7..10).each do |version|
+  (7..11).each do |version|
     describe ".summarize_event_info('[]', #{version})" do
       it 'returns summary' do
         # イベントを開催していない期間は、空の配列が返される
@@ -1467,7 +1546,7 @@ describe AdmiralStatsParser do
   end
 
   # 改装設計図は version 8 から情報が増えた（existsWarningForExpiration, expireThisMonth）
-  (8..10).each do |version|
+  (8..11).each do |version|
     # 改装設計図が1枚もない場合
     describe ".parse_blueprint_list_info('[]', #{version})" do
       it 'returns []' do

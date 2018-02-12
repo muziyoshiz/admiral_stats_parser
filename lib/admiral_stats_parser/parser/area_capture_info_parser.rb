@@ -46,6 +46,21 @@ class AreaCaptureInfoParser
           stage_drop_item_info: Array,
           area_clear_state: String,
       },
+      4 => {
+          area_id: Integer,
+          area_sub_id: Integer,
+          limit_sec: Integer,
+          require_gp: Integer,
+          pursuit_map: :boolean,
+          pursuit_map_open: :boolean,
+          sortie_limit: :boolean,
+          stage_image_name: String,
+          stage_mission_name: String,
+          stage_mission_info: String,
+          stage_clear_item_info: String,
+          stage_drop_item_info: Array,
+          area_clear_state: String,
+      },
   }
 
   OPTIONAL_KEYS = {
@@ -53,6 +68,10 @@ class AreaCaptureInfoParser
       2 => {},
       3 => {
           boss_info: :boss_info,
+      },
+      4 => {
+          boss_info: :boss_info,
+          route: String,
       },
   }
 

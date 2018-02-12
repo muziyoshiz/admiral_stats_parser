@@ -65,7 +65,8 @@ AdmiralStatsParser は、以下の API version をサポートしています。
 | 7           | 2017-04-26 〜 2017-05-31（第2回イベントの終了日） |
 | 8           | 2017-06-01 〜 2017-07-30 |
 | 9           | 2017-07-31 〜 2017-09-20 |
-| 10          | 2017-09-21 〜 |
+| 10          | 2017-09-21 〜 2018-01-31 |
+| 11          | 2018-02-01 （VERSION A REVISION 3 のリリース日） 〜 |
 
 各 API version でパースできる JSON の種類は以下の通りです。また、同じ情報でも、API version によって、含まれる情報量が異なる場合があります。その場合は Supported (1), Supported (2) のように記載して区別しています。
 
@@ -74,6 +75,7 @@ AdmiralStatsParser は、以下の API version をサポートしています。
 | 1           | Supported (1) | Supported (1) | Supported (1) | Supported |
 | 2 〜 6      | Supported (2) | Supported (2) | Supported (2) | Supported |
 | 7 〜 10     | Supported (3) | Supported (3) | Supported (2) | Supported |
+| 11     | Supported (3) | Supported (4) | Supported (2) | Supported |
 
 | API version | 艦娘一覧 | 装備一覧 | イベント海域情報 |
 |------------:|:-----|:-----|:-----|
@@ -83,13 +85,13 @@ AdmiralStatsParser は、以下の API version をサポートしています。
 | 4           | Supported (2) | Supported (1) | Supported (1) |
 | 5 〜 6      | Supported (3) | Supported (1) | Supported (1) |
 | 7 〜 8      | Supported (4) | Supported (1) | Supported (2) |
-| 9 〜 10     | Supported (4) | Supported (2) | Supported (2) |
+| 9 〜 11     | Supported (4) | Supported (2) | Supported (2) |
 
 | API version | 改装設計図一覧 |
 |------------:|:-----|
 | 1 〜 6  | Unsupported |
 | 7       | Supported (1) |
-| 8 〜 10 | Supported (2) |
+| 8 〜 11 | Supported (2) |
 
 ## Development
 

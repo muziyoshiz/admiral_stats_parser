@@ -57,6 +57,9 @@ class AreaCaptureInfo
   # 海域ボスの情報（ボスが存在する場合のみ） (From API version 7?)
   attr_accessor :boss_info
 
+  # ルートの識別子（複数ルートが存在する場合のみ） (From API version 11)
+  attr_accessor :route
+
   # 海域ボスの情報
   class BossInfo
     # 海域ゲージの状態

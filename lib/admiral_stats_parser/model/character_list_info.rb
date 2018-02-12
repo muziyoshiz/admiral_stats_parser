@@ -154,8 +154,9 @@ class CharacterListInfo
       return convert_lv_to_exp(lv)
     end
 
-    # Lv 99 に達している場合、および exp_percent が 0 の場合も、lv_to_exp と同じ結果を返す
-    if lv == 99 or exp_percent == 0
+    # exp_percent が 0 の場合、lv_to_exp と同じ結果を返す
+    # これは計算の省略と、Lv が上限の場合に next_exp が解決できない問題を避けるため
+    if exp_percent == 0
       return convert_lv_to_exp(lv)
     end
 
