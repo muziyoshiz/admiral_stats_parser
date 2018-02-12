@@ -58,8 +58,57 @@ describe CharacterListInfo do
       info.lv = 99
       expect(info.lv_to_exp).to eq(1000000)
 
+      # Lv 100 には、ケッコンカッコカリ後に自動的に上がるため、経験値は増えない
       info.lv = 100
-      expect{ info.lv_to_exp }.to raise_error(RuntimeError, 'Unsupported Lv: 100')
+      expect(info.lv_to_exp).to eq(1000000)
+
+      info.lv = 101
+      expect(info.lv_to_exp).to eq(1010000)
+
+      info.lv = 102
+      expect(info.lv_to_exp).to eq(1011000)
+
+      info.lv = 111
+      expect(info.lv_to_exp).to eq(1065000)
+
+      info.lv = 112
+      expect(info.lv_to_exp).to eq(1077000)
+
+      info.lv = 116
+      expect(info.lv_to_exp).to eq(1145000)
+
+      info.lv = 117
+      expect(info.lv_to_exp).to eq(1168000)
+
+      info.lv = 121
+      expect(info.lv_to_exp).to eq(1290000)
+
+      info.lv = 122
+      expect(info.lv_to_exp).to eq(1329000)
+
+      info.lv = 131
+      expect(info.lv_to_exp).to eq(1860000)
+
+      info.lv = 132
+      expect(info.lv_to_exp).to eq(1940000)
+
+      info.lv = 140
+      expect(info.lv_to_exp).to eq(2760000)
+
+      info.lv = 141
+      expect(info.lv_to_exp).to eq(2887000)
+
+      info.lv = 145
+      expect(info.lv_to_exp).to eq(3465000)
+
+      info.lv = 146
+      expect(info.lv_to_exp).to eq(3628000)
+
+      info.lv = 150
+      expect(info.lv_to_exp).to eq(4360000)
+
+      info.lv = 151
+      expect{ info.lv_to_exp }.to raise_error(RuntimeError, 'Unsupported Lv: 151')
 
       info.lv = nil
       expect{ info.lv_to_exp }.to raise_error(RuntimeError, 'Unsupported Lv: ')
@@ -92,6 +141,14 @@ describe CharacterListInfo do
       info.exp_percent = 0
       expect(info.lv_and_exp_percent_to_exp).to eq(1000000)
 
+      info.lv = 100
+      info.exp_percent = 0
+      expect(info.lv_and_exp_percent_to_exp).to eq(1000000)
+
+      info.lv = 150
+      info.exp_percent = 0
+      expect(info.lv_and_exp_percent_to_exp).to eq(4360000)
+
       # 98 -> 99 は 148500
       # その 11% は 16335
       info.lv = 98
@@ -103,9 +160,9 @@ describe CharacterListInfo do
       info.exp_percent = nil
       expect(info.lv_and_exp_percent_to_exp).to eq(851500)
 
-      info.lv = 100
-      info.exp_percent = 0
-      expect{ info.lv_and_exp_percent_to_exp }.to raise_error(RuntimeError, 'Unsupported Lv: 100')
+      info.lv = 99
+      info.exp_percent = nil
+      expect(info.lv_and_exp_percent_to_exp).to eq(1000000)
 
       info.lv = nil
       info.exp_percent = 0
