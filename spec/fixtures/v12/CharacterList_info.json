@@ -1,0 +1,178 @@
+[
+  {
+    "bookNo": 85,
+    "lv": 99,
+    "shipType": "駆逐艦",
+    "shipSortNo": 1800,
+    "remodelLv": 0,
+    "shipName": "朝潮",
+    "statusImg": "i/i_69ex6r4uutp3_n.png",
+    "starNum": 5,
+    "shipClass": "朝潮型",
+    "shipClassIndex": 1,
+    "tcImg": "s/tc_85_69ex6r4uutp3.jpg",
+    "expPercent": 0,
+    "maxHp": 16,
+    "realHp": 16,
+    "damageStatus": "NORMAL",
+    "slotNum": 2,
+    "slotEquipName": [
+      "",
+      "",
+      "",
+      ""
+    ],
+    "slotAmount": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "slotDisp": [
+      "NONE",
+      "NONE",
+      "NONE",
+      "NONE"
+    ],
+    "slotImg": [
+      "",
+      "",
+      "",
+      ""
+    ],
+    "blueprintTotalNum": 0,
+    "married": false
+  },
+  {
+    "bookNo": 85,
+    "lv": 99,
+    "shipType": "駆逐艦",
+    "shipSortNo": 1800,
+    "remodelLv": 1,
+    "shipName": "朝潮改",
+    "statusImg": "i/i_umacfn9qcwp1_n.png",
+    "starNum": 5,
+    "shipClass": "朝潮型",
+    "shipClassIndex": 1,
+    "tcImg": "s/tc_85_umacfn9qcwp1.jpg",
+    "expPercent": 0,
+    "maxHp": 31,
+    "realHp": 31,
+    "damageStatus": "NORMAL",
+    "slotNum": 3,
+    "slotEquipName": [
+      "61cm四連装(酸素)魚雷",
+      "61cm四連装(酸素)魚雷",
+      "強化型艦本式缶",
+      ""
+    ],
+    "slotAmount": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "slotDisp": [
+      "NONE",
+      "NONE",
+      "NONE",
+      "NONE"
+    ],
+    "slotImg": [
+      "equip_icon_5_c4bcdscek33o.png",
+      "equip_icon_5_c4bcdscek33o.png",
+      "equip_icon_12_556qjnbtokca.png",
+      ""
+    ],
+    "blueprintTotalNum": 0,
+    "married": true
+  },
+  {
+    "bookNo": 49,
+    "lv": 52,
+    "shipType": "水上機母艦",
+    "shipSortNo": 700,
+    "remodelLv": 0,
+    "shipName": "千歳",
+    "statusImg": "i/i_x44xgkjc9a4z_n.png",
+    "starNum": 5,
+    "shipClass": "千歳型",
+    "shipClassIndex": 1,
+    "tcImg": "s/tc_49_x44xgkjc9a4z.jpg",
+    "expPercent": 23,
+    "maxHp": 40,
+    "realHp": 40,
+    "damageStatus": "NORMAL",
+    "slotNum": 2,
+    "slotEquipName": [
+      "",
+      "",
+      "",
+      ""
+    ],
+    "slotAmount": [
+      12,
+      12,
+      0,
+      0
+    ],
+    "slotDisp": [
+      "NOT_EQUIPPED_AIRCRAFT",
+      "NOT_EQUIPPED_AIRCRAFT",
+      "NONE",
+      "NONE"
+    ],
+    "slotImg": [
+      "",
+      "",
+      "",
+      ""
+    ],
+    "blueprintTotalNum": 0,
+    "married": false
+  },
+  {
+    "bookNo": 95,
+    "lv": 52,
+    "shipType": "水上機母艦",
+    "shipSortNo": 700,
+    "remodelLv": 1,
+    "shipName": "千歳改",
+    "statusImg": "i/i_6a3eccmpq03x_n.png",
+    "starNum": 5,
+    "shipClass": "千歳型",
+    "shipClassIndex": 1,
+    "tcImg": "s/tc_95_6a3eccmpq03x.jpg",
+    "expPercent": 23,
+    "maxHp": 41,
+    "realHp": 41,
+    "damageStatus": "NORMAL",
+    "slotNum": 3,
+    "slotEquipName": [
+      "瑞雲",
+      "瑞雲",
+      "甲標的",
+      ""
+    ],
+    "slotAmount": [
+      12,
+      6,
+      6,
+      0
+    ],
+    "slotDisp": [
+      "EQUIPPED_AIRCRAFT",
+      "EQUIPPED_AIRCRAFT",
+      "NOT_EQUIPPED_AIRCRAFT",
+      "NONE"
+    ],
+    "slotImg": [
+      "equip_icon_10_lpoysb3zk6s4.png",
+      "equip_icon_10_lpoysb3zk6s4.png",
+      "equip_icon_5_c4bcdscek33o.png",
+      ""
+    ],
+    "blueprintTotalNum": 0,
+    "married": false
+  }
+]

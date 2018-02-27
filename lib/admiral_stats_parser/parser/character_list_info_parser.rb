@@ -67,6 +67,30 @@ class CharacterListInfoParser
           slot_img: Array,
           blueprint_total_num: Integer,
       },
+      5 => {
+          book_no: Integer,
+          lv: Integer,
+          ship_type: String,
+          ship_sort_no: Integer,
+          remodel_lv: Integer,
+          ship_name: String,
+          status_img: String,
+          star_num: Integer,
+          ship_class: String,
+          ship_class_index: Integer,
+          tc_img: String,
+          exp_percent: Integer,
+          max_hp: Integer,
+          real_hp: Integer,
+          damage_status: String,
+          slot_num: Integer,
+          slot_equip_name: Array,
+          slot_amount: Array,
+          slot_disp: Array,
+          slot_img: Array,
+          blueprint_total_num: Integer,
+          married: :boolean,
+      },
   }
 
   def self.parse(json, api_version)
@@ -87,9 +111,15 @@ class CharacterListInfoParser
           raise "Mandatory key #{key} does not exist"
         end
 
-        # 結果のクラスが合わなければエラー
-        unless items[camel_case_key].is_a?(key_class)
-          raise "Mandatory key #{key} is not class #{key_class}"
+        # ruby には Boolean クラスがないので、そこだけ特別な処理を用意する
+        if key_class == :boolean
+          unless [true, false].include?(items[camel_case_key])
+            raise "Mandatory key #{key} is not boolean"
+          end
+        else
+          unless items[camel_case_key].is_a?(key_class)
+            raise "Mandatory key #{key} is not class #{key_class}"
+          end
         end
 
         result.instance_variable_set("@#{key.to_s}", items[camel_case_key])

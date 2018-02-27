@@ -28,7 +28,29 @@ class TcBookInfoParser
       acquire_num: Integer,
       lv: Integer,
       status_img: Array,
-    }
+    },
+    3 => {
+        book_no: Integer,
+        ship_class: String,
+        ship_class_index: Integer,
+        ship_type: String,
+        ship_name: String,
+        card_index_img: String,
+        card_img_list: Array,
+        variation_num: Integer,
+        acquire_num: Integer,
+        lv: Integer,
+        status_img: Array,
+    },
+  }
+
+  OPTIONAL_KEYS = {
+      1 => {},
+      2 => {},
+      3 => {
+          is_married: Array,
+          married_img: Array,
+      }
   }
 
   def self.parse(json, api_version)
@@ -52,6 +74,19 @@ class TcBookInfoParser
         # 結果のクラスが合わなければエラー
         unless items[camel_case_key].is_a?(key_class)
           raise "Mandatory key #{key} is not class #{key_class}"
+        end
+
+        result.instance_variable_set("@#{key.to_s}", items[camel_case_key])
+      end
+
+      OPTIONAL_KEYS[api_version].each do |key, key_class|
+        # キーが含まれなければ、処理をスキップ
+        camel_case_key = key.to_s.split('_').inject([]){ |buffer,e| buffer.push(buffer.empty? ? e : e.capitalize) }.join
+        next unless items.include?(camel_case_key)
+
+        # 結果のクラスが合わなければエラー
+        unless items[camel_case_key].is_a?(key_class)
+          raise "Optional key #{key} is not class #{key_class}"
         end
 
         result.instance_variable_set("@#{key.to_s}", items[camel_case_key])

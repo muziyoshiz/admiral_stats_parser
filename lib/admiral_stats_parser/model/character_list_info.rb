@@ -73,6 +73,9 @@ class CharacterListInfo
   # 改装設計図の枚数 (From API version 7)
   attr_accessor :blueprint_total_num
 
+  # ケッコンカッコカリ済みかどうかを表すフラグ（boolean）
+  attr_accessor :married
+
   # 累計経験値表
   EXP_TABLE = {
     92 => 584500,

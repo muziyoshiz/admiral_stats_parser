@@ -44,4 +44,13 @@ class TcBookInfo
   # Array
   # 未取得の場合は、空の Array
   attr_accessor :status_img
+
+  # ケッコンカッコカリ済みかどうかを表す配列
+  # その図鑑No. にノーマルと改があれば要素数2、ノーマルしかなければ要素数1の配列
+  # 要素数2の場合、1個目の要素がノーマル、2個目の要素が改を表す
+  attr_accessor :is_married
+
+  # ケッコンカッコカリ済み画像の配列
+  # その図鑑No. にノーマルと改があっても、ノーマルのみでも、要素数1
+  attr_accessor :married_img
 end
