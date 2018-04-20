@@ -6,8 +6,8 @@ describe AdmiralStatsParser do
   end
 
   describe '.get_latest_api_version' do
-    it 'returns 12' do
-      expect(AdmiralStatsParser.get_latest_api_version).to eq(12)
+    it 'returns 13' do
+      expect(AdmiralStatsParser.get_latest_api_version).to eq(13)
     end
   end
 
@@ -78,9 +78,15 @@ describe AdmiralStatsParser do
       expect(AdmiralStatsParser.guess_api_version(Time.parse('2018-02-16T06:59:59+0900'))).to eq(11)
     end
 
-    # 2018-02-16 〜
+    # 2018-02-16 〜 2018-04-18
     it 'returns 12' do
       expect(AdmiralStatsParser.guess_api_version(Time.parse('2018-02-16T07:00:00+0900'))).to eq(12)
+      expect(AdmiralStatsParser.guess_api_version(Time.parse('2018-04-19T06:59:59+0900'))).to eq(12)
+    end
+
+    # 2018-04-19
+    it 'returns 13' do
+      expect(AdmiralStatsParser.guess_api_version(Time.parse('2018-04-19T07:00:00+0900'))).to eq(13)
     end
 
     it 'returns latest version' do
@@ -182,7 +188,7 @@ describe AdmiralStatsParser do
 
   # 基本情報は version 7 で「甲種勲章の数」が追加された
   # version 7 〜 で仕様が同じ
-  (7..12).each do |version|
+  (7..13).each do |version|
     describe ".parse_personal_basic_info(json_without_admiral_name, #{version})" do
       it 'returns PersonalBasicInfo' do
         json = File.open('spec/fixtures/v7/Personal_basicInfo_without_admiralName.json').read
@@ -362,7 +368,7 @@ describe AdmiralStatsParser do
   end
 
   # version 11 から、1海域にルートが2個あるパターンが登場した
-  (11..12).each do |version|
+  (11..13).each do |version|
     describe ".parse_area_capture_info(json, #{version})" do
       it 'returns AreaCaptureInfo[]' do
         json = File.open('spec/fixtures/v11/Area_captureInfo.json').read
@@ -509,7 +515,7 @@ describe AdmiralStatsParser do
   end
 
   # version 12 から、艦娘図鑑にケッコンカッコカリの情報が追加された
-  [12].each do |version|
+  (12..13).each do |version|
     describe ".parse_tc_book_info(json, #{version})" do
       it 'returns TcBookInfo[]' do
         # 注意：未取得のデータには isMarried および marriedImg キーがない
@@ -553,7 +559,7 @@ describe AdmiralStatsParser do
   end
 
   # 装備図鑑は version 1 〜 で仕様が同じ
-  (1..12).each do |version|
+  (1..13).each do |version|
     describe ".parse_equip_book_info(json, #{version})" do
       it 'returns EquipBookInfo[]' do
         json = '[{"bookNo":1,"equipKind":"小口径主砲","equipName":"12cm単装砲","equipImg":"e/equip_1_3315nm5166d.png"},{"bookNo":2,"equipKind":"小口径主砲","equipName":"12.7cm連装砲","equipImg":"e/equip_2_fon8wsqc5sn.png"},{"bookNo":3,"equipKind":"","equipName":"","equipImg":""},{"bookNo":4,"equipKind":"中口径主砲","equipName":"14cm単装砲","equipImg":"e/equip_4_8tzid3z8li7.png"}]'
@@ -907,7 +913,7 @@ describe AdmiralStatsParser do
   end
 
   # version 12 から艦娘一覧にケッコンカッコカリの情報が追加された
-  [12].each do |version|
+  (12..13).each do |version|
     describe ".parse_character_list_info(json, #{version})" do
       it 'returns CharacterListInfo[]' do
         # 朝潮、朝潮改、千歳、千歳改のデータ
@@ -1070,7 +1076,7 @@ describe AdmiralStatsParser do
 
   # 装備一覧は version 9 で最大装備保有数が追加された
   # version 9 〜 は仕様が同じ
-  (9..12).each do |version|
+  (9..13).each do |version|
     describe ".parse_equip_list_info(json, #{version})" do
       it 'returns EquipListInfo[]' do
         json = '{"maxSlotNum":510,"equipList":[{"type":1,"equipmentId":1,"name":"12cm単装砲","num":8,"img":"equip_icon_1_1984kzwm2f7s.png"},{"type":1,"equipmentId":2,"name":"12.7cm連装砲","num":31,"img":"equip_icon_1_1984kzwm2f7s.png"},{"type":1,"equipmentId":3,"name":"10cm連装高角砲","num":6,"img":"equip_icon_26_rv74l134q7an.png"}]}'
@@ -1209,7 +1215,7 @@ describe AdmiralStatsParser do
 
   # イベント海域情報は version 7 から前段作戦、後段作戦あり
   # version 7 〜 で仕様が同じ
-  (7..12).each do |version|
+  (7..13).each do |version|
     describe ".parse_event_info(json, #{version})" do
       it 'returns EventInfo[]' do
         # E-3 クリア直後
@@ -1368,8 +1374,369 @@ describe AdmiralStatsParser do
     end
   end
 
+  # イベント海域情報は version 13 から EO あり
+  [13].each do |version|
+    describe ".parse_event_info(json, #{version}) EO 開放前" do
+      it 'returns EventInfo[]' do
+        # EO 開放前
+        json = File.open('spec/fixtures/v13/Event_info_eo_noopen.json').read
+        results = AdmiralStatsParser.parse_event_info(json, version)
+
+        expect(results.size).to eq(2)
+
+        # 乙 EO
+        result = results[0]
+        expect(result.area_id).to eq(1003)
+        expect(result.area_sub_id).to eq(17)
+        expect(result.level).to eq('OTU')
+        expect(result.area_kind).to eq('NORMAL')
+        expect(result.stage_image_name).to eq('area_ccd30c39wzz.png')
+        expect(result.stage_mission_name).to eq('？')
+        expect(result.stage_mission_info).to eq('？')
+        expect(result.require_gp).to eq(0)
+        expect(result.limit_sec).to eq(0)
+        expect(result.reward_list.size).to eq(1)
+        expect(result.reward_list[0].reward_type).to be_nil
+        expect(result.reward_list[0].data_id).to eq(0)
+        expect(result.reward_list[0].kind).to eq('NONE')
+        expect(result.reward_list[0].value).to eq(0)
+        expect(result.stage_drop_item_info.size).to eq(4)
+        expect(result.stage_drop_item_info[0]).to eq('UNKNOWN')
+        expect(result.stage_drop_item_info[1]).to eq('NONE')
+        expect(result.stage_drop_item_info[2]).to eq('NONE')
+        expect(result.stage_drop_item_info[3]).to eq('NONE')
+        expect(result.sortie_limit).to eq(false)
+        expect(result.area_clear_state).to eq('NOOPEN')
+        expect(result.military_gauge_status).to eq('NORMAL')
+        expect(result.ene_military_gauge_val).to eq(7200)
+        expect(result.military_gauge_left).to eq(7200)
+        expect(result.boss_status).to be_nil
+        expect(result.ene_military_gauge2d).to eq('')
+        expect(result.loop_count).to eq(1)
+        expect(result.period).to eq(2)
+        expect(result.disp_add_level).to eq('HEI')
+        expect(result.ng_unit_img).to be_nil
+
+        # 甲 EO
+        result = results[1]
+        expect(result.area_id).to eq(1003)
+        expect(result.area_sub_id).to eq(27)
+        expect(result.level).to eq('KOU')
+        expect(result.area_kind).to eq('NORMAL')
+        expect(result.stage_image_name).to eq('area_yo4u95e35d6.png')
+        expect(result.stage_mission_name).to eq('？')
+        expect(result.stage_mission_info).to eq('？')
+        expect(result.require_gp).to eq(0)
+        expect(result.limit_sec).to eq(0)
+        expect(result.reward_list.size).to eq(1)
+        expect(result.reward_list[0].reward_type).to be_nil
+        expect(result.reward_list[0].data_id).to eq(0)
+        expect(result.reward_list[0].kind).to eq('NONE')
+        expect(result.reward_list[0].value).to eq(0)
+        expect(result.stage_drop_item_info.size).to eq(4)
+        expect(result.stage_drop_item_info[0]).to eq('UNKNOWN')
+        expect(result.stage_drop_item_info[1]).to eq('NONE')
+        expect(result.stage_drop_item_info[2]).to eq('NONE')
+        expect(result.stage_drop_item_info[3]).to eq('NONE')
+        expect(result.sortie_limit).to eq(false)
+        expect(result.area_clear_state).to eq('NOOPEN')
+        expect(result.military_gauge_status).to eq('NORMAL')
+        expect(result.ene_military_gauge_val).to eq(6000)
+        expect(result.military_gauge_left).to eq(6000)
+        expect(result.boss_status).to be_nil
+        expect(result.ene_military_gauge2d).to eq('')
+        expect(result.loop_count).to eq(1)
+        expect(result.period).to eq(2)
+        expect(result.disp_add_level).to be_nil
+        expect(result.ng_unit_img).to be_nil
+      end
+    end
+
+    describe ".parse_event_info(json, #{version}) EO解放後、1周目出撃中" do
+      it 'returns opened EventInfo[]' do
+        json = File.open('spec/fixtures/v13/Event_info_eo_1st_loop_notclear.json').read
+        results = AdmiralStatsParser.parse_event_info(json, version)
+
+        expect(results.size).to eq(1)
+
+        result = results[0]
+        expect(result.area_id).to eq(1003)
+        expect(result.area_sub_id).to eq(27)
+        expect(result.level).to eq('KOU')
+        expect(result.area_kind).to eq('NORMAL')
+        expect(result.stage_image_name).to eq('area_yo4u95e35d6.png')
+        expect(result.stage_mission_name).to eq('敵飛行場を夜間砲撃で叩け！')
+        expect(result.stage_mission_info).to eq('拡張作戦が発令された！味方艦隊と共に全戦力を結集し、敵飛行場を叩け！')
+        expect(result.require_gp).to eq(450)
+        expect(result.limit_sec).to eq(720)
+        expect(result.reward_list.size).to eq(8)
+        expect(result.reward_list[0].reward_type).to eq('FIRST')
+        expect(result.reward_list[0].data_id).to eq(0)
+        expect(result.reward_list[0].kind).to eq('TLOP_KOU_MEDAL')
+        expect(result.reward_list[0].value).to eq(1)
+        expect(result.reward_list[1].reward_type).to eq('FIRST')
+        expect(result.reward_list[1].data_id).to eq(1)
+        expect(result.reward_list[1].kind).to eq('EQUIP')
+        expect(result.reward_list[1].value).to eq(1)
+        expect(result.reward_list[2].reward_type).to eq('FIRST')
+        expect(result.reward_list[2].data_id).to eq(2)
+        expect(result.reward_list[2].kind).to eq('ROOM_ITEM_COIN')
+        expect(result.reward_list[2].value).to eq(200)
+        expect(result.reward_list[3].reward_type).to eq('FIRST')
+        expect(result.reward_list[3].data_id).to eq(3)
+        expect(result.reward_list[3].kind).to eq('STRATEGY_POINT')
+        expect(result.reward_list[3].value).to eq(500)
+        expect(result.reward_list[4].reward_type).to eq('FIRST')
+        expect(result.reward_list[4].data_id).to eq(4)
+        expect(result.reward_list[4].kind).to eq('RESULT_POINT')
+        expect(result.reward_list[4].value).to eq(3000)
+        expect(result.reward_list[5].reward_type).to eq('SECOND')
+        expect(result.reward_list[5].data_id).to eq(0)
+        expect(result.reward_list[5].kind).to eq('ROOM_ITEM_COIN')
+        expect(result.reward_list[5].value).to eq(50)
+        expect(result.reward_list[6].reward_type).to eq('SECOND')
+        expect(result.reward_list[6].data_id).to eq(1)
+        expect(result.reward_list[6].kind).to eq('STRATEGY_POINT')
+        expect(result.reward_list[6].value).to eq(100)
+        expect(result.reward_list[7].reward_type).to eq('SECOND')
+        expect(result.reward_list[7].data_id).to eq(2)
+        expect(result.reward_list[7].kind).to eq('RESULT_POINT')
+        expect(result.reward_list[7].value).to eq(1500)
+        expect(result.stage_drop_item_info.size).to eq(4)
+        expect(result.stage_drop_item_info[0]).to eq('NONE')
+        expect(result.stage_drop_item_info[1]).to eq('NONE')
+        expect(result.stage_drop_item_info[2]).to eq('NONE')
+        expect(result.stage_drop_item_info[3]).to eq('NONE')
+        expect(result.sortie_limit).to eq(true)
+        expect(result.sortie_limit_img).to eq('sortie_yo4u95e35d6.png')
+        expect(result.area_clear_state).to eq('NOTCLEAR')
+        expect(result.military_gauge_status).to eq('NORMAL')
+        expect(result.ene_military_gauge_val).to eq(6000)
+        expect(result.military_gauge_left).to eq(1893)
+        expect(result.boss_status).to be_nil
+        expect(result.ene_military_gauge2d).to eq('base_hikouzyouki_senkanseiki_hime')
+        expect(result.loop_count).to eq(1)
+        expect(result.period).to eq(2)
+        expect(result.disp_add_level).to be_nil
+        expect(result.ng_unit_img).to eq('ng_yo4u95e35d6.png')
+      end
+    end
+
+    describe ".parse_event_info(json, #{version}) EO解放後、1周目最終戦直前" do
+      it 'returns opened EventInfo[]' do
+        json = File.open('spec/fixtures/v13/Event_info_eo_1st_loop_final.json').read
+        results = AdmiralStatsParser.parse_event_info(json, version)
+
+        expect(results.size).to eq(1)
+
+        result = results[0]
+        expect(result.area_id).to eq(1003)
+        # 最終戦だけ area_sub_id が 27 から 28 に変わる
+        expect(result.area_sub_id).to eq(28)
+        expect(result.level).to eq('KOU')
+        expect(result.area_kind).to eq('BOSS_RAID_FINAL')
+        expect(result.stage_image_name).to eq('area_i15pybux8bm.png')
+        expect(result.stage_mission_name).to eq('敵飛行場を夜間砲撃で叩け！')
+        expect(result.stage_mission_info).to eq("今こそ南方海域要所、敵飛行場を\n撃滅する時！暁の水平線に勝利を刻め！")
+        expect(result.require_gp).to eq(450)
+        expect(result.limit_sec).to eq(720)
+        expect(result.reward_list.size).to eq(8)
+        expect(result.reward_list[0].reward_type).to eq('FIRST')
+        expect(result.reward_list[0].data_id).to eq(0)
+        expect(result.reward_list[0].kind).to eq('TLOP_KOU_MEDAL')
+        expect(result.reward_list[0].value).to eq(1)
+        expect(result.reward_list[1].reward_type).to eq('FIRST')
+        expect(result.reward_list[1].data_id).to eq(1)
+        expect(result.reward_list[1].kind).to eq('EQUIP')
+        expect(result.reward_list[1].value).to eq(1)
+        expect(result.reward_list[2].reward_type).to eq('FIRST')
+        expect(result.reward_list[2].data_id).to eq(2)
+        expect(result.reward_list[2].kind).to eq('ROOM_ITEM_COIN')
+        expect(result.reward_list[2].value).to eq(200)
+        expect(result.reward_list[3].reward_type).to eq('FIRST')
+        expect(result.reward_list[3].data_id).to eq(3)
+        expect(result.reward_list[3].kind).to eq('STRATEGY_POINT')
+        expect(result.reward_list[3].value).to eq(500)
+        expect(result.reward_list[4].reward_type).to eq('FIRST')
+        expect(result.reward_list[4].data_id).to eq(4)
+        expect(result.reward_list[4].kind).to eq('RESULT_POINT')
+        expect(result.reward_list[4].value).to eq(3000)
+        expect(result.reward_list[5].reward_type).to eq('SECOND')
+        expect(result.reward_list[5].data_id).to eq(0)
+        expect(result.reward_list[5].kind).to eq('ROOM_ITEM_COIN')
+        expect(result.reward_list[5].value).to eq(50)
+        expect(result.reward_list[6].reward_type).to eq('SECOND')
+        expect(result.reward_list[6].data_id).to eq(1)
+        expect(result.reward_list[6].kind).to eq('STRATEGY_POINT')
+        expect(result.reward_list[6].value).to eq(100)
+        expect(result.reward_list[7].reward_type).to eq('SECOND')
+        expect(result.reward_list[7].data_id).to eq(2)
+        expect(result.reward_list[7].kind).to eq('RESULT_POINT')
+        expect(result.reward_list[7].value).to eq(1500)
+        expect(result.stage_drop_item_info.size).to eq(4)
+        expect(result.stage_drop_item_info[0]).to eq('NONE')
+        expect(result.stage_drop_item_info[1]).to eq('NONE')
+        expect(result.stage_drop_item_info[2]).to eq('NONE')
+        expect(result.stage_drop_item_info[3]).to eq('NONE')
+        expect(result.sortie_limit).to eq(true)
+        expect(result.sortie_limit_img).to eq('sortie_i15pybux8bm.png')
+        expect(result.area_clear_state).to eq('NOTCLEAR')
+        expect(result.military_gauge_status).to eq('NONE')
+        expect(result.ene_military_gauge_val).to eq(0)
+        expect(result.military_gauge_left).to eq(0)
+        expect(result.boss_status).to be_nil
+        expect(result.ene_military_gauge2d).to eq('')
+        expect(result.loop_count).to eq(1)
+        expect(result.period).to eq(2)
+        expect(result.disp_add_level).to be_nil
+        expect(result.ng_unit_img).to eq('ng_i15pybux8bm.png')
+      end
+    end
+
+    describe ".parse_event_info(json, #{version}) EO 1周目最終戦クリア後" do
+      it 'returns cleared EventInfo[]' do
+        json = File.open('spec/fixtures/v13/Event_info_eo_1st_loop_clear.json').read
+        results = AdmiralStatsParser.parse_event_info(json, version)
+
+        expect(results.size).to eq(1)
+
+        # SEGA 公式サイトの仕様上、出撃前の状態と区別が付かない（クリアしたかどうか判断できない）
+        result = results[0]
+        expect(result.area_id).to eq(1003)
+        expect(result.area_sub_id).to eq(27)
+        expect(result.level).to eq('KOU')
+        expect(result.area_kind).to eq('NORMAL')
+        expect(result.stage_image_name).to eq('area_yo4u95e35d6.png')
+        expect(result.stage_mission_name).to eq('敵飛行場を夜間砲撃で叩け！')
+        expect(result.stage_mission_info).to eq('拡張作戦が発令された！味方艦隊と共に全戦力を結集し、敵飛行場を叩け！')
+        expect(result.require_gp).to eq(450)
+        expect(result.limit_sec).to eq(720)
+        expect(result.reward_list.size).to eq(8)
+        expect(result.reward_list[0].reward_type).to eq('FIRST')
+        expect(result.reward_list[0].data_id).to eq(0)
+        expect(result.reward_list[0].kind).to eq('TLOP_KOU_MEDAL')
+        expect(result.reward_list[0].value).to eq(1)
+        expect(result.reward_list[1].reward_type).to eq('FIRST')
+        expect(result.reward_list[1].data_id).to eq(1)
+        expect(result.reward_list[1].kind).to eq('EQUIP')
+        expect(result.reward_list[1].value).to eq(1)
+        expect(result.reward_list[2].reward_type).to eq('FIRST')
+        expect(result.reward_list[2].data_id).to eq(2)
+        expect(result.reward_list[2].kind).to eq('ROOM_ITEM_COIN')
+        expect(result.reward_list[2].value).to eq(200)
+        expect(result.reward_list[3].reward_type).to eq('FIRST')
+        expect(result.reward_list[3].data_id).to eq(3)
+        expect(result.reward_list[3].kind).to eq('STRATEGY_POINT')
+        expect(result.reward_list[3].value).to eq(500)
+        expect(result.reward_list[4].reward_type).to eq('FIRST')
+        expect(result.reward_list[4].data_id).to eq(4)
+        expect(result.reward_list[4].kind).to eq('RESULT_POINT')
+        expect(result.reward_list[4].value).to eq(3000)
+        expect(result.reward_list[5].reward_type).to eq('SECOND')
+        expect(result.reward_list[5].data_id).to eq(0)
+        expect(result.reward_list[5].kind).to eq('ROOM_ITEM_COIN')
+        expect(result.reward_list[5].value).to eq(50)
+        expect(result.reward_list[6].reward_type).to eq('SECOND')
+        expect(result.reward_list[6].data_id).to eq(1)
+        expect(result.reward_list[6].kind).to eq('STRATEGY_POINT')
+        expect(result.reward_list[6].value).to eq(100)
+        expect(result.reward_list[7].reward_type).to eq('SECOND')
+        expect(result.reward_list[7].data_id).to eq(2)
+        expect(result.reward_list[7].kind).to eq('RESULT_POINT')
+        expect(result.reward_list[7].value).to eq(1500)
+        expect(result.stage_drop_item_info.size).to eq(4)
+        expect(result.stage_drop_item_info[0]).to eq('NONE')
+        expect(result.stage_drop_item_info[1]).to eq('NONE')
+        expect(result.stage_drop_item_info[2]).to eq('NONE')
+        expect(result.stage_drop_item_info[3]).to eq('NONE')
+        expect(result.sortie_limit).to eq(true)
+        expect(result.sortie_limit_img).to eq('sortie_yo4u95e35d6.png')
+        expect(result.area_clear_state).to eq('NOTCLEAR')
+        expect(result.military_gauge_status).to eq('NORMAL')
+        expect(result.ene_military_gauge_val).to eq(6000)
+        expect(result.military_gauge_left).to eq(6000)
+        expect(result.boss_status).to be_nil
+        expect(result.ene_military_gauge2d).to eq('base_hikouzyouki_senkanseiki_hime')
+        expect(result.loop_count).to eq(1)
+        expect(result.period).to eq(2)
+        expect(result.disp_add_level).to be_nil
+        expect(result.ng_unit_img).to eq('ng_yo4u95e35d6.png')
+      end
+    end
+
+    describe ".parse_event_info(json, #{version}) EO 2周目開始直後" do
+      it 'returns cleared EventInfo[]' do
+        json = File.open('spec/fixtures/v13/Event_info_eo_2nd_loop_notclear.json').read
+        results = AdmiralStatsParser.parse_event_info(json, version)
+
+        expect(results.size).to eq(1)
+
+        result = results[0]
+        expect(result.area_id).to eq(1003)
+        expect(result.area_sub_id).to eq(27)
+        expect(result.level).to eq('KOU')
+        expect(result.area_kind).to eq('NORMAL')
+        expect(result.stage_image_name).to eq('area_yo4u95e35d6.png')
+        expect(result.stage_mission_name).to eq('敵飛行場を夜間砲撃で叩け！')
+        expect(result.stage_mission_info).to eq('拡張作戦が発令された！味方艦隊と共に全戦力を結集し、敵飛行場を叩け！')
+        expect(result.require_gp).to eq(450)
+        expect(result.limit_sec).to eq(720)
+        expect(result.reward_list.size).to eq(8)
+        expect(result.reward_list[0].reward_type).to eq('FIRST')
+        expect(result.reward_list[0].data_id).to eq(0)
+        expect(result.reward_list[0].kind).to eq('TLOP_KOU_MEDAL')
+        expect(result.reward_list[0].value).to eq(1)
+        expect(result.reward_list[1].reward_type).to eq('FIRST')
+        expect(result.reward_list[1].data_id).to eq(1)
+        expect(result.reward_list[1].kind).to eq('EQUIP')
+        expect(result.reward_list[1].value).to eq(1)
+        expect(result.reward_list[2].reward_type).to eq('FIRST')
+        expect(result.reward_list[2].data_id).to eq(2)
+        expect(result.reward_list[2].kind).to eq('ROOM_ITEM_COIN')
+        expect(result.reward_list[2].value).to eq(200)
+        expect(result.reward_list[3].reward_type).to eq('FIRST')
+        expect(result.reward_list[3].data_id).to eq(3)
+        expect(result.reward_list[3].kind).to eq('STRATEGY_POINT')
+        expect(result.reward_list[3].value).to eq(500)
+        expect(result.reward_list[4].reward_type).to eq('FIRST')
+        expect(result.reward_list[4].data_id).to eq(4)
+        expect(result.reward_list[4].kind).to eq('RESULT_POINT')
+        expect(result.reward_list[4].value).to eq(3000)
+        expect(result.reward_list[5].reward_type).to eq('SECOND')
+        expect(result.reward_list[5].data_id).to eq(0)
+        expect(result.reward_list[5].kind).to eq('ROOM_ITEM_COIN')
+        expect(result.reward_list[5].value).to eq(50)
+        expect(result.reward_list[6].reward_type).to eq('SECOND')
+        expect(result.reward_list[6].data_id).to eq(1)
+        expect(result.reward_list[6].kind).to eq('STRATEGY_POINT')
+        expect(result.reward_list[6].value).to eq(100)
+        expect(result.reward_list[7].reward_type).to eq('SECOND')
+        expect(result.reward_list[7].data_id).to eq(2)
+        expect(result.reward_list[7].kind).to eq('RESULT_POINT')
+        expect(result.reward_list[7].value).to eq(1500)
+        expect(result.stage_drop_item_info.size).to eq(4)
+        expect(result.stage_drop_item_info[0]).to eq('NONE')
+        expect(result.stage_drop_item_info[1]).to eq('NONE')
+        expect(result.stage_drop_item_info[2]).to eq('NONE')
+        expect(result.stage_drop_item_info[3]).to eq('NONE')
+        expect(result.sortie_limit).to eq(true)
+        expect(result.sortie_limit_img).to eq('sortie_yo4u95e35d6.png')
+        expect(result.area_clear_state).to eq('NOTCLEAR')
+        expect(result.military_gauge_status).to eq('NORMAL')
+        expect(result.ene_military_gauge_val).to eq(6000)
+        expect(result.military_gauge_left).to eq(6000)
+        expect(result.boss_status).to be_nil
+        expect(result.ene_military_gauge2d).to eq('base_hikouzyouki_senkanseiki_hime')
+        expect(result.loop_count).to eq(2)
+        expect(result.period).to eq(2)
+        expect(result.disp_add_level).to be_nil
+        expect(result.ng_unit_img).to eq('ng_yo4u95e35d6.png')
+      end
+    end
+  end
+
   # イベント海域情報が空の場合の動作は、version 4 〜 で仕様が同じ
-  (4..12).each do |version|
+  (4..13).each do |version|
     describe ".summarize_event_info('[]', #{version})" do
       it 'returns summary' do
         # イベントを開催していない期間は、空の配列が返される
@@ -1408,7 +1775,7 @@ describe AdmiralStatsParser do
   # こちらはサマリのテスト
   # イベント海域情報は version 7 から前段作戦、後段作戦あり
   # version 7 〜 で仕様が同じ
-  (7..12).each do |version|
+  (7..13).each do |version|
     describe ".summarize_event_info(json, #{version}) 何も出撃していない時点" do
       it 'returns summary' do
         json = File.open('spec/fixtures/v7/Event_info_zendan_initial.json').read
@@ -1630,7 +1997,105 @@ describe AdmiralStatsParser do
     end
   end
 
-  (7..12).each do |version|
+  # こちらはサマリのテスト
+  # イベント海域情報は version 13 からEOあり
+  [13].each do |version|
+    describe ".summarize_event_info(json, #{version}) EO 開放前" do
+      it 'returns summary' do
+        json = File.open('spec/fixtures/v13/Event_info_eo_noopen.json').read
+        event_info_list = AdmiralStatsParser.parse_event_info(json, version)
+
+        # EO は HEI と OTU が一緒になっていて、HEI のデータはない
+        # その場合は、未開放の場合と同じデータを返す
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "HEI", 2, version)
+        expect(results[:opened]).to be false
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to be_nil
+        expect(results[:cleared_loop_counts]).to be_nil
+        expect(results[:cleared_stage_no]).to eq(0)
+        expect(results[:current_military_gauge_left]).to eq(0)
+
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "OTU", 2, version)
+        expect(results[:opened]).to be false
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to eq(1)
+        expect(results[:cleared_loop_counts]).to eq(0)
+        expect(results[:cleared_stage_no]).to eq(0)
+        expect(results[:current_military_gauge_left]).to eq(7200)
+
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "KOU", 2, version)
+        expect(results[:opened]).to be false
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to eq(1)
+        expect(results[:cleared_loop_counts]).to eq(0)
+        expect(results[:cleared_stage_no]).to eq(0)
+        expect(results[:current_military_gauge_left]).to eq(6000)
+      end
+    end
+
+    describe ".summarize_event_info(json, #{version}) EO解放後、1周目出撃中" do
+      it 'returns summary' do
+        json = File.open('spec/fixtures/v13/Event_info_eo_1st_loop_notclear.json').read
+        event_info_list = AdmiralStatsParser.parse_event_info(json, version)
+
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "KOU", 2, version)
+        expect(results[:opened]).to be true
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to eq(1)
+        expect(results[:cleared_loop_counts]).to eq(0)
+        expect(results[:cleared_stage_no]).to eq(0)
+        expect(results[:current_military_gauge_left]).to eq(1893)
+      end
+    end
+
+    describe ".summarize_event_info(json, #{version}) EO解放後、1周目最終戦直前" do
+      it 'returns summary' do
+        json = File.open('spec/fixtures/v13/Event_info_eo_1st_loop_final.json').read
+        event_info_list = AdmiralStatsParser.parse_event_info(json, version)
+
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "KOU", 2, version)
+        expect(results[:opened]).to be true
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to eq(1)
+        expect(results[:cleared_loop_counts]).to eq(0)
+        expect(results[:cleared_stage_no]).to eq(0)
+        expect(results[:current_military_gauge_left]).to eq(0)
+      end
+    end
+
+    describe ".summarize_event_info(json, #{version}) EO 1周目最終戦クリア後" do
+      it 'returns summary' do
+        json = File.open('spec/fixtures/v13/Event_info_eo_1st_loop_clear.json').read
+        event_info_list = AdmiralStatsParser.parse_event_info(json, version)
+
+        # SEGA 公式サイトの仕様上、出撃前の状態と区別が付かない（クリアしたかどうか判断できない）
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "KOU", 2, version)
+        expect(results[:opened]).to be true
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to eq(1)
+        expect(results[:cleared_loop_counts]).to eq(0)
+        expect(results[:cleared_stage_no]).to eq(0)
+        expect(results[:current_military_gauge_left]).to eq(6000)
+      end
+    end
+
+    describe ".summarize_event_info(json, #{version}) EO 2周目開始直後" do
+      it 'returns summary' do
+        json = File.open('spec/fixtures/v13/Event_info_eo_2nd_loop_notclear.json').read
+        event_info_list = AdmiralStatsParser.parse_event_info(json, version)
+
+        results = AdmiralStatsParser.summarize_event_info(event_info_list, "KOU", 2, version)
+        expect(results[:opened]).to be true
+        expect(results[:all_cleared]).to be false
+        expect(results[:current_loop_counts]).to eq(2)
+        expect(results[:cleared_loop_counts]).to eq(1)
+        expect(results[:cleared_stage_no]).to eq(0)
+        expect(results[:current_military_gauge_left]).to eq(6000)
+      end
+    end
+  end
+
+  (7..13).each do |version|
     describe ".summarize_event_info('[]', #{version})" do
       it 'returns summary' do
         # イベントを開催していない期間は、空の配列が返される
@@ -1714,7 +2179,7 @@ describe AdmiralStatsParser do
   end
 
   # 改装設計図は version 8 から情報が増えた（existsWarningForExpiration, expireThisMonth）
-  (8..12).each do |version|
+  (8..13).each do |version|
     # 改装設計図が1枚もない場合
     describe ".parse_blueprint_list_info('[]', #{version})" do
       it 'returns []' do

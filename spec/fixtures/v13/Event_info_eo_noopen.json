@@ -1,0 +1,53 @@
+[
+  {
+    "areaId": 1003,
+    "areaSubId": 17,
+    "level": "OTU",
+    "areaKind": "NORMAL",
+    "stageImageName": "area_ccd30c39wzz.png",
+    "stageMissionName": "？",
+    "stageMissionInfo": "？",
+    "requireGp": 0,
+    "limitSec": 0,
+    "rewardList": [{
+      "dataId": 0,
+      "kind": "NONE",
+      "value": 0
+    }],
+    "stageDropItemInfo": ["UNKNOWN", "NONE", "NONE", "NONE"],
+    "sortieLimit": false,
+    "areaClearState": "NOOPEN",
+    "militaryGaugeStatus": "NORMAL",
+    "eneMilitaryGaugeVal": 7200,
+    "militaryGaugeLeft": 7200,
+    "eneMilitaryGauge2d": "",
+    "loopCount": 1,
+    "period": 2,
+    "dispAddLevel": "HEI"
+  },
+  {
+    "areaId": 1003,
+    "areaSubId": 27,
+    "level": "KOU",
+    "areaKind": "NORMAL",
+    "stageImageName": "area_yo4u95e35d6.png",
+    "stageMissionName": "？",
+    "stageMissionInfo": "？",
+    "requireGp": 0,
+    "limitSec": 0,
+    "rewardList": [{
+      "dataId": 0,
+      "kind": "NONE",
+      "value": 0
+    }],
+    "stageDropItemInfo": ["UNKNOWN", "NONE", "NONE", "NONE"],
+    "sortieLimit": false,
+    "areaClearState": "NOOPEN",
+    "militaryGaugeStatus": "NORMAL",
+    "eneMilitaryGaugeVal": 6000,
+    "militaryGaugeLeft": 6000,
+    "eneMilitaryGauge2d": "",
+    "loopCount": 1,
+    "period": 2
+  }
+]

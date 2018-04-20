@@ -1,0 +1,65 @@
+[
+  {
+    "areaId": 1003,
+    "areaSubId": 27,
+    "level": "KOU",
+    "areaKind": "NORMAL",
+    "stageImageName": "area_yo4u95e35d6.png",
+    "stageMissionName": "敵飛行場を夜間砲撃で叩け！",
+    "stageMissionInfo": "拡張作戦が発令された！味方艦隊と共に全戦力を結集し、敵飛行場を叩け！",
+    "requireGp": 450,
+    "limitSec": 720,
+    "rewardList": [{
+      "rewardType": "FIRST",
+      "dataId": 0,
+      "kind": "TLOP_KOU_MEDAL",
+      "value": 1
+    }, {
+      "rewardType": "FIRST",
+      "dataId": 1,
+      "kind": "EQUIP",
+      "value": 1
+    }, {
+      "rewardType": "FIRST",
+      "dataId": 2,
+      "kind": "ROOM_ITEM_COIN",
+      "value": 200
+    }, {
+      "rewardType": "FIRST",
+      "dataId": 3,
+      "kind": "STRATEGY_POINT",
+      "value": 500
+    }, {
+      "rewardType": "FIRST",
+      "dataId": 4,
+      "kind": "RESULT_POINT",
+      "value": 3000
+    }, {
+      "rewardType": "SECOND",
+      "dataId": 0,
+      "kind": "ROOM_ITEM_COIN",
+      "value": 50
+    }, {
+      "rewardType": "SECOND",
+      "dataId": 1,
+      "kind": "STRATEGY_POINT",
+      "value": 100
+    }, {
+      "rewardType": "SECOND",
+      "dataId": 2,
+      "kind": "RESULT_POINT",
+      "value": 1500
+    }],
+    "stageDropItemInfo": ["NONE", "NONE", "NONE", "NONE"],
+    "sortieLimit": true,
+    "sortieLimitImg": "sortie_yo4u95e35d6.png",
+    "areaClearState": "NOTCLEAR",
+    "militaryGaugeStatus": "NORMAL",
+    "eneMilitaryGaugeVal": 6000,
+    "militaryGaugeLeft": 6000,
+    "eneMilitaryGauge2d": "base_hikouzyouki_senkanseiki_hime",
+    "loopCount": 2,
+    "period": 2,
+    "ngUnitImg": "ng_yo4u95e35d6.png"
+  }
+]
