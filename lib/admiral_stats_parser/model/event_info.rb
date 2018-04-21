@@ -106,7 +106,6 @@ class EventInfo
     # "FIRST": 初回
     # "SECOND": 2回目以降
     # 未公開状態の場合は、項目なし
-    # TODO: EO の場合は？
     attr_accessor :reward_type
 
     # 表示順（0 〜）
