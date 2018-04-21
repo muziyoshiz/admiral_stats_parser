@@ -44,6 +44,37 @@ class EventInfoParser
           loop_count: Integer,
           period: Integer,
       },
+      3 => {
+          area_id: Integer,
+          area_sub_id: Integer,
+          level: String,
+          area_kind: String,
+          limit_sec: Integer,
+          require_gp: Integer,
+          sortie_limit: :boolean,
+          stage_image_name: String,
+          stage_mission_name: String,
+          stage_mission_info: String,
+          reward_list: :reward_list,
+          stage_drop_item_info: Array,
+          area_clear_state: String,
+          military_gauge_status: String,
+          ene_military_gauge_val: Integer,
+          military_gauge_left: Integer,
+          ene_military_gauge2d: String,
+          loop_count: Integer,
+          period: Integer,
+      },
+  }
+
+  OPTIONAL_KEYS = {
+      1 => {},
+      2 => {},
+      3 => {
+          sortie_limit_img: String,
+          disp_add_level: String,
+          ng_unit_img: String,
+      }
   }
 
   REWARD_LIST_MANDATORY_KEYS = {
@@ -91,6 +122,19 @@ class EventInfoParser
           unless items[camel_case_key].is_a?(key_class)
             raise "Mandatory key #{key} is not class #{key_class}"
           end
+        end
+
+        result.instance_variable_set("@#{key.to_s}", items[camel_case_key])
+      end
+
+      OPTIONAL_KEYS[api_version].each do |key, key_class|
+        # キーが含まれなければ、処理をスキップ
+        camel_case_key = key.to_s.split('_').inject([]){ |buffer,e| buffer.push(buffer.empty? ? e : e.capitalize) }.join
+        next unless items.include?(camel_case_key)
+
+        # 結果のクラスが合わなければエラー
+        unless items[camel_case_key].is_a?(key_class)
+          raise "Optional key #{key} is not class #{key_class}"
         end
 
         result.instance_variable_set("@#{key.to_s}", items[camel_case_key])

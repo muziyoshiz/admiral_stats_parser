@@ -18,7 +18,8 @@ class EventInfo
   # ボス戦は "BOSS"
   # 掃討戦は "SWEEP"
   # 前段作戦の最終海域は "PERIOD_LAST"
-  # それ以外は "NORMAL"
+  # EO の最終戦は "BOSS_RAID_FINAL" (From API version 13)
+  # それ以外は "NORMAL" （EO も "NORMAL"）
   attr_accessor :area_kind
 
   # 作戦時間（秒）
@@ -31,6 +32,9 @@ class EventInfo
 
   # 出撃条件の有無（true ならある）
   attr_accessor :sortie_limit
+
+  # 出撃条件の画像 (From API version 13)
+  attr_accessor :sortie_limit_img
 
   # 海域画像のファイル名
   attr_accessor :stage_image_name
@@ -85,7 +89,16 @@ class EventInfo
   # 前段作戦か後段作戦か (From API version 7)
   # 0: 前段作戦
   # 1: 後段作戦
+  # 2: EO (From API version 13)
   attr_accessor :period
+
+  # この EO のデータの表示箇所？ (From API version 13)
+  # 乙・丙の EO の場合のみ "HEI"
+  # それ以外の場合はキー自体がない
+  attr_accessor :disp_add_level
+
+  # 出撃不可の艦種を表すアイコン (From API version 13)
+  attr_accessor :ng_unit_img
 
   # 海域撃破ボーナス
   class EventInfoReward
@@ -105,6 +118,7 @@ class EventInfo
     # "ROOM_ITEM_ICON": 家具コイン
     # "ROOM_ITEM_MEISTER": 特注家具職人
     # "EQUIP": 装備
+    # "TLOP_KOU_MEDAL": 甲種勲章 (From API version 13)
     attr_accessor :kind
 
     # 数値（戦果の場合はポイント数、家具コインの場合はコイン枚数）
