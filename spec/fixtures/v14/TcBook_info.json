@@ -1,0 +1,44 @@
+[
+  {
+    "bookNo": 1,
+    "shipClass": "長門型",
+    "shipClassIndex": 1,
+    "shipType": "戦艦",
+    "shipName": "長門",
+    "cardIndexImg": "s/tc_1_d7ju63kolamj.jpg",
+    "cardImgList": ["", "", "s/tc_1_gk42czm42s3p.jpg", "", "", ""],
+    "variationNum": 6,
+    "acquireNum": 1,
+    "lv": 23,
+    "statusImg": ["i/i_d7ju63kolamj_n.png"],
+    "isMarried": [false, true],
+    "marriedImg": [""]
+  },
+  {
+    "bookNo": 5,
+    "shipClass": "",
+    "shipClassIndex": -1,
+    "shipType": "",
+    "shipName": "未取得",
+    "cardIndexImg": "",
+    "cardImgList": [],
+    "variationNum": 0,
+    "acquireNum": 0,
+    "lv": 0,
+    "statusImg": []
+  },
+  {
+    "bookNo": 163,
+    "shipClass": "三式潜航輸送艇",
+    "shipType": "潜水艦",
+    "shipName": "まるゆ",
+    "cardIndexImg": "s/tc_163_4ecmr9qtz4kd.jpg",
+    "cardImgList": ["s/tc_163_4ecmr9qtz4kd.jpg", "", "", "", "", ""],
+    "variationNum": 6,
+    "acquireNum": 1,
+    "lv": 3,
+    "statusImg": ["i/i_rjdnpze1x0gn_n.png", ""],
+    "isMarried": [false, false],
+    "marriedImg": [""]
+  }
+]

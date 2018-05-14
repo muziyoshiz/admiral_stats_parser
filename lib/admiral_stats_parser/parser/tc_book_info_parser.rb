@@ -42,6 +42,18 @@ class TcBookInfoParser
         lv: Integer,
         status_img: Array,
     },
+    4 => {
+        book_no: Integer,
+        ship_class: String,
+        ship_type: String,
+        ship_name: String,
+        card_index_img: String,
+        card_img_list: Array,
+        variation_num: Integer,
+        acquire_num: Integer,
+        lv: Integer,
+        status_img: Array,
+    },
   }
 
   OPTIONAL_KEYS = {
@@ -50,7 +62,12 @@ class TcBookInfoParser
       3 => {
           is_married: Array,
           married_img: Array,
-      }
+      },
+      4 => {
+          ship_class_index: Integer,
+          is_married: Array,
+          married_img: Array,
+      },
   }
 
   def self.parse(json, api_version)

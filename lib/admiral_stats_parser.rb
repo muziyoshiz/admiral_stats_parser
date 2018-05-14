@@ -96,8 +96,10 @@ module AdmiralStatsParser
         TcBookInfoParser.parse(json, 1)
       when 2..11
         TcBookInfoParser.parse(json, 2)
-      when 12..14
+      when 12..13
         TcBookInfoParser.parse(json, 3)
+      when 14
+        TcBookInfoParser.parse(json, 4)
       else
         raise 'unsupported API version'
     end
