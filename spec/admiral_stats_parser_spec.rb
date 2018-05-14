@@ -6,8 +6,8 @@ describe AdmiralStatsParser do
   end
 
   describe '.get_latest_api_version' do
-    it 'returns 13' do
-      expect(AdmiralStatsParser.get_latest_api_version).to eq(13)
+    it 'returns 14' do
+      expect(AdmiralStatsParser.get_latest_api_version).to eq(14)
     end
   end
 
@@ -84,9 +84,14 @@ describe AdmiralStatsParser do
       expect(AdmiralStatsParser.guess_api_version(Time.parse('2018-04-19T06:59:59+0900'))).to eq(12)
     end
 
-    # 2018-04-19
+    # 2018-04-19 〜 2018-05-13
     it 'returns 13' do
       expect(AdmiralStatsParser.guess_api_version(Time.parse('2018-04-19T07:00:00+0900'))).to eq(13)
+      expect(AdmiralStatsParser.guess_api_version(Time.parse('2018-05-14T06:59:59+0900'))).to eq(13)
+    end
+
+    it 'returns 14' do
+      expect(AdmiralStatsParser.guess_api_version(Time.parse('2018-05-14T07:00:00+0900'))).to eq(14)
     end
 
     it 'returns latest version' do
@@ -188,7 +193,7 @@ describe AdmiralStatsParser do
 
   # 基本情報は version 7 で「甲種勲章の数」が追加された
   # version 7 〜 で仕様が同じ
-  (7..13).each do |version|
+  (7..14).each do |version|
     describe ".parse_personal_basic_info(json_without_admiral_name, #{version})" do
       it 'returns PersonalBasicInfo' do
         json = File.open('spec/fixtures/v7/Personal_basicInfo_without_admiralName.json').read
@@ -368,7 +373,7 @@ describe AdmiralStatsParser do
   end
 
   # version 11 から、1海域にルートが2個あるパターンが登場した
-  (11..13).each do |version|
+  (11..14).each do |version|
     describe ".parse_area_capture_info(json, #{version})" do
       it 'returns AreaCaptureInfo[]' do
         json = File.open('spec/fixtures/v11/Area_captureInfo.json').read
@@ -515,7 +520,7 @@ describe AdmiralStatsParser do
   end
 
   # version 12 から、艦娘図鑑にケッコンカッコカリの情報が追加された
-  (12..13).each do |version|
+  (12..14).each do |version|
     describe ".parse_tc_book_info(json, #{version})" do
       it 'returns TcBookInfo[]' do
         # 注意：未取得のデータには isMarried および marriedImg キーがない
@@ -559,7 +564,7 @@ describe AdmiralStatsParser do
   end
 
   # 装備図鑑は version 1 〜 で仕様が同じ
-  (1..13).each do |version|
+  (1..14).each do |version|
     describe ".parse_equip_book_info(json, #{version})" do
       it 'returns EquipBookInfo[]' do
         json = '[{"bookNo":1,"equipKind":"小口径主砲","equipName":"12cm単装砲","equipImg":"e/equip_1_3315nm5166d.png"},{"bookNo":2,"equipKind":"小口径主砲","equipName":"12.7cm連装砲","equipImg":"e/equip_2_fon8wsqc5sn.png"},{"bookNo":3,"equipKind":"","equipName":"","equipImg":""},{"bookNo":4,"equipKind":"中口径主砲","equipName":"14cm単装砲","equipImg":"e/equip_4_8tzid3z8li7.png"}]'
@@ -1022,6 +1027,140 @@ describe AdmiralStatsParser do
     end
   end
 
+  # version 14 から ship_class_index は必須ではなくなった
+  [14].each do |version|
+    describe ".parse_character_list_info(json, #{version})" do
+      it 'returns CharacterListInfo[]' do
+        # 朝潮、朝潮改、千歳、千歳改、まるゆのデータ
+        json = File.open('spec/fixtures/v14/CharacterList_info.json').read
+
+        results = AdmiralStatsParser.parse_character_list_info(json, version)
+
+        expect(results.size).to eq(5)
+
+        result = results[0]
+        expect(result.book_no).to eq(85)
+        expect(result.lv).to eq(99)
+        expect(result.ship_type).to eq('駆逐艦')
+        expect(result.ship_sort_no).to eq(1800)
+        expect(result.remodel_lv).to eq(0)
+        expect(result.ship_name).to eq('朝潮')
+        expect(result.status_img).to eq('i/i_69ex6r4uutp3_n.png')
+        expect(result.star_num).to eq(5)
+        expect(result.ship_class).to eq('朝潮型')
+        expect(result.ship_class_index).to eq(1)
+        expect(result.tc_img).to eq('s/tc_85_69ex6r4uutp3.jpg')
+        expect(result.exp_percent).to eq(0)
+        expect(result.max_hp).to eq(16)
+        expect(result.real_hp).to eq(16)
+        expect(result.damage_status).to eq('NORMAL')
+        expect(result.slot_num).to eq(2)
+        expect(result.slot_equip_name).to eq(['', '', '', ''])
+        expect(result.slot_amount).to eq([0, 0, 0, 0])
+        expect(result.slot_disp).to eq(%w(NONE NONE NONE NONE))
+        expect(result.slot_img).to eq(['', '', '', ''])
+        expect(result.blueprint_total_num).to eq(0)
+        expect(result.married).to eq(false)
+
+        result = results[1]
+        expect(result.book_no).to eq(85)
+        expect(result.lv).to eq(99)
+        expect(result.ship_type).to eq('駆逐艦')
+        expect(result.ship_sort_no).to eq(1800)
+        expect(result.remodel_lv).to eq(1)
+        expect(result.ship_name).to eq('朝潮改')
+        expect(result.status_img).to eq('i/i_umacfn9qcwp1_n.png')
+        expect(result.star_num).to eq(5)
+        expect(result.ship_class).to eq('朝潮型')
+        expect(result.ship_class_index).to eq(1)
+        expect(result.tc_img).to eq('s/tc_85_umacfn9qcwp1.jpg')
+        expect(result.exp_percent).to eq(0)
+        expect(result.max_hp).to eq(31)
+        expect(result.real_hp).to eq(31)
+        expect(result.damage_status).to eq('NORMAL')
+        expect(result.slot_num).to eq(3)
+        expect(result.slot_equip_name).to eq(['61cm四連装(酸素)魚雷', '61cm四連装(酸素)魚雷', '強化型艦本式缶', ''])
+        expect(result.slot_amount).to eq([0, 0, 0, 0])
+        expect(result.slot_disp).to eq(%w(NONE NONE NONE NONE))
+        expect(result.slot_img).to eq(['equip_icon_5_c4bcdscek33o.png', 'equip_icon_5_c4bcdscek33o.png', 'equip_icon_12_556qjnbtokca.png', ''])
+        expect(result.blueprint_total_num).to eq(0)
+        expect(result.married).to eq(true)
+
+        result = results[2]
+        expect(result.book_no).to eq(49)
+        expect(result.lv).to eq(52)
+        expect(result.ship_type).to eq('水上機母艦')
+        expect(result.ship_sort_no).to eq(700)
+        expect(result.remodel_lv).to eq(0)
+        expect(result.ship_name).to eq('千歳')
+        expect(result.status_img).to eq('i/i_x44xgkjc9a4z_n.png')
+        expect(result.star_num).to eq(5)
+        expect(result.ship_class).to eq('千歳型')
+        expect(result.ship_class_index).to eq(1)
+        expect(result.tc_img).to eq('s/tc_49_x44xgkjc9a4z.jpg')
+        expect(result.exp_percent).to eq(23)
+        expect(result.max_hp).to eq(40)
+        expect(result.real_hp).to eq(40)
+        expect(result.damage_status).to eq('NORMAL')
+        expect(result.slot_num).to eq(2)
+        expect(result.slot_equip_name).to eq(['', '', '', ''])
+        expect(result.slot_amount).to eq([12, 12, 0, 0])
+        expect(result.slot_disp).to eq(%w(NOT_EQUIPPED_AIRCRAFT NOT_EQUIPPED_AIRCRAFT NONE NONE))
+        expect(result.slot_img).to eq(['', '', '', ''])
+        expect(result.blueprint_total_num).to eq(0)
+        expect(result.married).to eq(false)
+
+        result = results[3]
+        expect(result.book_no).to eq(95)
+        expect(result.lv).to eq(52)
+        expect(result.ship_type).to eq('水上機母艦')
+        expect(result.ship_sort_no).to eq(700)
+        expect(result.remodel_lv).to eq(1)
+        expect(result.ship_name).to eq('千歳改')
+        expect(result.status_img).to eq('i/i_6a3eccmpq03x_n.png')
+        expect(result.star_num).to eq(5)
+        expect(result.ship_class).to eq('千歳型')
+        expect(result.ship_class_index).to eq(1)
+        expect(result.tc_img).to eq('s/tc_95_6a3eccmpq03x.jpg')
+        expect(result.exp_percent).to eq(23)
+        expect(result.max_hp).to eq(41)
+        expect(result.real_hp).to eq(41)
+        expect(result.damage_status).to eq('NORMAL')
+        expect(result.slot_num).to eq(3)
+        expect(result.slot_equip_name).to eq(['瑞雲', '瑞雲', '甲標的', ''])
+        expect(result.slot_amount).to eq([12, 6, 6, 0])
+        expect(result.slot_disp).to eq(%w(EQUIPPED_AIRCRAFT EQUIPPED_AIRCRAFT NOT_EQUIPPED_AIRCRAFT NONE))
+        expect(result.slot_img).to eq(['equip_icon_10_lpoysb3zk6s4.png', 'equip_icon_10_lpoysb3zk6s4.png', 'equip_icon_5_c4bcdscek33o.png', ''])
+        expect(result.blueprint_total_num).to eq(0)
+        expect(result.married).to eq(false)
+
+        result = results[4]
+        expect(result.book_no).to eq(163)
+        expect(result.lv).to eq(3)
+        expect(result.ship_type).to eq('潜水艦')
+        expect(result.ship_sort_no).to eq(900)
+        expect(result.remodel_lv).to eq(0)
+        expect(result.ship_name).to eq('まるゆ')
+        expect(result.status_img).to eq('i/i_rjdnpze1x0gn_n.png')
+        expect(result.star_num).to eq(1)
+        expect(result.ship_class).to eq('三式潜航輸送艇')
+        expect(result.ship_class_index).to be_nil
+        expect(result.tc_img).to eq('s/tc_163_4ecmr9qtz4kd.jpg')
+        expect(result.exp_percent).to eq(23)
+        expect(result.max_hp).to eq(6)
+        expect(result.real_hp).to eq(6)
+        expect(result.damage_status).to eq('NORMAL')
+        expect(result.slot_num).to eq(0)
+        expect(result.slot_equip_name).to eq(['', '', '', ''])
+        expect(result.slot_amount).to eq([0, 0, 0, 0])
+        expect(result.slot_disp).to eq(%w(NONE NONE NONE NONE))
+        expect(result.slot_img).to eq(['', '', '', ''])
+        expect(result.blueprint_total_num).to eq(0)
+        expect(result.married).to eq(false)
+      end
+    end
+  end
+
   describe '.parse_equip_list_info(json, 1)' do
     it 'raises' do
       json = '[{"type":1,"equipmentId":1,"name":"12cm単装砲","num":8,"img":"equip_icon_1_1984kzwm2f7s.png"},{"type":1,"equipmentId":2,"name":"12.7cm連装砲","num":31,"img":"equip_icon_1_1984kzwm2f7s.png"},{"type":1,"equipmentId":3,"name":"10cm連装高角砲","num":6,"img":"equip_icon_26_rv74l134q7an.png"}]'
@@ -1076,7 +1215,7 @@ describe AdmiralStatsParser do
 
   # 装備一覧は version 9 で最大装備保有数が追加された
   # version 9 〜 は仕様が同じ
-  (9..13).each do |version|
+  (9..14).each do |version|
     describe ".parse_equip_list_info(json, #{version})" do
       it 'returns EquipListInfo[]' do
         json = '{"maxSlotNum":510,"equipList":[{"type":1,"equipmentId":1,"name":"12cm単装砲","num":8,"img":"equip_icon_1_1984kzwm2f7s.png"},{"type":1,"equipmentId":2,"name":"12.7cm連装砲","num":31,"img":"equip_icon_1_1984kzwm2f7s.png"},{"type":1,"equipmentId":3,"name":"10cm連装高角砲","num":6,"img":"equip_icon_26_rv74l134q7an.png"}]}'
@@ -1215,7 +1354,7 @@ describe AdmiralStatsParser do
 
   # イベント海域情報は version 7 から前段作戦、後段作戦あり
   # version 7 〜 で仕様が同じ
-  (7..13).each do |version|
+  (7..14).each do |version|
     describe ".parse_event_info(json, #{version})" do
       it 'returns EventInfo[]' do
         # E-3 クリア直後
@@ -1375,7 +1514,7 @@ describe AdmiralStatsParser do
   end
 
   # イベント海域情報は version 13 から EO あり
-  [13].each do |version|
+  (13..14).each do |version|
     describe ".parse_event_info(json, #{version}) EO 開放前" do
       it 'returns EventInfo[]' do
         # EO 開放前
@@ -1736,7 +1875,7 @@ describe AdmiralStatsParser do
   end
 
   # イベント海域情報が空の場合の動作は、version 4 〜 で仕様が同じ
-  (4..13).each do |version|
+  (4..14).each do |version|
     describe ".summarize_event_info('[]', #{version})" do
       it 'returns summary' do
         # イベントを開催していない期間は、空の配列が返される
@@ -1775,7 +1914,7 @@ describe AdmiralStatsParser do
   # こちらはサマリのテスト
   # イベント海域情報は version 7 から前段作戦、後段作戦あり
   # version 7 〜 で仕様が同じ
-  (7..13).each do |version|
+  (7..14).each do |version|
     describe ".summarize_event_info(json, #{version}) 何も出撃していない時点" do
       it 'returns summary' do
         json = File.open('spec/fixtures/v7/Event_info_zendan_initial.json').read
@@ -1999,7 +2138,7 @@ describe AdmiralStatsParser do
 
   # こちらはサマリのテスト
   # イベント海域情報は version 13 からEOあり
-  [13].each do |version|
+  (13..14).each do |version|
     describe ".summarize_event_info(json, #{version}) EO 開放前" do
       it 'returns summary' do
         json = File.open('spec/fixtures/v13/Event_info_eo_noopen.json').read
@@ -2095,7 +2234,7 @@ describe AdmiralStatsParser do
     end
   end
 
-  (7..13).each do |version|
+  (7..14).each do |version|
     describe ".summarize_event_info('[]', #{version})" do
       it 'returns summary' do
         # イベントを開催していない期間は、空の配列が返される
@@ -2179,7 +2318,7 @@ describe AdmiralStatsParser do
   end
 
   # 改装設計図は version 8 から情報が増えた（existsWarningForExpiration, expireThisMonth）
-  (8..13).each do |version|
+  (8..14).each do |version|
     # 改装設計図が1枚もない場合
     describe ".parse_blueprint_list_info('[]', #{version})" do
       it 'returns []' do
