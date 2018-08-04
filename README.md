@@ -46,6 +46,9 @@ AdmiralStatsParser.parse_event_info(json, api_version)
 
 # 改装設計図一覧
 AdmiralStatsParser.parse_blueprint_list_info(json, api_version)
+
+# 期間限定作戦海域情報
+AdmiralStatsParser.parse_cop_info(json, api_version)
 ```
 
 ## Specification
@@ -69,7 +72,8 @@ AdmiralStatsParser は、以下の API version をサポートしています。
 | 11          | 2018-02-01 （VERSION A REVISION 3 のリリース日） 〜 2018-02-15 |
 | 12          | 2018-02-16 （ケッコンカッコカリの実装日） 〜 2018-04-18 |
 | 13          | 2018-04-19 （第4回イベントの EO 開始日） 〜 2018-05-13 |
-| 14          | 2018-05-14 （大型艦建造の実装日） 〜 |
+| 14          | 2018-05-14 （大型艦建造の実装日） 〜 2018-07-23 |
+| 15          | 2018-07-24 （VERSION B のリリース日） 〜 |
 
 各 API version でパースできる JSON の種類は以下の通りです。また、同じ情報でも、API version によって、含まれる情報量が異なる場合があります。その場合は Supported (1), Supported (2) のように記載して区別しています。
 
@@ -80,7 +84,7 @@ AdmiralStatsParser は、以下の API version をサポートしています。
 | 7 〜 10     | Supported (3) | Supported (3) | Supported (2) | Supported |
 | 11         | Supported (3) | Supported (4) | Supported (2) | Supported |
 | 12 〜 13    | Supported (3) | Supported (4) | Supported (3) | Supported |
-| 14          | Supported (3) | Supported (4) | Supported (4) | Supported |
+| 14 〜 15    | Supported (3) | Supported (4) | Supported (4) | Supported |
 
 | API version | 艦娘一覧 | 装備一覧 | イベント海域情報 |
 |------------:|:-----|:-----|:-----|
@@ -93,13 +97,14 @@ AdmiralStatsParser は、以下の API version をサポートしています。
 | 9 〜 11     | Supported (4) | Supported (2) | Supported (2) |
 | 12          | Supported (5) | Supported (2) | Supported (2) |
 | 13          | Supported (5) | Supported (2) | Supported (3) |
-| 14          | Supported (6) | Supported (2) | Supported (3) |
+| 14 〜 15     | Supported (6) | Supported (2) | Supported (3) |
 
-| API version | 改装設計図一覧 |
-|------------:|:-----|
-| 1 〜 6  | Unsupported |
-| 7       | Supported (1) |
-| 8 〜 14 | Supported (2) |
+| API version | 改装設計図一覧 | 期間限定作戦海域情報 |
+|------------:|:-----|:-----|
+| 1 〜 6  | Unsupported | Unsupported |
+| 7       | Supported (1) | Unsupported |
+| 8 〜 14 | Supported (2) | Unsupported |
+| 15      | Supported (2) | Supported (1) |
 
 ## Development
 

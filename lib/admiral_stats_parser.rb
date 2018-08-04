@@ -12,7 +12,7 @@ require 'admiral_stats_parser/parser/blueprint_list_info_parser'
 module AdmiralStatsParser
   # 最新の API バージョンを返します。
   def self.get_latest_api_version
-    return 14
+    return 15
   end
 
   # エクスポート時刻を元に、API バージョンを推測して返します。
@@ -56,6 +56,9 @@ module AdmiralStatsParser
     # version 14 の開始日
     return 13 if exported_at < Time.parse('2018-05-14T07:00:00+0900')
 
+    # version 15 の開始日
+    return 14 if exported_at < Time.parse('2018-07-24T07:00:00+0900')
+
     return self.get_latest_api_version
   end
 
@@ -66,7 +69,7 @@ module AdmiralStatsParser
         PersonalBasicInfoParser.parse(json, 1)
       when 2..6
         PersonalBasicInfoParser.parse(json, 2)
-      when 7..14
+      when 7..15
         PersonalBasicInfoParser.parse(json, 3)
       else
         raise 'unsupported API version'
@@ -82,7 +85,7 @@ module AdmiralStatsParser
         AreaCaptureInfoParser.parse(json, 2)
       when 7..10
         AreaCaptureInfoParser.parse(json, 3)
-      when 11..14
+      when 11..15
         AreaCaptureInfoParser.parse(json, 4)
       else
         raise 'unsupported API version'
@@ -98,7 +101,7 @@ module AdmiralStatsParser
         TcBookInfoParser.parse(json, 2)
       when 12..13
         TcBookInfoParser.parse(json, 3)
-      when 14
+      when 14..15
         TcBookInfoParser.parse(json, 4)
       else
         raise 'unsupported API version'
@@ -108,7 +111,7 @@ module AdmiralStatsParser
   # 装備図鑑をパースします。
   def self.parse_equip_book_info(json, api_version)
     case api_version
-      when 1..14
+      when 1..15
         EquipBookInfoParser.parse(json)
       else
         raise 'unsupported API version'
@@ -130,7 +133,7 @@ module AdmiralStatsParser
         CharacterListInfoParser.parse(json, 4)
       when 12..13
         CharacterListInfoParser.parse(json, 5)
-      when 14
+      when 14..15
         CharacterListInfoParser.parse(json, 6)
       else
         raise 'unsupported API version'
@@ -144,7 +147,7 @@ module AdmiralStatsParser
         raise 'API version 1 does not support equip list info'
       when 2..8
         EquipListInfoParser.parse(json, 1)
-      when 9..14
+      when 9..15
         EquipListInfoParser.parse(json, 2)
       else
         raise 'unsupported API version'
@@ -156,7 +159,7 @@ module AdmiralStatsParser
     case api_version
       when 1..8
         EquipListInfoParser.parse_max_slot_num(json, 1)
-      when 9..14
+      when 9..15
         EquipListInfoParser.parse_max_slot_num(json, 2)
       else
         raise 'unsupported API version'
@@ -172,7 +175,7 @@ module AdmiralStatsParser
         EventInfoParser.parse(json, 1)
       when 7..12
         EventInfoParser.parse(json, 2)
-      when 13..14
+      when 13..15
         EventInfoParser.parse(json, 3)
       else
         raise 'unsupported API version'
@@ -184,7 +187,7 @@ module AdmiralStatsParser
     case api_version
       when 1..3
         raise "API version #{api_version} does not support event info"
-      when 4..14
+      when 4..15
         {
             opened: EventInfoParser.opened?(event_info_list, level, period),
             all_cleared: EventInfoParser.all_cleared?(event_info_list, level, period),
@@ -205,7 +208,7 @@ module AdmiralStatsParser
         raise "API version #{api_version} does not support blueprint list info"
       when 7
         BlueprintListInfoParser.parse(json, 1)
-      when 8..14
+      when 8..15
         BlueprintListInfoParser.parse(json, 2)
       else
         raise 'unsupported API version'

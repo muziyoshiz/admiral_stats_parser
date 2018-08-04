@@ -6,8 +6,8 @@ describe AdmiralStatsParser do
   end
 
   describe '.get_latest_api_version' do
-    it 'returns 14' do
-      expect(AdmiralStatsParser.get_latest_api_version).to eq(14)
+    it 'returns 15' do
+      expect(AdmiralStatsParser.get_latest_api_version).to eq(15)
     end
   end
 
@@ -90,8 +90,15 @@ describe AdmiralStatsParser do
       expect(AdmiralStatsParser.guess_api_version(Time.parse('2018-05-14T06:59:59+0900'))).to eq(13)
     end
 
+    # 2018-05-14 〜 2018-07-23
     it 'returns 14' do
       expect(AdmiralStatsParser.guess_api_version(Time.parse('2018-05-14T07:00:00+0900'))).to eq(14)
+      expect(AdmiralStatsParser.guess_api_version(Time.parse('2018-07-24T06:59:59+0900'))).to eq(14)
+    end
+
+    # 2018-07-24
+    it 'returns 15' do
+      expect(AdmiralStatsParser.guess_api_version(Time.parse('2018-07-24T07:00:00+0900'))).to eq(15)
     end
 
     it 'returns latest version' do
@@ -193,7 +200,7 @@ describe AdmiralStatsParser do
 
   # 基本情報は version 7 で「甲種勲章の数」が追加された
   # version 7 〜 で仕様が同じ
-  (7..14).each do |version|
+  (7..15).each do |version|
     describe ".parse_personal_basic_info(json_without_admiral_name, #{version})" do
       it 'returns PersonalBasicInfo' do
         json = File.open('spec/fixtures/v7/Personal_basicInfo_without_admiralName.json').read
@@ -373,7 +380,7 @@ describe AdmiralStatsParser do
   end
 
   # version 11 から、1海域にルートが2個あるパターンが登場した
-  (11..14).each do |version|
+  (11..15).each do |version|
     describe ".parse_area_capture_info(json, #{version})" do
       it 'returns AreaCaptureInfo[]' do
         json = File.open('spec/fixtures/v11/Area_captureInfo.json').read
@@ -564,7 +571,7 @@ describe AdmiralStatsParser do
   end
 
   # version 14 から、艦番号が必須ではなくなった
-  [14].each do |version|
+  (14..15).each do |version|
     describe ".parse_tc_book_info(json, #{version})" do
       it 'returns TcBookInfo[]' do
         # 注意：未取得のデータには isMarried および marriedImg キーがない
@@ -624,7 +631,7 @@ describe AdmiralStatsParser do
   end
 
   # 装備図鑑は version 1 〜 で仕様が同じ
-  (1..14).each do |version|
+  (1..15).each do |version|
     describe ".parse_equip_book_info(json, #{version})" do
       it 'returns EquipBookInfo[]' do
         json = '[{"bookNo":1,"equipKind":"小口径主砲","equipName":"12cm単装砲","equipImg":"e/equip_1_3315nm5166d.png"},{"bookNo":2,"equipKind":"小口径主砲","equipName":"12.7cm連装砲","equipImg":"e/equip_2_fon8wsqc5sn.png"},{"bookNo":3,"equipKind":"","equipName":"","equipImg":""},{"bookNo":4,"equipKind":"中口径主砲","equipName":"14cm単装砲","equipImg":"e/equip_4_8tzid3z8li7.png"}]'
@@ -1088,7 +1095,7 @@ describe AdmiralStatsParser do
   end
 
   # version 14 から ship_class_index は必須ではなくなった
-  [14].each do |version|
+  (14..15).each do |version|
     describe ".parse_character_list_info(json, #{version})" do
       it 'returns CharacterListInfo[]' do
         # 朝潮、朝潮改、千歳、千歳改、まるゆのデータ
@@ -1275,7 +1282,7 @@ describe AdmiralStatsParser do
 
   # 装備一覧は version 9 で最大装備保有数が追加された
   # version 9 〜 は仕様が同じ
-  (9..14).each do |version|
+  (9..15).each do |version|
     describe ".parse_equip_list_info(json, #{version})" do
       it 'returns EquipListInfo[]' do
         json = '{"maxSlotNum":510,"equipList":[{"type":1,"equipmentId":1,"name":"12cm単装砲","num":8,"img":"equip_icon_1_1984kzwm2f7s.png"},{"type":1,"equipmentId":2,"name":"12.7cm連装砲","num":31,"img":"equip_icon_1_1984kzwm2f7s.png"},{"type":1,"equipmentId":3,"name":"10cm連装高角砲","num":6,"img":"equip_icon_26_rv74l134q7an.png"}]}'
@@ -1414,7 +1421,7 @@ describe AdmiralStatsParser do
 
   # イベント海域情報は version 7 から前段作戦、後段作戦あり
   # version 7 〜 で仕様が同じ
-  (7..14).each do |version|
+  (7..15).each do |version|
     describe ".parse_event_info(json, #{version})" do
       it 'returns EventInfo[]' do
         # E-3 クリア直後
@@ -1574,7 +1581,7 @@ describe AdmiralStatsParser do
   end
 
   # イベント海域情報は version 13 から EO あり
-  (13..14).each do |version|
+  (13..15).each do |version|
     describe ".parse_event_info(json, #{version}) EO 開放前" do
       it 'returns EventInfo[]' do
         # EO 開放前
@@ -1935,7 +1942,7 @@ describe AdmiralStatsParser do
   end
 
   # イベント海域情報が空の場合の動作は、version 4 〜 で仕様が同じ
-  (4..14).each do |version|
+  (4..15).each do |version|
     describe ".summarize_event_info('[]', #{version})" do
       it 'returns summary' do
         # イベントを開催していない期間は、空の配列が返される
@@ -1974,7 +1981,7 @@ describe AdmiralStatsParser do
   # こちらはサマリのテスト
   # イベント海域情報は version 7 から前段作戦、後段作戦あり
   # version 7 〜 で仕様が同じ
-  (7..14).each do |version|
+  (7..15).each do |version|
     describe ".summarize_event_info(json, #{version}) 何も出撃していない時点" do
       it 'returns summary' do
         json = File.open('spec/fixtures/v7/Event_info_zendan_initial.json').read
@@ -2198,7 +2205,7 @@ describe AdmiralStatsParser do
 
   # こちらはサマリのテスト
   # イベント海域情報は version 13 からEOあり
-  (13..14).each do |version|
+  (13..15).each do |version|
     describe ".summarize_event_info(json, #{version}) EO 開放前" do
       it 'returns summary' do
         json = File.open('spec/fixtures/v13/Event_info_eo_noopen.json').read
@@ -2294,7 +2301,7 @@ describe AdmiralStatsParser do
     end
   end
 
-  (7..14).each do |version|
+  (7..15).each do |version|
     describe ".summarize_event_info('[]', #{version})" do
       it 'returns summary' do
         # イベントを開催していない期間は、空の配列が返される
@@ -2378,7 +2385,7 @@ describe AdmiralStatsParser do
   end
 
   # 改装設計図は version 8 から情報が増えた（existsWarningForExpiration, expireThisMonth）
-  (8..14).each do |version|
+  (8..15).each do |version|
     # 改装設計図が1枚もない場合
     describe ".parse_blueprint_list_info('[]', #{version})" do
       it 'returns []' do
