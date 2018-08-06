@@ -1,0 +1,84 @@
+{
+  "numerator": 327,
+  "denominator": 800,
+  "achievementNumber": 10,
+  "individualAchievement": [{
+    "dataId": 0,
+    "kind": "EQUIP",
+    "value": 1
+  }, {
+    "dataId": 1,
+    "kind": "TRC_FRAME",
+    "value": 2
+  }, {
+    "dataId": 2,
+    "kind": "RESULT_POINT",
+    "value": 1000
+  }],
+  "areaAchievementClaim": true,
+  "limitedFrameNum": 6,
+  "areaDataList": [{
+    "areaId": 3000,
+    "areaSubId": 1,
+    "stageImageName": "area_qc2dakxiqw.png",
+    "stageMissionName": "サーモン海域中央航路",
+    "stageMissionInfo": "兵站輸送作戦が発令された！\n多くの兵站の輸送を図る。\n海上輸送艦隊、抜錨せよ！",
+    "requireGp": 400,
+    "limitSec": 360,
+    "stageDropItemInfo": ["SMALLBOX", "MEDIUMBOX", "SMALLREC", "NONE"],
+    "stageClearBonus": [{
+      "dataId": 0,
+      "kind": "TRC_FRAME",
+      "value": 3
+    }],
+    "sortieLimit": false,
+    "areaClearState": "NOTCLEAR",
+    "areaAchievementComplete": false,
+    "areaAchievementRate": 90,
+    "areaAchievementRateStr": "90"
+  }, {
+    "areaId": 3000,
+    "areaSubId": 2,
+    "stageImageName": "area_8oxya4wjmc.png",
+    "stageMissionName": "西方航路 警戒線突破！",
+    "stageMissionInfo": "西方航路より強行輸送作戦を敢行する。高速艦隊をもって警戒線を突破せよ！",
+    "requireGp": 400,
+    "limitSec": 330,
+    "stageDropItemInfo": ["SMALLBOX", "MEDIUMBOX", "SMALLREC", "NONE"],
+    "stageClearBonus": [{
+      "dataId": 0,
+      "kind": "ROOM_ITEM_MEISTER",
+      "value": 1
+    }, {
+      "dataId": 1,
+      "kind": "ROOM_ITEM_COIN",
+      "value": 200
+    }],
+    "sortieLimit": true,
+    "sortieLimitImg": "sortie_8oxya4wjmc.png",
+    "areaClearState": "NOTCLEAR",
+    "areaAchievementComplete": false,
+    "areaAchievementRate": 59,
+    "areaAchievementRateStr": "59"
+  }, {
+    "areaId": 3000,
+    "areaSubId": 3,
+    "stageImageName": "area_4wjhl3xfqj.png",
+    "stageMissionName": "輸送船団を護衛せよ！",
+    "stageMissionInfo": "夜間輸送作戦を実施する。\n水雷戦隊からなる輸送船団を護衛せよ！",
+    "requireGp": 400,
+    "limitSec": 300,
+    "stageDropItemInfo": ["SMALLBOX", "MEDIUMBOX", "LARGEBOX", "NONE"],
+    "stageClearBonus": [{
+      "dataId": 0,
+      "kind": "STRATEGY_POINT",
+      "value": 500
+    }],
+    "sortieLimit": true,
+    "sortieLimitImg": "sortie_4wjhl3xfqj.png",
+    "areaClearState": "NOTCLEAR",
+    "areaAchievementComplete": false,
+    "areaAchievementRate": 56,
+    "areaAchievementRateStr": "56"
+  }]
+}

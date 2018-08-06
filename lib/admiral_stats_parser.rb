@@ -8,6 +8,7 @@ require 'admiral_stats_parser/parser/character_list_info_parser'
 require 'admiral_stats_parser/parser/equip_list_info_parser'
 require 'admiral_stats_parser/parser/event_info_parser'
 require 'admiral_stats_parser/parser/blueprint_list_info_parser'
+require 'admiral_stats_parser/parser/cop_info_parser'
 
 module AdmiralStatsParser
   # 最新の API バージョンを返します。
@@ -210,6 +211,18 @@ module AdmiralStatsParser
         BlueprintListInfoParser.parse(json, 1)
       when 8..15
         BlueprintListInfoParser.parse(json, 2)
+      else
+        raise 'unsupported API version'
+    end
+  end
+
+  # 輸送イベント海域情報をパースします。
+  def self.parse_cop_info(json, api_version)
+    case api_version
+      when 1..14
+        raise "API version #{api_version} does not support cop info"
+      when 15
+        CopInfoParser.parse(json, 1)
       else
         raise 'unsupported API version'
     end

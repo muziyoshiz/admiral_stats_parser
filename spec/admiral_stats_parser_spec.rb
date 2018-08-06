@@ -2454,4 +2454,86 @@ describe AdmiralStatsParser do
       end
     end
   end
+
+  # 輸送イベント海域情報は version 15 から実装
+  [15].each do |version|
+    describe ".parse_cop_info(json, #{version}) 出撃前" do
+      it 'returns CopInfo[]' do
+        json = File.open('spec/fixtures/v15/Cop_info_initial.json').read
+        result = AdmiralStatsParser.parse_cop_info(json, version)
+
+        expect(result.numerator).to eq(300)
+        expect(result.denominator).to eq(300)
+        expect(result.achievement_number).to eq(1)
+        expect(result.area_achievement_claim).to eq(false)
+        expect(result.limited_frame_num).to eq(0)
+
+        achievements = result.individual_achievement
+        expect(achievements.size).to eq(2)
+        expect(achievements[0].data_id).to eq(0)
+        expect(achievements[0].kind).to eq('EQUIP')
+        expect(achievements[0].value).to eq(1)
+        expect(achievements[1].data_id).to eq(1)
+        expect(achievements[1].kind).to eq('TRC_FRAME')
+        expect(achievements[1].value).to eq(1)
+
+        area_data_list = result.area_data_list
+        expect(area_data_list.size).to eq(3)
+        expect(area_data_list[0].area_id).to eq(3000)
+        expect(area_data_list[0].area_sub_id).to eq(1)
+        expect(area_data_list[1].area_id).to eq(3000)
+        expect(area_data_list[1].area_sub_id).to eq(2)
+        expect(area_data_list[2].area_id).to eq(3000)
+        expect(area_data_list[2].area_sub_id).to eq(3)
+      end
+    end
+
+    describe ".parse_cop_info(json, #{version}) 10周目、E-1のみクリア" do
+      it 'returns CopInfo[]' do
+        json = File.open('spec/fixtures/v15/Cop_info_10th_lap.json').read
+        result = AdmiralStatsParser.parse_cop_info(json, version)
+
+        expect(result.numerator).to eq(327)
+        expect(result.denominator).to eq(800)
+        expect(result.achievement_number).to eq(10)
+        expect(result.area_achievement_claim).to eq(true)
+        expect(result.limited_frame_num).to eq(6)
+
+        achievements = result.individual_achievement
+        expect(achievements.size).to eq(3)
+        expect(achievements[0].data_id).to eq(0)
+        expect(achievements[0].kind).to eq('EQUIP')
+        expect(achievements[0].value).to eq(1)
+        expect(achievements[1].data_id).to eq(1)
+        expect(achievements[1].kind).to eq('TRC_FRAME')
+        expect(achievements[1].value).to eq(2)
+        expect(achievements[2].data_id).to eq(2)
+        expect(achievements[2].kind).to eq('RESULT_POINT')
+        expect(achievements[2].value).to eq(1000)
+
+        area_data_list = result.area_data_list
+        expect(area_data_list.size).to eq(3)
+        expect(area_data_list[0].area_id).to eq(3000)
+        expect(area_data_list[0].area_sub_id).to eq(1)
+        expect(area_data_list[1].area_id).to eq(3000)
+        expect(area_data_list[1].area_sub_id).to eq(2)
+        expect(area_data_list[2].area_id).to eq(3000)
+        expect(area_data_list[2].area_sub_id).to eq(3)
+      end
+    end
+  end
+
+  # イベント期間後は空のdictが返されると仮定（現時点では仕様がわからない）
+  [15].each do |version|
+    describe ".parse_cop_info('{}', #{version})" do
+      it 'returns nil' do
+        # イベントを開催していない期間は、空のdictが返されると仮定
+        json = '{}'
+
+        # 引数が空のdictの場合、返り値はnilになる
+        cop_info = AdmiralStatsParser.parse_cop_info(json, version)
+        expect(cop_info).to be_nil
+      end
+    end
+  end
 end

@@ -47,7 +47,7 @@ AdmiralStatsParser.parse_event_info(json, api_version)
 # 改装設計図一覧
 AdmiralStatsParser.parse_blueprint_list_info(json, api_version)
 
-# 期間限定作戦海域情報
+# 輸送イベント海域情報
 AdmiralStatsParser.parse_cop_info(json, api_version)
 ```
 
@@ -99,7 +99,7 @@ AdmiralStatsParser は、以下の API version をサポートしています。
 | 13          | Supported (5) | Supported (2) | Supported (3) |
 | 14 〜 15     | Supported (6) | Supported (2) | Supported (3) |
 
-| API version | 改装設計図一覧 | 期間限定作戦海域情報 |
+| API version | 改装設計図一覧 | 輸送イベント海域情報 |
 |------------:|:-----|:-----|
 | 1 〜 6  | Unsupported | Unsupported |
 | 7       | Supported (1) | Unsupported |
