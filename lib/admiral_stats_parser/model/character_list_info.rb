@@ -193,8 +193,15 @@ class CharacterListInfo
         n = lv - 145
         # Lv145 までの累計経験値 = 3465000
         3465000 + n * (2 * a + (n - 1) * d) / 2
+      when 151..155
+        # Lv155までは、次レベルまでの必要経験値が9000ずつ増えていく
+        a = 204000
+        d = 9000
+        n = lv - 150
+        # Lv150 までの累計経験値 = 4360000
+        4360000 + n * (2 * a + (n - 1) * d) / 2
       else
-        raise "Unsupported Lv: #{lv}"
+        nil
     end
   end
 
@@ -219,7 +226,12 @@ class CharacterListInfo
     # 次のレベルまでの経験値
     next_exp = convert_lv_to_exp(lv + 1)
 
-    # 次のレベルに達するまでに必要な経験値を加算して返す
-    current_exp + (next_exp - current_exp) * exp_percent / 100
+    if next_exp
+      # 次のレベルに達するまでに必要な経験値を加算して返す
+      current_exp + (next_exp - current_exp) * exp_percent / 100
+    else
+      # 最大レベルに達した場合は、現在のレベルまでの経験値のみを返す
+      current_exp
+    end
   end
 end

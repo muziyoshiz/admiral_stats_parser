@@ -108,10 +108,16 @@ describe CharacterListInfo do
       expect(info.lv_to_exp).to eq(4360000)
 
       info.lv = 151
-      expect{ info.lv_to_exp }.to raise_error(RuntimeError, 'Unsupported Lv: 151')
+      expect(info.lv_to_exp).to eq(4564000)
+
+      info.lv = 155
+      expect(info.lv_to_exp).to eq(5470000)
+
+      info.lv = 156
+      expect(info.lv_to_exp).to be_nil
 
       info.lv = nil
-      expect{ info.lv_to_exp }.to raise_error(RuntimeError, 'Unsupported Lv: ')
+      expect(info.lv_to_exp).to be_nil
     end
   end
 
@@ -164,9 +170,14 @@ describe CharacterListInfo do
       info.exp_percent = nil
       expect(info.lv_and_exp_percent_to_exp).to eq(1000000)
 
+      # レベル上限に到達した場合
+      info.lv = 155
+      info.exp_percent = 0
+      expect(info.lv_and_exp_percent_to_exp).to eq(5470000)
+
       info.lv = nil
       info.exp_percent = 0
-      expect{ info.lv_and_exp_percent_to_exp }.to raise_error(RuntimeError, 'Unsupported Lv: ')
+      expect(info.lv_and_exp_percent_to_exp).to be_nil
     end
   end
 end
