@@ -50,6 +50,59 @@
     "lv": 0
   },
   {
+    "bookNo": 10,
+    "shipClass": "島風型",
+    "shipClassIndex": 1,
+    "shipType": "駆逐艦",
+    "shipName": "島風",
+    "cardIndexImg": "s/tc_10_443gaxktcptx.jpg",
+    "cardList": [
+      {
+        "priority": 0,
+        "cardImgList": [
+          "s/tc_10_443gaxktcptx.jpg",
+          "",
+          "",
+          "s/tc_10_znq1sk6qmerg.jpg",
+          "",
+          ""
+        ],
+        "statusImg": [
+          "i/i_443gaxktcptx_n.png",
+          "i/i_znq1sk6qmerg_n.png"
+        ],
+        "variationNumInPage": 6,
+        "acquireNumInPage": 2
+      }, {
+        "priority": 1,
+        "cardImgList": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ],
+        "variationNumInPage": 6,
+        "acquireNumInPage": 0
+      }
+    ],
+    "variationNum": 12,
+    "acquireNum": 2,
+    "lv": 94,
+    "isMarried": [
+      false,
+      false,
+      false,
+      false],
+    "marriedImg": [
+      "",
+      "",
+      "",
+      ""
+    ]
+  },
+  {
     "bookNo": 163,
     "shipClass": "三式潜航輸送艇",
     "shipType": "潜水艦",

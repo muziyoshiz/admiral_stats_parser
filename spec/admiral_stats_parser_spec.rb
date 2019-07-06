@@ -652,7 +652,7 @@ describe AdmiralStatsParser do
 
         results = AdmiralStatsParser.parse_tc_book_info(json, version)
 
-        expect(results.size).to eq(3)
+        expect(results.size).to eq(4)
 
         result = results[0]
         expect(result.book_no).to eq(1)
@@ -685,6 +685,21 @@ describe AdmiralStatsParser do
         expect(result.married_img).to be_nil
 
         result = results[2]
+        expect(result.book_no).to eq(10)
+        expect(result.ship_class).to eq('島風型')
+        expect(result.ship_class_index).to eq(1)
+        expect(result.ship_type).to eq('駆逐艦')
+        expect(result.ship_name).to eq('島風')
+        expect(result.card_index_img).to eq('s/tc_10_443gaxktcptx.jpg')
+        expect(result.card_img_list).to eq(['s/tc_10_443gaxktcptx.jpg','','','s/tc_10_znq1sk6qmerg.jpg','',''])
+        expect(result.variation_num).to eq(12)
+        expect(result.acquire_num).to eq(2)
+        expect(result.lv).to eq(94)
+        expect(result.status_img).to eq(['i/i_443gaxktcptx_n.png', 'i/i_znq1sk6qmerg_n.png'])
+        expect(result.is_married).to eq([false, false, false, false])
+        expect(result.married_img).to eq(['', '', '', ''])
+
+        result = results[3]
         expect(result.book_no).to eq(163)
         expect(result.ship_class).to eq('三式潜航輸送艇')
         expect(result.ship_class_index).to be_nil

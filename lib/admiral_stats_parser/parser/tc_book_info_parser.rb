@@ -90,9 +90,14 @@ class TcBookInfoParser
       5 => {
           priority: Integer,
           card_img_list: Array,
-          status_img: Array,
           variation_num_in_page: Integer,
           acquire_num_in_page: Integer,
+      },
+  }
+
+  CARD_LIST_OPTIONAL_KEYS = {
+      5 => {
+          status_img: Array,
       },
   }
 
@@ -158,8 +163,21 @@ class TcBookInfoParser
         # 必須のキーが含まれなければエラー
         camel_case_key = key.to_s.split('_').inject([]){ |buffer,e| buffer.push(buffer.empty? ? e : e.capitalize) }.join
         unless c.include?(camel_case_key)
-          raise "Mandatory key #{key} does not exist"
+          raise "Mandatory key #{key} does not exist: #{tc_book_info.book_no}"
         end
+
+        # 結果のクラスが合わなければエラー
+        unless c[camel_case_key].is_a?(key_class)
+          raise "Optional key #{key} is not class #{key_class}"
+        end
+
+        result.instance_variable_set("@#{key.to_s}", c[camel_case_key])
+      end
+
+      CARD_LIST_OPTIONAL_KEYS[api_version].each do |key, key_class|
+        # キーが含まれなければ、処理をスキップ
+        camel_case_key = key.to_s.split('_').inject([]){ |buffer,e| buffer.push(buffer.empty? ? e : e.capitalize) }.join
+        next unless c.include?(camel_case_key)
 
         # 結果のクラスが合わなければエラー
         unless c[camel_case_key].is_a?(key_class)
@@ -172,16 +190,17 @@ class TcBookInfoParser
       results << result
     end
 
+    # admiral_stats_parser は限定カード未対応のため、priority == 0 の要素のみを処理する
+    results = results.select{|r| r.priority == 0 }
+
     case results.size
       when 0
-        # 未入手の場合
+        # 未入手、または priority == 0 のデータが存在しない場合
         tc_book_info.card_img_list = []
         tc_book_info.status_img = []
-      when 1
+      else
         tc_book_info.card_img_list = results[0].card_img_list
         tc_book_info.status_img = results[0].status_img
-      else
-        raise "Number of entry in card_list is #{results.size}"
     end
   end
 
