@@ -73,7 +73,9 @@ AdmiralStatsParser は、以下の API version をサポートしています。
 | 12          | 2018-02-16 （ケッコンカッコカリの実装日） 〜 2018-04-18 |
 | 13          | 2018-04-19 （第4回イベントの EO 開始日） 〜 2018-05-13 |
 | 14          | 2018-05-14 （大型艦建造の実装日） 〜 2018-07-23 |
-| 15          | 2018-07-24 （VERSION B のリリース日） 〜 |
+| 15          | 2018-07-24 （VERSION B のリリース日） 〜 2019-05-08 |
+| 16          | 2019-05-09 （三周年記念キャンペーンの開始日） 〜 2019-07-03 |
+| 17          | 2019-07-04 （VERSION B REVISION 6 のリリース日 〜 |
 
 各 API version でパースできる JSON の種類は以下の通りです。また、同じ情報でも、API version によって、含まれる情報量が異なる場合があります。その場合は Supported (1), Supported (2) のように記載して区別しています。
 
@@ -85,6 +87,7 @@ AdmiralStatsParser は、以下の API version をサポートしています。
 | 11         | Supported (3) | Supported (4) | Supported (2) | Supported |
 | 12 〜 13    | Supported (3) | Supported (4) | Supported (3) | Supported |
 | 14 〜 15    | Supported (3) | Supported (4) | Supported (4) | Supported |
+| 17          | Supported (3) | Supported (4) | Supported (5) | Supported |
 
 | API version | 艦娘一覧 | 装備一覧 | イベント海域情報 |
 |------------:|:-----|:-----|:-----|
@@ -97,14 +100,14 @@ AdmiralStatsParser は、以下の API version をサポートしています。
 | 9 〜 11     | Supported (4) | Supported (2) | Supported (2) |
 | 12          | Supported (5) | Supported (2) | Supported (2) |
 | 13          | Supported (5) | Supported (2) | Supported (3) |
-| 14 〜 15     | Supported (6) | Supported (2) | Supported (3) |
+| 14 〜 17     | Supported (6) | Supported (2) | Supported (3) |
 
 | API version | 改装設計図一覧 | 輸送イベント海域情報 |
 |------------:|:-----|:-----|
-| 1 〜 6  | Unsupported | Unsupported |
-| 7       | Supported (1) | Unsupported |
-| 8 〜 14 | Supported (2) | Unsupported |
-| 15      | Supported (2) | Supported (1) |
+| 1 〜 6   | Unsupported | Unsupported |
+| 7        | Supported (1) | Unsupported |
+| 8 〜 14  | Supported (2) | Unsupported |
+| 15 〜 17 | Supported (2) | Supported (1) |
 
 ## Development
 
